@@ -1,0 +1,60 @@
+<style>
+  .bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+  }
+
+  @media (min-width: 1025px) {
+    .h-custom-2 {
+      height: 100%;
+    }
+  }
+</style>
+
+<section>
+  <div class="container-fluid container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 text-black">
+
+        <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+
+          <form style="width: 23rem;" class="mt-5" action="/" method="post">
+
+            <h3 class="fw-normal mb-3" style="letter-spacing: 1px;">Log in</h3>
+
+            <div class="form-outline mb-4">
+              <input type="email" id="form2Example18" class="form-control form-control-lg" name="email" />
+              <label class="form-label" for="form2Example18">Email address</label>
+            </div>
+            {{#if emailErr}}
+              <label class="text-danger">{{emailErr}}</label>
+              {{/if}}
+
+            <div class="form-outline mb-4">
+              <input type="password" id="form2Example28" class="form-control form-control-lg" name="password" />
+              <label class="form-label" for="form2Example28">Password</label>
+            </div>
+            {{#if passErr}}
+              <label class="text-danger">{{passErr}}</label>
+              {{/if}}
+
+            <div class="pt-1 mb-4">
+              <button class="btn btn-info btn-lg btn-block" type="submit">Login</button>
+            </div>
+
+            <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Forgot password?</a></p>
+            <p>Don't have an account? <a href="/signup" class="link-info">Register here</a></p>
+
+          </form>
+        </div>
+      </div>
+      <div class="col-sm-6 px-0 d-none d-sm-block">
+        <img src="img/products/minnal-murali-tshirt-navy-blue-mydesignation-website-image-latest.jpg" alt="Login image"
+          style="object-fit: cover; object-position: left; width: 100vh; height: 80vh">
+      </div>
+    </div>
+  </div>
+</section>

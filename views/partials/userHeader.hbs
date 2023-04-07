@@ -1,0 +1,58 @@
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Search model -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search model end -->
+
+<!-- Header Section Begin -->
+<header class="header-section">
+    <div class="container-fluid">
+        <div class="inner-header">
+            <div class="logo">
+                <a href="./index.html" style="color: black;">
+                    <h5 class="font-weight-bold">MARVELOUS <br> WARE</h5>
+                </a>
+            </div>
+
+            {{#if userName}}
+            <nav class="main-menu mobile-menu header-right">
+                <ul>
+                    <li><a class="active" href="/">Home</a></li>
+                    <li><a href="/shop">Shop</a>
+                        <ul class="sub-menu">
+                            <li><a href="/product">Product Page</a></li>
+                            <li><a href="/cart">Cart</a></li>
+                            <li><a href="/checkOut">Check out</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/wishlist">Wishlist</a></li>
+                    <li><a href="/cart">Cart</a></li>
+                    <li><a href="/checkOut">Orders</a></li>
+                    <li><a href="/checkOut">My profile</a></li>
+                    <li>{{userName}}  &nbsp;<i class="fa-solid fa-caret-down"></i>
+                        <ul class="sub-menu">
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+            {{else}}
+            <div class="user-access ">
+                <a href="/signUp">Register</a>
+                <a href="/login" class="in">Sign in</a>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</header>
