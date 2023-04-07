@@ -18,6 +18,8 @@ router.get('/adminAddProduct', adminControllers.adminAddProduct);
 
 router.post('/adminAddProduct',upload.array('image'), adminControllers.adminAddProductPost);
 
+router.post('/adminEditProduct/:id',upload.array('image'), adminControllers.adminEditProduct);
+
 router.get('/adminUserManagement', adminControllers.adminUserManagement);
 
 router.get('/adminAddUser', adminControllers.adminAddUser);

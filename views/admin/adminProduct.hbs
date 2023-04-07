@@ -30,16 +30,14 @@
                                 <tbody>
                                     {{#each productData}}
                                     <tr>
-                                        {{!-- <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
-                                        </th> --}}
                                         <td class="tm-product-name">{{this.name}}</td>
                                         <td class="text-center">{{this.category}}</td>
                                         <td class="text-center">{{this.description}}</td>
                                         <td>{{this.price}}</td>
                                         <td><img src="{{this.images.[0]}}" alt="" style="width: 60px; height: 60px;"></td>
                                         <td>{{this.stock}}</td>
-                                        <td><a href="" style="color: black;"><i class="fa fa-edit"></i></a></td>
+                                        <td><a class="btn btn-primary" data-toggle="modal" data-target="#edit{{this._id}}">Edit</a></td>
+                                        {{!-- <a href="" style="color: black;"><i class="fa fa-edit></i></a> --}}
                                         <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
                                     </tr>
                                     {{/each}}
@@ -131,3 +129,53 @@
         </div>
     </div>
 {{!-- </section> --}}
+
+
+{{#each productData}}
+{{!-- Edit products Modal --}}
+<div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="text-dark" action="/admin/adminEditProduct/{{this._id}}" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="name" class="col-form-label">Product Name : </label>
+            <input type="text" name="name" value="{{this.name}}" style="color: black;" class="border" id="name">
+          </div>
+          <div class="form-group">
+            <label for="category" class="col-form-label">Product Category : </label>
+            <input type="text" name="category" value="{{this.category}}" class="border" id="category">
+          </div>
+          <div class="form-group">
+            <label for="description" class="col-form-label">Description : </label>
+            <input type="text" value="{{this.description}}" name="description" class="border" id="description">
+          </div>
+          <div class="form-group">
+            <label for="price" class="col-form-label">Price : </label>
+            <input type="number" name="price" value="{{this.price}}" class="border" id="price">
+          </div>
+           <div class="form-group">
+            <label for="stock" class="col-form-label">In stock : </label>
+            <input type="number" name="stock" value="{{this.stock}}" class="border" id="stock">
+          </div>
+          <div class="form-group">
+            <label for="fileInput" class="col-form-label">Images : </label>
+            <input type="file" name="image"  multiple value="{{this.images.[0]}}" class="border" id="fileInput">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+            <a><button type="submit" class="btn btn-primary">confirm</button></a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}

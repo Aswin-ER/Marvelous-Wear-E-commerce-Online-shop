@@ -54,7 +54,7 @@ module.exports = {
     },
 
     adminAddProductPost: (req, res) => {
-        productHelpers.addProducts(req.body, async(id)=>{
+        productHelpers.addProducts(req.body).then(async(id)=>{
             const imgUrls = [];
             try{
                 for(let i=0;i<req.files.length;i++){
@@ -69,6 +69,30 @@ module.exports = {
                 res.redirect('/admin/adminAddProduct');
             }
         });
+    },
+
+    adminEditProduct: (req, res) => {
+        if(req.session.adminLoggedIn){
+            const productId = req.params.id;
+            console.log(productId);
+            productHelpers.editProduct(productId, req.body).then(async()=>{
+                const imgUrls = [];
+                try{
+                    for(let i=0;i<req.files.length;i++){
+                        const result = await cloudinary.uploader.upload(req.files[i].path);
+                        imgUrls.push(result.url);
+                    }
+                    console.log(imgUrls);
+                    productHelpers.editProductImage(productId, imgUrls).then(()=>{}).catch(()=>{});
+                }catch(err){
+                    console.log(`error : ${err}`);
+                }finally{
+                    res.redirect('/admin/adminProduct');
+                }
+            })
+        }else{
+            res.redirect('/admin');
+        }
     },
 
     adminUserManagement: async (req, res) => {
