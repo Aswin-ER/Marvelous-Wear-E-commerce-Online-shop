@@ -49,11 +49,17 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                   <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="password"/>
                   <label class="form-label" for="form3Example4cg">Password</label>
                 </div>
+                  {{#if errMsg}}
+                  <label class="text-danger">{{errMsg}}</label>
+                  {{/if}}
 
                 <div class="form-outline mb-4">
                   <input type="tel" id="form3Example4cdg" class="form-control form-control-lg" maxlength="10" name="phone"/>
                   <label class="form-label" for="form3Example4cdg">Enter your phone No</label>
                 </div>
+                  {{#if errmsg}}
+                  <label class="text-danger">{{errmsg}}</label>
+                  {{/if}}
 
                 <div class="d-flex justify-content-center">
                   <a href="/"><button type="submit"

@@ -1,5 +1,6 @@
 const adminHelpers = require('../helpers/adminHelpers');
 const productHelpers = require('../helpers/productHelpers');
+const userHelpers = require('../helpers/userHelpers');
 const cloudinary =  require('../utils/cloudinary');
 
 module.exports = {
@@ -72,7 +73,6 @@ module.exports = {
     },
 
     adminEditProduct: (req, res) => {
-        if(req.session.adminLoggedIn){
             const productId = req.params.id;
             console.log(productId);
             productHelpers.editProduct(productId, req.body).then(async()=>{
@@ -90,20 +90,68 @@ module.exports = {
                     res.redirect('/admin/adminProduct');
                 }
             })
-        }else{
-            res.redirect('/admin');
-        }
     },
 
     adminUserManagement: async (req, res) => {
-        const adminName = req.session.adminName;
-        const data = await adminHelpers.getUser();
-        res.render('admin/adminUserManagement', {admin: true, adminName, data});
+            const adminName = req.session.adminName;
+            const userData = await adminHelpers.getUser();
+            res.render('admin/adminUserManagement', {admin: true, adminName, userData});
+    },
+
+    adminEditUser: (req, res) => {
+            const userId  = req.params.id;
+            adminHelpers.editUser(userId, req.body).then(() => {
+                res.redirect('/admin/adminUserManagement');
+            }).catch((err) => {
+                console.log(err);
+            })
+    },
+
+    adminDeleteUser: (req, res) => {
+            const userId = req.params.id;
+            adminHelpers.deletUser(userId).then(() => {
+                res.redirect('/admin/adminUserManagement')
+            }).catch((err) => {
+                console.log(err);
+            })
     },
 
     adminAddUser: (req, res) => {
         const adminName = req.session.adminName;
         res.render('admin/adminAddUsers', {admin: true, adminName})
+    },
+
+    adminAddUserPost: (req, res) => {
+        userHelpers.doSignUp(req.body).then((response) => {
+            if(response == "Email already exist!!!"){
+                req.session.emailExist = response;
+                res.redirect('back');
+            }else{
+                res.redirect('back');
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    },
+
+    adminBlockUser: (req, res) => {
+            const userId = req.params.id;
+            console.log(userId);
+            adminHelpers.blockUser(userId).then(() => {
+                res.redirect('/admin/adminUserManagement')
+            }).catch((err) => {
+                console.log(err);
+            })
+    },
+
+    adminDeleteProduct: (req, res) => {
+
+            const productId = req.params.id;
+            productHelpers.deleteProducts(productId).then(() => {
+                res.redirect('/admin/adminProduct')
+            }).catch((err) => {
+                console.log(err);
+            })
     }
 
     

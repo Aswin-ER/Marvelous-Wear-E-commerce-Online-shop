@@ -1,13 +1,6 @@
 const db = require('../configurations/connection');
 const collection = require('../configurations/collections');
 const objectId = require('mongodb-legacy').ObjectId;
-const cloudinary =  require('cloudinary').v2;
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_SECRET_API
-});
 
 module.exports = {
 
@@ -101,6 +94,25 @@ module.exports = {
                 console.log(response);
                 resolve()
             }).catch((err) => {
+                console.log(err);
+                reject()
+            })
+        })
+    },
+
+    deleteProducts: (productId) => {
+        return new Promise ((resolve, reject) => {
+            console.log("hoooooooooooooooooooooooooo");
+            db.get().collection(collection.PRODUCT_COLLECTION).deleteOne(
+                {
+                    _id: new objectId(productId)
+                }
+            )
+            .then((response) => {
+                console.log(response);
+                resolve()
+            })
+            .catch((err) => {
                 console.log(err);
                 reject()
             })

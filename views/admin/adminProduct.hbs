@@ -28,154 +28,110 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     {{#each productData}}
                                     <tr>
                                         <td class="tm-product-name">{{this.name}}</td>
                                         <td class="text-center">{{this.category}}</td>
                                         <td class="text-center">{{this.description}}</td>
                                         <td>{{this.price}}</td>
-                                        <td><img src="{{this.images.[0]}}" alt="" style="width: 60px; height: 60px;"></td>
+                                        <td><img src="{{this.images.[0]}}" alt="" style="width: 60px; height: 60px;">
+                                        </td>
                                         <td>{{this.stock}}</td>
-                                        <td><a class="btn btn-primary" data-toggle="modal" data-target="#edit{{this._id}}">Edit</a></td>
-                                        {{!-- <a href="" style="color: black;"><i class="fa fa-edit></i></a> --}}
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
+                                        <td><a data-toggle="modal"
+                                                data-target="#edit{{this._id}}"><i class="fas fa-edit"></i></a></td>
+                                        <td><a class=" btn btn-primary" data-toggle="modal"
+                                                data-target="#delete{{this._id}}"><i
+                                                    class="fas fa-trash-alt tm-trash-icon"></i></a></td>
                                     </tr>
                                     {{/each}}
-                                    
+
                                 </tbody>
                             </table>
                         </div>
-
-                        {{!-- <div class="tm-table-mt tm-table-actions-row">
-                            <div class="tm-table-actions-col-left">
-                                <button class="btn btn-danger">Delete Selected Items</button>
-                            </div>
-                            <div class="tm-table-actions-col-right">
-                                <span class="tm-pagination-label">Page</span>
-                                <nav aria-label="Page navigation" class="d-inline-block">
-                                    <ul class="pagination tm-pagination">
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <span class="tm-dots d-block">...</span>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">13</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">14</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
 
-                {{!-- <div class="col-xl-4 col-lg-12 tm-md-12 tm-sm-12 tm-col">
-                    <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title d-inline-block">Product Categories</h2>
-                        <table class="table table-hover table-striped mt-3">
-                            <tbody>
-                                <tr>
-                                    <td>1. Cras efficitur lacus</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>2. Pellentesque molestie</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>3. Sed feugiat nulla</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>4. Vestibulum varius arcu</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>5. Aenean eget urna enim</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>6. Condimentum viverra</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>7. In malesuada</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>8. Placerat</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>9. Donec semper</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
 
-                        <a href="#" class="btn btn-primary tm-table-mt">Add New Category</a>
+
+                {{#each productData}}
+                {{!-- Edit products Modal --}}
+                <div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="text-dark" action="/admin/adminEditProduct/{{this._id}}" method="post"
+                                    enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="name" class="col-form-label">Product Name : </label>
+                                        <input type="text" name="name" value="{{this.name}}" style="color: black;"
+                                            class="border" id="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="category" class="col-form-label">Product Category : </label>
+                                        <input type="text" name="category" value="{{this.category}}" class="border"
+                                            id="category">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description" class="col-form-label">Description : </label>
+                                        <input type="text" value="{{this.description}}" name="description"
+                                            class="border" id="description">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price" class="col-form-label">Price : </label>
+                                        <input type="number" name="price" value="{{this.price}}" class="border"
+                                            id="price">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="stock" class="col-form-label">In stock : </label>
+                                        <input type="number" name="stock" value="{{this.stock}}" class="border"
+                                            id="stock">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fileInput" class="col-form-label">Images : </label>
+                                        <input type="file" name="image" multiple value="{{this.images.[0]}}"
+                                            class="border" id="fileInput">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">cancel</button>
+                                        <a><button type="submit" class="btn btn-primary">confirm</button></a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div> --}}
-            {{!-- <footer class="row tm-mt-small">
-                <div class="col-12 font-weight-light">
-                    <p class="d-inline-block tm-bg-black text-white py-2 px-4">
-                        Copyright &copy; 2018. Created by
-                        <a href="http://www.tooplate.com" class="text-white tm-footer-link">Tooplate</a> | Distributed
-                        by <a href="https://themewagon.com" class="text-white tm-footer-link">ThemeWagon</a>
-                    </p>
+                {{/each}}
+
+
+                {{!-- Delete Modal --}}
+                {{#each productData}}
+                <div class="modal fade" id="delete{{this._id}}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Delete confirmation</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Do you want to delete user <b class="text-dark">{{this.name}}</b>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                                <a href="/admin/adminDeleteProduct/{{this._id}}" type="button" class="btn btn-danger">delete</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </footer> --}}
-        </div>
-    </div>
-{{!-- </section> --}}
-
-
-{{#each productData}}
-{{!-- Edit products Modal --}}
-<div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="text-dark" action="/admin/adminEditProduct/{{this._id}}" method="post" enctype="multipart/form-data">
-          <div class="form-group">
-            <label for="name" class="col-form-label">Product Name : </label>
-            <input type="text" name="name" value="{{this.name}}" style="color: black;" class="border" id="name">
-          </div>
-          <div class="form-group">
-            <label for="category" class="col-form-label">Product Category : </label>
-            <input type="text" name="category" value="{{this.category}}" class="border" id="category">
-          </div>
-          <div class="form-group">
-            <label for="description" class="col-form-label">Description : </label>
-            <input type="text" value="{{this.description}}" name="description" class="border" id="description">
-          </div>
-          <div class="form-group">
-            <label for="price" class="col-form-label">Price : </label>
-            <input type="number" name="price" value="{{this.price}}" class="border" id="price">
-          </div>
-           <div class="form-group">
-            <label for="stock" class="col-form-label">In stock : </label>
-            <input type="number" name="stock" value="{{this.stock}}" class="border" id="stock">
-          </div>
-          <div class="form-group">
-            <label for="fileInput" class="col-form-label">Images : </label>
-            <input type="file" name="image"  multiple value="{{this.images.[0]}}" class="border" id="fileInput">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
-            <a><button type="submit" class="btn btn-primary">confirm</button></a>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-{{/each}}
+                {{/each}}   
