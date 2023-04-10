@@ -9,6 +9,7 @@ const noCache = require('nocache');
 const hbs = require('express-handlebars');
 const db = require('./configurations/connection')
 require('dotenv').config();
+
 // const fileUpload = require('express-fileupload')
 
 const adminRouter = require('./routes/admin');
@@ -22,6 +23,7 @@ app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'}));
 
 // app.use(fileUpload());
+
 app.use(noCache());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

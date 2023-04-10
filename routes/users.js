@@ -1,36 +1,44 @@
 const express = require('express');
 const router = express.Router();
 const userControllers = require('../controllers/userControllers');
+const verifySession = require('../middleware/verifySession');
 
-// User Home
+
+// User Home, Login, Signup
 router.get('/', userControllers.userHome);
 
 router.post('/', userControllers.userLoginPost);
 
 router.get('/login', userControllers.userLogin);
 
-router.get('/logout', userControllers.logout);
+router.get('/logout',verifySession.verifyUserLoggedIn, userControllers.logout);
 
-router.get('/signUp', userControllers.signUp);
+router.get('/signUp',verifySession.ifUserLoggedIn, userControllers.signUp);
 
 router.post('/signUp', userControllers.signUpPost);
 
-// User Panel
-router.get('/shop', userControllers.shopPage);
-
-router.get('/cart', userControllers.cartPage);
-
-router.get('/product', userControllers.productPage);
-
-router.get('/checkOut', userControllers.checkOutPage);
-
-router.get('/contact', userControllers.contactPage);
-
-router.get('/about', userControllers.aboutPage);
 
 // otp
-router.get('/otpverification', userControllers.otpPageRender);
+router.get('/otpverification',verifySession.ifUserLoggedIn, userControllers.otpPageRender);
 
 router.post('/otpverification', userControllers.otpVerification);
+
+
+// User Panel
+router.get('/shop',verifySession.verifyUserLoggedIn, userControllers.shopPage);
+
+router.get('/category/:name', verifySession.verifyUserLoggedIn, userControllers.categoryFilter);
+
+router.get('/cart',verifySession.verifyUserLoggedIn, userControllers.cartPage);
+
+router.get('/product/:id',verifySession.verifyUserLoggedIn, userControllers.productPage);
+
+router.get('/checkOut',verifySession.verifyUserLoggedIn, userControllers.checkOutPage);
+
+router.get('/contact',verifySession.verifyUserLoggedIn, userControllers.contactPage);
+
+router.get('/about',verifySession.verifyUserLoggedIn, userControllers.aboutPage);
+
+
 
 module.exports = router;

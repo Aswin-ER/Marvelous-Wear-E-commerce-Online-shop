@@ -1060,6 +1060,10 @@ ol {
 	padding-top: 34px;
 }
 
+.page-add .page-breadcrumbs {
+	padding-top: 10px;
+}
+
 .page-add .page-breadcrumb h2 {
 	color: #1e1e1e;
 	font-size: 48px;

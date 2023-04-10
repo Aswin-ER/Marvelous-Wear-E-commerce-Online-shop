@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
     
+//User Signup & Login
     doSignUp: (userDetails) => {
         return new Promise(async (resolve, reject) => {
             const findUserExist = await db.get().collection(collection.USER_COLLECTION).findOne({email: userDetails.email});
@@ -29,12 +30,13 @@ module.exports = {
             const response ={};
             const user = await db.get().collection(collection.USER_COLLECTION).findOne({email: userDetails.email});
 
-            if(user.status == true){
-
                 if(user){
                     bcrypt.compare(userDetails.password, user.password).then((status) => {
                         if(status){
                             response.user = user;
+                            resolve(response);
+                        }else if(user.status == true){
+                            response.status = "User Blocked!!!";
                             resolve(response);
                         }else{
                             response.status = "Invalid Password";
@@ -43,23 +45,11 @@ module.exports = {
                     }).catch((err) => {
                         console.log(err);
                     });
-    
+                    
                 }else{
                     response.status = "Invalid User";
                     resolve(response);
                 }
-            }else{
-                response.status = "User Blocked!!!";
-                resolve(response);
-            }
         })
     },
-    
-    getAllProducts:()=>{
-        return new Promise((resolve, reject)=>{
-            const products = db.get().collection(collection.PRODUCT_COLLECTION).find().toArray();
-            console.log(products);
-            resolve(products);
-        });
-    }
 }

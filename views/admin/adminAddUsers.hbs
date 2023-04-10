@@ -1,75 +1,64 @@
- <!-- row -->
-        <div class="row tm-mt-big">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="bg-white tm-block">
-                    <div class="row">
-                        <div class="col-12">
-                            <h2 class="tm-block-title d-inline-block">Add User</h2>
-                        </div>
-                    </div>
-                    <div class="row mt-4 tm-edit-product-row">
-                        <div class="col-xl-7 col-lg-7 col-md-12">
-                            <form action="/admin/adminAddUser" class="tm-edit-product-form" method="post">
-                                <div class="input-group mb-3">
-                                    <label for="name" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">User
-                                        Name
-                                    </label>
-                                    <input id="name" name="name" type="text"
-                                        class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
-                                </div>
 
-                                <div class="input-group mb-3">
-                                    <label for="name" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">
-                                        Email
-                                    </label>
-                                    <input id="email" name="email" type="email"
-                                        class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <label for="expire_date"
-                                        class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">
-                                        Phone No
-                                    </label>
-                                    <input id="phone" name="phone" type="tel"
-                                        class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
-                                        data-large-mode="true" maxlength="10">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <label for="stock" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Password
-                                    </label>
-                                    <input id="password" name="password" type="password"
-                                        class="form-control validate col-xl-9 col-lg-8 col-md-7 col-sm-7">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="ml-auto col-xl-8 col-lg-8 col-md-8 col-sm-7 pl-0">
-                                        <button type="submit" class="btn btn-primary">Add
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        {{!-- <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mb-4">
-                            <div class="tm-product-img-dummy mx-auto">
-                                <i class="fas fa-5x fa-cloud-upload-alt"
-                                    onclick="document.getElementById('fileInput').click();"></i>
-                            </div>
-                            <div class="custom-file mt-3 mb-3">
-                                <input id="fileInput" type="file" style="display:none;" />
-                                <input type="button" class="btn btn-primary d-block mx-auto" value="Upload ..."
-                                    onclick="document.getElementById('fileInput').click();" />
-                            </div>
-                        </div> --}}
-                    </div>
+<div class="row tm-mt-big">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="bg-white tm-block">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="tm-block-title d-inline-block">Add User</h2>
                 </div>
             </div>
-        </div>
-        {{!-- <footer class="row tm-mt-big">
-            <div class="col-12 font-weight-light">
-                <p class="d-inline-block tm-bg-black text-white py-2 px-4">
-                    Copyright &copy; 2018. Created by
-                    <a href="http://www.tooplate.com" class="text-white tm-footer-link">Tooplate</a> | Distributed by <a
-                        href="https://themewagon.com" class="text-white tm-footer-link">ThemeWagon</a>
-                </p>
+            <div class="row mt-4 tm-edit-product-row">
+                <div class="col-xl-7 col-lg-7 col-md-12">
+                    <form action="/admin/adminAddUser" class="tm-edit-product-form" method="post">
+                        <div class="input-group mb-3">
+                            <label for="name" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">User
+                                Name
+                            </label>
+                            <input id="name" name="name" type="text"
+                                class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label for="name" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">
+                                Email
+                            </label>
+                            <input id="email" name="email" type="email"
+                                class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
+                        </div>
+                        <div class="input-group mb-3">
+                            <label for="expire_date" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">
+                                Phone No
+                            </label>
+                            <input id="phone" name="phone" type="tel"
+                                class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7" data-large-mode="true"
+                                maxlength="10">
+                        </div>
+                        <div class="input-group mb-3">
+                            <label for="stock" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Password
+                            </label>
+                            <input id="password" name="password" type="password"
+                                class="form-control validate col-xl-9 col-lg-8 col-md-7 col-sm-7">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="ml-auto col-xl-8 col-lg-8 col-md-8 col-sm-7 pl-0">
+                                <button type="submit" class="btn btn-primary">Add
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {{!-- <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mb-4">
+                    <div class="tm-product-img-dummy mx-auto">
+                        <i class="fas fa-5x fa-cloud-upload-alt"
+                            onclick="document.getElementById('fileInput').click();"></i>
+                    </div>
+                    <div class="custom-file mt-3 mb-3">
+                        <input id="fileInput" type="file" style="display:none;" />
+                        <input type="button" class="btn btn-primary d-block mx-auto" value="Upload ..."
+                            onclick="document.getElementById('fileInput').click();" />
+                    </div>
+                </div> --}}
             </div>
-        </footer> --}}
+        </div>
     </div>
+</div>

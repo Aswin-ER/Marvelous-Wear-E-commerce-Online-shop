@@ -14,7 +14,25 @@ module.exports = {
         }else{
             next();
         }
+    },
+
+    verifyUserLoggedIn: (req, res, next) => {
+        if(req.session.userLoggedIn){
+            next();
+        }else{
+            res.redirect('/login');
+        }
+    },
+
+    ifUserLoggedIn: (req, res, next) => {
+        if(req.session.userLoggedIn){
+            res.redirect('/');
+        }else{
+            next();
+        }
     }
+
+
 
 
 }

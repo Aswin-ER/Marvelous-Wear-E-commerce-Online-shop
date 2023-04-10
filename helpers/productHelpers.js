@@ -4,6 +4,7 @@ const objectId = require('mongodb-legacy').ObjectId;
 
 module.exports = {
 
+//Product CRUD
     addProducts: (product) => {
         return new Promise((resolve, reject)=>{
             product.price = Number(product.price);
@@ -24,30 +25,16 @@ module.exports = {
             }
         })
     },
-    
-    addProductImage:(id, imgUrls)=>{
-        return new Promise((resolve, reject)=>{
-            console.log("helpers")
-            db.get().collection(collection.PRODUCT_COLLECTION)
-            .updateOne(
+
+    getSingleProduct: (productId) => {
+        return new Promise (async (resolve, reject) =>{
+            const productSingleData = await db.get().collection(collection.PRODUCT_COLLECTION).findOne(
                 {
-                    _id: new objectId(id)
-                },
-                {
-                    $set:{
-                        images: imgUrls
-                    }
-                }
-            )
-            .then((response)=>{
-                console.log(response);
-                resolve();
+                    _id: new objectId(productId)
+                });
+                // console.log(productSingleData);
+                resolve(productSingleData);
             })
-            .catch((err)=>{
-                console.log(err);
-                reject()
-            })
-        })
     },
 
     editProduct: (productId, data) => {
@@ -78,6 +65,52 @@ module.exports = {
         })
     },
 
+    deleteProducts: (productId) => {
+        return new Promise ((resolve, reject) => {
+            console.log("hoooooooooooooooooooooooooo");
+            db.get().collection(collection.PRODUCT_COLLECTION).deleteOne(
+                {
+                    _id: new objectId(productId)
+                }
+            )
+            .then((response) => {
+                console.log(response);
+                resolve()
+            })
+            .catch((err) => {
+                console.log(err);
+                reject()
+            })
+        })
+    },
+    
+    
+//Product Image
+    addProductImage:(id, imgUrls)=>{
+        return new Promise((resolve, reject)=>{
+            console.log("helpers")
+            db.get().collection(collection.PRODUCT_COLLECTION)
+            .updateOne(
+                {
+                    _id: new objectId(id)
+                },
+                {
+                    $set:{
+                        images: imgUrls
+                    }
+                }
+            )
+            .then((response)=>{
+                console.log(response);
+                resolve();
+            })
+            .catch((err)=>{
+                console.log(err);
+                reject()
+            })
+        })
+    },
+
     editProductImage: (id, imgUrls) => {
         return new Promise ((resolve , reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION)
@@ -100,22 +133,15 @@ module.exports = {
         })
     },
 
-    deleteProducts: (productId) => {
-        return new Promise ((resolve, reject) => {
-            console.log("hoooooooooooooooooooooooooo");
-            db.get().collection(collection.PRODUCT_COLLECTION).deleteOne(
+    getListedCategory:()=>{
+        return new Promise(async(resolve, reject)=>{
+            const categories = await db.get().collection(collection.CATEGORY_COLLECTION).find(
                 {
-                    _id: new objectId(productId)
+                    listed : true
                 }
-            )
-            .then((response) => {
-                console.log(response);
-                resolve()
-            })
-            .catch((err) => {
-                console.log(err);
-                reject()
-            })
+            ).toArray();
+            console.log(categories);
+            resolve(categories);
         })
     }
 }

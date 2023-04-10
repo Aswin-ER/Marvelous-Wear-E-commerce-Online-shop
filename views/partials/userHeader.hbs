@@ -27,13 +27,13 @@
             {{#if userName}}
             <nav class="main-menu mobile-menu header-right">
                 <ul>
-                    <li><a class="active" href="/">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="/shop">Shop</a>
-                        <ul class="sub-menu">
+                        {{!-- <ul class="sub-menu">
                             <li><a href="/product">Product Page</a></li>
                             <li><a href="/cart">Cart</a></li>
                             <li><a href="/checkOut">Check out</a></li>
-                        </ul>
+                        </ul> --}}
                     </li>
                     <li><a href="/wishlist">Wishlist</a></li>
                     <li><a href="/cart">Cart</a></li>
@@ -49,8 +49,8 @@
 
             {{else}}
             <div class="user-access ">
-                <a href="/signUp">Register</a>
-                <a href="/login" class="in">Sign in</a>
+                <a href="/signUp">Register &nbsp; /</a>
+                <a href="/login">&nbsp; Login</a>
             </div>
             {{/if}}
         </div>

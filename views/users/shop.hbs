@@ -6,12 +6,23 @@
                     <div class="page-breadcrumb">
                         <h2>Products<span>.</span></h2>
                         <a href="/">Home</a>
-                        <a href="#">Products</a>
-                        {{!-- <a href="#">Category</a> --}}
+                        <a href="/shop" class="active">Products</a>
+                    </div>
+                    <div class="page-breadcrumb">
+                        <h5>Category</h5>
+                        <div class="page-breadcrumbs">
+                        <ul class="container">
+                            {{#each categories}}
+                                <li><a href="/category/{{this.name}}">{{this.name}}</a></li>
+                            {{/each}}
+                        </ul>
+                        </div>
+                        
+                      
                     </div>
                 </div>
                 <div class="col-lg-8">
-                   <a href="/shop"><img src="img/printed-tshirts-mydesignation-banner-desktop.jpg" alt=""></a> 
+                   <a href="/shop"><img src="/img/printed-tshirts-mydesignation-banner-desktop.jpg" alt=""></a>
                 </div>
             </div>
         </div>
@@ -100,11 +111,11 @@
                                 </div>
                             </figure>
                             <div class="product-text">
-                                <a href="/product">
-                                    <h6>{{this.name}}</h6>
+                                <a href="/product/{{this._id}}">
+                                    <h5>{{this.name}}</h5>
+                                    <h6>{{this.category}}</h6>
+                                <p>₹{{this.price}}.00</p>
                                 </a>
-                                <p>{{this.price}}</p>
-                                {{!-- <p>{{this.description}}</p> --}}
                             </div>
                         </div>
                     </div>

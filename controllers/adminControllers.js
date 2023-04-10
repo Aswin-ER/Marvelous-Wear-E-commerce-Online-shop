@@ -1,14 +1,13 @@
 const adminHelpers = require('../helpers/adminHelpers');
 const productHelpers = require('../helpers/productHelpers');
 const userHelpers = require('../helpers/userHelpers');
+const categoryHelpers = require('../helpers/categoryHelpers');
 const cloudinary =  require('../utils/cloudinary');
 
 module.exports = {
+    
 
-    adminPanel: (req, res) => {
-        res.render('admin/adminPanel', {admin: true, adminName: req.session.adminName});
-    },
-
+// Admin Login & Logout
     adminLogin: (req, res) => {
         if(req.session.adminLoggedIn){
             res.redirect('/adminPanel')
@@ -43,6 +42,14 @@ module.exports = {
         res.redirect('/admin');
     },
 
+
+ //Admin Panel
+    adminPanel: (req, res) => {
+        res.render('admin/adminPanel', {admin: true, adminName: req.session.adminName});
+    },
+
+
+//Admin Product CRUD
     adminProduct: async (req, res) => {
         const adminName = req.session.adminName;
         const productData = await productHelpers.getProducts();
@@ -51,7 +58,12 @@ module.exports = {
 
     adminAddProduct: (req, res) => {
         const adminName = req.session.adminName;
-        res.render('admin/adminAddProduct', {admin: true, adminName});
+        categoryHelpers.getCategory().then((category) => {
+            console.log(category);
+            // res.render('admin/adminCategory', {admin: true, adminName, category})
+            res.render('admin/adminAddProduct', {admin: true, adminName, category});
+        });
+        
     },
 
     adminAddProductPost: (req, res) => {
@@ -92,28 +104,21 @@ module.exports = {
             })
     },
 
+    adminDeleteProduct: (req, res) => {
+        const productId = req.params.id;
+        productHelpers.deleteProducts(productId).then(() => {
+            res.redirect('/admin/adminProduct')
+        }).catch((err) => {
+            console.log(err);
+        })
+    },
+
+
+//Admin User CRUD
     adminUserManagement: async (req, res) => {
             const adminName = req.session.adminName;
             const userData = await adminHelpers.getUser();
             res.render('admin/adminUserManagement', {admin: true, adminName, userData});
-    },
-
-    adminEditUser: (req, res) => {
-            const userId  = req.params.id;
-            adminHelpers.editUser(userId, req.body).then(() => {
-                res.redirect('/admin/adminUserManagement');
-            }).catch((err) => {
-                console.log(err);
-            })
-    },
-
-    adminDeleteUser: (req, res) => {
-            const userId = req.params.id;
-            adminHelpers.deletUser(userId).then(() => {
-                res.redirect('/admin/adminUserManagement')
-            }).catch((err) => {
-                console.log(err);
-            })
     },
 
     adminAddUser: (req, res) => {
@@ -134,6 +139,24 @@ module.exports = {
         })
     },
 
+    adminEditUser: (req, res) => {
+            const userId  = req.params.id;
+            adminHelpers.editUser(userId, req.body).then(() => {
+                res.redirect('/admin/adminUserManagement');
+            }).catch((err) => {
+                console.log(err);
+            })
+    },
+
+    adminDeleteUser: (req, res) => {
+            const userId = req.params.id;
+            adminHelpers.deletUser(userId).then(() => {
+                res.redirect('/admin/adminUserManagement')
+            }).catch((err) => {
+                console.log(err);
+            })
+    },
+
     adminBlockUser: (req, res) => {
             const userId = req.params.id;
             console.log(userId);
@@ -144,15 +167,29 @@ module.exports = {
             })
     },
 
-    adminDeleteProduct: (req, res) => {
 
-            const productId = req.params.id;
-            productHelpers.deleteProducts(productId).then(() => {
-                res.redirect('/admin/adminProduct')
-            }).catch((err) => {
-                console.log(err);
-            })
+// Admin Category Management
+    getCategory:(req, res) => {
+        const adminName = req.session.adminName;
+        categoryHelpers.getCategory().then((category) => {
+            res.render('admin/adminCategory', {admin: true, adminName, category})
+        });
+    },
+
+    addCategory:(req, res) => {
+        categoryHelpers.addCategory(req.body).then(async(id) => {
+            res.redirect('/admin/adminCategory');
+        })
+    },
+
+    deleteCategory: (req, res) => {
+        const category = req.params.id;
+        console.log(category);
+        categoryHelpers.deleteCategory(category).then(() => {
+            res.redirect('/admin/adminCategory');
+        }).catch((err) => {
+            console.log(err);
+        })
     }
-
     
 }

@@ -3,7 +3,8 @@ const collection = require('../configurations/collections');
 const objectId = require('mongodb-legacy').ObjectId;
 
 module.exports = {
-    
+
+//Admin Login
     doAdminLogin: (adminDetails) => {
         return new Promise ( async (resolve, reject) => {
             const response = {};
@@ -23,6 +24,8 @@ module.exports = {
         })
     },
 
+    
+//User CRUD
     getUser: () => {
         return new Promise ( async (resolve, reject) => {
             const userData = await db.get().collection(collection.USER_COLLECTION).find().toArray();
