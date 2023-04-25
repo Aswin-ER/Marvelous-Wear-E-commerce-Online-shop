@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const adminControllers = require('../controllers/adminControllers');
-const upload = require('../utils/multer');
-const userControllers = require('../controllers/userControllers');
+const multer = require('../utils/multer');
 const verifySession = require('../middleware/verifySession');
 
 
@@ -18,14 +17,14 @@ router.get('/adminPanel', verifySession.verifyAdminLoggedIn, adminControllers.ad
 router.post('/adminPanel', adminControllers.adminLoginPost);
 
 
-// Admin Products
+// Admin Products (Using Multer Here----)
 router.get('/adminProduct', verifySession.verifyAdminLoggedIn, adminControllers.adminProduct);
 
 router.get('/adminAddProduct', verifySession.verifyAdminLoggedIn, adminControllers.adminAddProduct);
 
-router.post('/adminAddProduct',upload.array('image'), adminControllers.adminAddProductPost);
+router.post('/adminAddProduct', multer.array('image'), adminControllers.adminAddProductPost);
 
-router.post('/adminEditProduct/:id',upload.array('image'), adminControllers.adminEditProduct);
+router.post('/adminEditProduct/:id', multer.array('image'), adminControllers.adminEditProduct);
 
 router.get('/adminDeleteProduct/:id', adminControllers.adminDeleteProduct);
 
@@ -43,11 +42,19 @@ router.get('/adminUserDelete/:id', adminControllers.adminDeleteUser);
 
 router.get('/adminBlockUser/:id', adminControllers.adminBlockUser);
 
+
 // Admin Category
 router.get('/adminCategory', verifySession.verifyAdminLoggedIn, adminControllers.getCategory);
 
 router.post('/adminCategory', adminControllers.addCategory);
 
 router.get('/adminDeleteCategory/:id', adminControllers.deleteCategory);
+
+
+// Admin Order
+router.get('/adminOrder', verifySession.verifyAdminLoggedIn, adminControllers.adminOrder);
+
+router.post('/adminOrderStatus/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminOrderStatus);
+
 
 module.exports = router;

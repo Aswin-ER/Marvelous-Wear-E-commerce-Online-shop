@@ -6,7 +6,6 @@ const cloudinary =  require('../utils/cloudinary');
 
 module.exports = {
     
-
 // Admin Login & Logout
     adminLogin: (req, res) => {
         if(req.session.adminLoggedIn){
@@ -52,6 +51,7 @@ module.exports = {
 //Admin Product CRUD
     adminProduct: async (req, res) => {
         const adminName = req.session.adminName;
+        
         const productData = await productHelpers.getProducts();
         res.render('admin/adminProduct', {admin: true, adminName, productData});
     },
@@ -60,7 +60,6 @@ module.exports = {
         const adminName = req.session.adminName;
         categoryHelpers.getCategory().then((category) => {
             console.log(category);
-            // res.render('admin/adminCategory', {admin: true, adminName, category})
             res.render('admin/adminAddProduct', {admin: true, adminName, category});
         });
         
@@ -74,8 +73,8 @@ module.exports = {
                     const result = await cloudinary.uploader.upload(req.files[i].path);
                     imgUrls.push(result.url);
                 }
-                console.log(imgUrls)
-                productHelpers.addProductImage(id, imgUrls).then(()=>{}).catch(()=>{});
+                    productHelpers.addProductImage(id, imgUrls).then(()=>{}).catch(()=>{});
+
             }catch(err){
                 console.log(`error : ${err}`);
             }finally{
@@ -94,8 +93,10 @@ module.exports = {
                         const result = await cloudinary.uploader.upload(req.files[i].path);
                         imgUrls.push(result.url);
                     }
-                    console.log(imgUrls);
-                    productHelpers.editProductImage(productId, imgUrls).then(()=>{}).catch(()=>{});
+                    if(imgUrls.length > 0){
+                        productHelpers.editProductImage(productId, imgUrls).then(()=>{}).catch(()=>{});
+                    }
+                   
                 }catch(err){
                     console.log(`error : ${err}`);
                 }finally{
@@ -190,6 +191,27 @@ module.exports = {
         }).catch((err) => {
             console.log(err);
         })
-    }
+    },
+
+    
+// Orders
+adminOrder: (req, res) => {
+    const adminName = req.session.adminName;
+    adminHelpers.getUserOrder().then((adminOrder)=>{
+        console.log("api call");
+        console.log(adminOrder);
+        res.render('admin/adminOrder', {admin: true, adminName, adminOrder});
+    })
+},
+
+adminOrderStatus:(req, res) => {
+   const orderId = req.params.id;
+   const userId = req.body.userId;
+   const status = req.body.status;
+   console.log(userId);
+   adminHelpers.adminOrderStatus(userId ,orderId, status).then(() => {
+    res.redirect('back');
+   })
+}
     
 }

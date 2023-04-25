@@ -117,5 +117,29 @@ module.exports = {
                 })
             }
         })
-    }
+    },
+
+    getUserOrder:() => {
+        return new Promise(async(resolve, reject) => {
+            const userDet = await db.get().collection(collection.ORDER_COLLECTION).find().toArray();
+            // console.log('usersdefdinv', userDet);
+            resolve(userDet);
+        });
+    },
+
+    adminOrderStatus:(userId,orderId,status)=>{
+        return new Promise((resolve,reject)=>{
+        db.get().collection(collection.ORDER_COLLECTION)
+        .updateOne({
+          userId: new objectId(userId),
+          order:{$elemMatch:{id: new objectId(orderId)}}
+        },
+        {
+          $set: {
+            "order.$.status": status,
+            }
+        }).then((response)=>{resolve(response)})
+      })
+      }
+      
 }

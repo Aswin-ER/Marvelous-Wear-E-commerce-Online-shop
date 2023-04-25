@@ -8,6 +8,7 @@ const session = require('express-session');
 const noCache = require('nocache');
 const hbs = require('express-handlebars');
 const db = require('./configurations/connection')
+
 require('dotenv').config();
 
 // const fileUpload = require('express-fileupload')
@@ -42,6 +43,7 @@ app.use(session({
 db.connect((err) => {
   if(err){
     console.log("Connection error"+ err);
+    process.exit(1)
   }else{
     console.log("Database created");
   }

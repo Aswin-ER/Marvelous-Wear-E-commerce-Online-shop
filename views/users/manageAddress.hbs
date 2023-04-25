@@ -1,0 +1,211 @@
+<section class="page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="page-breadcrumb">
+                    <h3>Manage Address<span>.</span></h3>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <img src="#" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Add Section End -->
+
+<!-- Cart Total Page Begin -->
+<section class="cart-total-page spad">
+    <div class="container">
+
+        {{!-- address selection --}}
+        <form id="checkoutForm" class="checkout-form">
+            <div class="row">
+                {{!-- <div class="col-lg-12">
+                    <h3>Your Information</h3>
+                </div> --}}
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-md-8 order-md-1">
+                            <h5 class="mb-5">Billing address</h5>
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <div class="col-md-12">
+                                        {{#each addresses}}
+                                        <div class="d-flex mb-3">
+                                            <input type="radio" id="{{_id}}" value="{{_id}}" class="activeAddress mr-3"
+                                                name="address" data-address="{{_id}}">
+                                            <div class="border p-3" style="color: rgb(80, 80, 80);">
+                                                <b>{{name}}</b>, <br>
+                                                {{address}}, <br>
+                                                {{city}}, {{state}}, <br>
+                                                pincode: {{postCode}}, Mobile: {{phone}}
+                                            </div>
+                                            <div class="ml-5 pr-3 d-flex">
+                                                <div>
+                                                    <a class="btn btn-primary pl-3 pr-3 text-light"
+                                                        style="letter-spacing: 0.1rem;cursor: pointer;"
+                                                        data-toggle="modal" data-target="#edit{{this._id}}">Edit</a>
+                                                </div>
+                                                <div class="ml-3 mt-1" style="cursor: pointer;">
+                                                    <a data-toggle="modal" data-target="#deleteAddr{{this._id}}">
+                                                        <div class="border border-warning text-center"
+                                                            style="width: fit-content;">
+                                                            <span class="ion-ios-close p-3">x</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                    <div class="custom-control">
+                                        <a class="text-primary" data-toggle="modal" data-target=".bd-example-modal-lg"
+                                            style="cursor: pointer;">Add a new Address</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+{{!-- add new Address MODAL --}}
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="p-4">
+        <form action="/checkOutPost" method="post">
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Name</label>
+              <input type="name" class="form-control" name="name" id="inputEmail4" placeholder="Name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Mobile Number</label>
+              <input type="text" maxlength="10" class="form-control" name="phone" id="inputPassword4"
+                placeholder="Mobile Number">
+            </div>
+          </div>
+          <label for="">Address</label>
+          <div class="form-group">
+            <textarea name="address" class="form-control" id="address" cols="50" placeholder="Address (Area and Street)"
+              rows="5"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputCity">City</label>
+              <input type="text" name="city" class="form-control" placeholder="city" id="inputCity">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputState">State</label>
+              <input type="text" class="form-control" placeholder="State" name="state">
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputZip">Zip Code</label>
+              <input type="text" class="form-control" name="postCode" placeholder="Zip Code" id="inputZip">
+            </div>
+          </div>
+          <label for="type">Address Type</label>
+          <div class="form-row text-dark">
+            <input type="radio" class="mr-1" name="type" value="home">Home &nbsp;&nbsp;&nbsp;
+            <input type="radio" class="mr-1" name="type" value="work">Work
+          </div>
+          <div class="text-center mt-2">
+            <input type="submit" class="btn btn-primary" value="SUBMIT">
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{{#each addresses}}
+{{!-- Delete MODAL --}}
+<div class="modal fade" id="deleteAddr{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you want to delete this address ?
+      </div>
+      <div class="modal-footer">
+        <a href=""><button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button></a>
+        <a href="/deleteAddress/{{this._id}}"><button type="button" class="btn btn-primary">confirm</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+
+
+{{#each addresses}} 
+{{!-- Edit Address --}}
+<div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="p-4">
+        <form action="/editAddressPost/{{this._id}}" method="post">
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Name</label>
+              <input type="name" class="form-control" name="name" id="inputEmail4" value="{{this.name}}"
+                placeholder="Name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Mobile Number</label>
+              <input type="text" maxlength="10" class="form-control" name="phone" value="{{this.phone}}"
+                id="inputPassword4" placeholder="Mobile Number">
+            </div>
+          </div>
+          <label for="">Address</label>
+          <div class="form-group">
+            <input name="address" class="form-control" value="{{this.address}}" id="address" cols="50"
+              placeholder="Address (Area and Street)" rows="5">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputCity">City</label>
+              <input type="text" name="city" class="form-control" value="{{this.city}}" placeholder="city"
+                id="inputCity">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputState">State</label>
+              <input type="text" class="form-control" value="{{this.state}}" placeholder="State" name="state">
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputZip">Zip Code</label>
+              <input type="text" class="form-control" value="{{this.postCode}}" name="postCode" placeholder="Zip Code"
+                id="inputZip">
+            </div>
+          </div>
+          <label for="type">Address Type</label>
+          <div class="form-row text-dark">
+            <input type="radio" class="mr-1" name="type" value="home">Home &nbsp;&nbsp;&nbsp;
+            <input type="radio" class="mr-1" name="type" value="work">Work
+          </div>
+          <div class="text-center mt-2">
+            <button type="submit" class="btn btn-primary">SUBMIT</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}

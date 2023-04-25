@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="row tm-content-row tm-mt-big">
+        <div class="col-xl-12 col-lg-12 tm-md-12 tm-sm-12 tm-block-col">
+            <div class="bg-white tm-block h-100">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12">
+                        <h2 class="tm-block-title d-inline-block">Order</h2>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    {{!-- <table class="table table-hover table-striped tm-table-striped-even mt-3">
+                        <thead>
+                            <tr class="tm-bg-gray">
+                                <th scope="col">Product Name</th>
+                                <th scope="col">customer</th>
+                                <th scope="col" class="text-center">Mobile</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Status</th>
+                                <th scope="col" class="text-center">Image</th>
+                                <th scope="col">Edit Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#if adminOrder}}
+                            {{#each adminOrder}}
+                            {{#each adminOrder.order as |order|}}
+                            {{#each order.item as |item|}}
+                            <tr>
+                                <td class="tm-product-name">{{item.product.name}}</td>
+                                <td class="text-center">{{order.shippingAddress.name}}</td>
+                                <td class="text-center">{{order.shippingAddress.phone}}</td>
+                                <td>{{order.total}}</td>
+                                <td>{{order.status}}</td>
+                                <td><img src="{{item.product.images.[0]}}" alt="" style="width: 60px; height: 60px;">
+                                </td>
+                                <td><a data-toggle="modal" data-target="#edit{{this._id}}"><i
+                                            class="fas fa-edit"></i></a></td>
+                                <td><a class=" btn btn-primary" data-toggle="modal" data-target="#delete{{this._id}}"><i
+                                            class="fas fa-trash-alt tm-trash-icon"></i></a></td>
+                            </tr>
+
+                            {{/each}}
+                            {{/each}}
+                            {{/each}}
+                            {{/if}}
+                        </tbody>
+                    </table> --}}
+                    <!-- orders.hbs -->
+                    <table class="table table-hover table-striped tm-table-striped-even mt-3">
+                        <thead>
+                            <tr class="tm-bg-gray">
+                                <th scope="col">Product Name</th>
+                                <th scope="col">customer</th>
+                                <th scope="col" class="text-center">Mobile</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Status</th>
+                                <th scope="col" class="text-center">Image</th>
+                                <th scope="col">Edit Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#if adminOrder}}
+                            {{#each adminOrder}}
+                            {{#each this.order as |order|}}
+                            {{#each order.item as |item|}}
+                            <tr>
+                                <td class="tm-product-name">{{item.product.name}}</td>
+                                <td class="text-center">{{order.shippingAddress.name}}</td>
+                                <td class="text-center">{{order.shippingAddress.phone}}</td>
+                                <td>{{order.total}}</td>
+                                <td>{{order.status}}</td>
+                                <td><img src="{{item.product.images.[0]}}" alt="" style="width: 60px; height: 60px;">
+                                </td>
+                                <td><a data-toggle="modal" data-target="#edit{{order.id}}"><i
+                                            class="fas fa-edit"></i></a></td>
+                            </tr>
+
+                            {{!-- Edit products Modal --}}
+                            <div class="modal fade" id="edit{{order.id}}" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="text-dark" action="/admin/adminOrderStatus/{{order.id}}"
+                                                method="post">
+                                                <div class="form-group">
+                                                    <label for="name" class="col-form-label">Status: </label>
+                                                    <input type="text" name="status" value="{{order.status}}"
+                                                        style="color: black;" class="border" id="name">
+                                                    <input hidden name="userId" value="{{this.userId}}">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">cancel</button>
+                                                    <a><button type="submit"
+                                                            class="btn btn-primary">confirm</button></a>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                            {{/each}}
+                            {{/each}}
+                            {{else}}
+                            <tr>
+                                <td colspan="7" class="text-center">No orders found.</td>
+                            </tr>
+                            {{/if}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

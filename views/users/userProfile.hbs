@@ -1,0 +1,330 @@
+<style>
+    body {
+        background: -webkit-linear-gradient(left, #ffffff);
+    }
+
+    .emp-profile {
+        padding: 3%;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        border-radius: 0.5rem;
+        background: #cbcaca;
+    }
+
+    .profile-img {
+        text-align: center;
+    }
+
+    .profile-img img {
+        width: 70%;
+        height: 100%;
+    }
+
+    .profile-img .file {
+        position: relative;
+        overflow: hidden;
+        margin-top: -20%;
+        width: 70%;
+        border: none;
+        border-radius: 0;
+        font-size: 15px;
+        background: #212529b8;
+    }
+
+    .profile-img .file input {
+        position: absolute;
+        opacity: 0;
+        right: 0;
+        top: 0;
+    }
+
+    .profile-head h5 {
+        color: #333;
+    }
+
+    .profile-head h6 {
+        color: #0062cc;
+    }
+
+    .profile-edit-btn {
+        border: none;
+        border-radius: 1.5rem;
+        width: 70%;
+        padding: 2%;
+        font-weight: 600;
+        color: #6c757d;
+        cursor: pointer;
+    }
+
+    .profile-save-btn {
+        border: none;
+        border-radius: 1.5rem;
+        width: 85%;
+        padding: 2%;
+        font-weight: 600;
+        color: #6c757d;
+        cursor: pointer;
+    }
+
+    .proile-rating {
+        font-size: 12px;
+        color: #818182;
+        margin-top: 5%;
+    }
+
+    .proile-rating span {
+        color: #495057;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .profile-head .nav-tabs {
+        margin-bottom: 5%;
+    }
+
+    .profile-head .nav-tabs .nav-link {
+        font-weight: 600;
+        border: none;
+    }
+
+    .profile-head .nav-tabs .nav-link.active {
+        border: none;
+        border-bottom: 2px solid #0062cc;
+    }
+
+    .profile-work {
+        padding: 14%;
+        margin-top: -15%;
+    }
+
+    .profile-work p {
+        font-size: 12px;
+        color: #818182;
+        font-weight: 600;
+        margin-top: 10%;
+    }
+
+    .profile-work a {
+        text-decoration: none;
+        color: #495057;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .profile-work ul {
+        list-style: none;
+    }
+
+    .profile-tab label {
+        font-weight: 600;
+    }
+
+    .profile-tab p {
+        font-weight: 600;
+        color: #0062cc;
+    }
+</style>
+
+
+<div class="container emp-profile">
+    <form action="/userProfilePost" method="post" id="postForm">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
+                        alt="" />
+                    <div class="file btn btn-lg btn-primary">
+                        Change Photo
+                        <input type="file" name="file" />
+                    </div>
+                </div>  
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>{{userName}}</h5>
+                    <h6 class="pt-3">Our valuable customer</h6>
+                    <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                aria-controls="profile" aria-selected="false">Addresses</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <span class="btn btn primary" onclick="editProfile()" >Edit Profile</span>
+
+                <span class="btn btn primary" onclick=" return validateForm()" >Save Changes</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-work">
+                    <a href="">My Orders</a><br>
+                    <p>Account Settings</p>
+                    <a href="">Profile Informations</a><br />
+                    <a href="/userManageAddress">Manage Addresses</a><br>
+                    <a href="">Wallet</a><br />
+                    <p>Collection</p>
+                    <a href="">My Wishlist</a><br />
+                    <a href="">Cart</a><br />
+                </div>
+            </div>
+            {{#if userDetailes}}
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>User Id</label>
+
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="user-id"  value="{{userDetailes._id}}" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pt-3">
+                                <label for="name">Name</label>
+                            </div>
+                            <div class="col-md-6 pt-3">
+                                <input type="text" id="name" class="edit-field" name="name"  maxlength="10" value="{{userDetailes.name}}" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pt-3">
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="col-md-6 pt-3">
+                                <input type="text" id="email" class="edit-field" name="email" maxlength="10" value="{{userDetailes.email}}" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pt-3">
+                                <label for="phone">Phone</label>
+                            </div>
+                            <div class="col-md-6 pt-3">
+                                <input type="tel" id="phone" class="edit-field" name="phone" maxlength="10" value="{{userDetailes.phone}}" disabled>
+                            </div>
+                        </div>
+                        <div class="mt-5 mb-3">
+                            <h6>Change Password</h6>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pt-3">
+                                <label for="phone">Old Password</label>
+                            </div>
+                            <div class="col-md-6 pt-3">
+                                <input type="text" class="edit-field" id="phone" name="oldPassword" placeholder="Old Password">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 pt-3">
+                                <label for="phone">New Password</label>
+                            </div>
+                            <div class="col-md-6 pt-3">
+                                <input type="text" class="edit-field" id="newPassword" name="newPassword" placeholder="New Password"
+                                    onkeyup="validatePassword()">
+                                <label class="text-danger" id="newPassErr"></label>
+                            </div>
+                            <div class="d-flex justify-content-center col-md-10">
+                                <label class="text-danger mt-3">{{passErr}}</label>
+                                <label class="text-danger mt-3" id="submitError"></label>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Active Address</label>
+                            </div>
+                             {{!-- {{#if address}} --}}
+                             {{#if address}}
+                             
+                                    <div class="col-md-6">
+                                        {{!-- selected address   --}}
+                                        <b>{{address.address}}</b>, <br> 
+                                            {{address.name}}, <br>
+                                            {{address.city}}, {{address.state}}, <br> 
+                                            postCode: {{address.postCode}}, Mobile:{{address.phone}}
+                                    </div>
+
+                                    {{else}}
+                                    <div class="col-md-6">
+                                        No address added
+                                    </div>
+                                    
+                                {{/if}}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Manage Adress</label>
+                            </div>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+</form>
+</div>
+
+<script>
+    var newPassErr = document.getElementById('newPassErr');
+    var submitError = document.getElementById('submitError');
+
+    function validatePassword() {
+        var newPassword = document.getElementById('newPassword').value;
+        var passChecker = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+
+        if (newPassword.length < 1) {
+            return true;
+        }
+        if (newPassword.match(passChecker)) {
+            newPassErr.innerHTML = '';
+            return true;
+        } else {
+            newPassErr.innerHTML = 'required 6-20 character,1 numeric digit, 1 uppercase and 1 lowercase';
+            return false;
+        }
+    }
+
+    function validateForm() {
+        if (!validatePassword()) {
+            submitError.innerHTML = 'Please fix all errors to submit';
+            setTimeout(() => {
+                submitError.style.display = 'none';
+            }, 3000);
+            return false;
+        } else {
+            submit();
+        }
+    }
+
+    function editProfile(){
+        const editClass = document.querySelectorAll('.edit-field');
+        editClass.forEach(element => {
+          element.removeAttribute('disabled');
+        });
+        
+    }
+    function submit(){
+        const editClass = document.querySelectorAll('.edit-field');
+        editClass.forEach(element => {
+          element.removeAttribute('disabled');
+        });
+        const field = document.getElementById('user-id');
+        
+        document.getElementById('postForm').submit();
+    }
+
+</script>

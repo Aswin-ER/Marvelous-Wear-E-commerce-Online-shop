@@ -1,124 +1,122 @@
 <!-- Page Add Section Begin -->
-    <section class="page-add cart-page-add">
+{{#if userDetailes}}
+<section class="page-add cart-page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="page-breadcrumb">
+                    <h2>Cart<span>.</span></h2>
+                    <a href="#">Home</a>
+                    <a href="#">Products</a>
+                    <a class="active" href="#"></a>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Add Section End -->
+
+<!-- Cart Page Section Begin -->
+<div class="cart-page">
+    <div class="container">
+        <div class="cart-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="product-h">Product</th>
+                        <th>Price</th>
+                        <th class="quan">Quantity</th>
+                        <th>Delete</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each userDetailes}}
+                    <tr>
+                        <td class="product-col">
+                            <img src="{{this.product.images.[0]}}" alt="">
+                            <div class="p-title">
+                                <h5>{{this.product.name}}</h5>
+                            </div>
+                        </td>
+                        <td class="price-col">{{this.product.price}}</td>
+                        <td class="quantity-col">
+                            <div class="input-group mb-3">
+                                {{!-- <input type="text" value="{{this.quantity}}"> --}}
+
+                                <div class="mb-0">
+                                    <span class="btn bg-transparent mr-2 text-center mt-2" id="minus"
+                                        onclick="changeQuantity('{{this.product._id}}', -1,'{{this.product.price}}')"
+                                        style="color: rgb(0, 0, 0);border-color: rgb(192, 192, 192);">&nbsp;-&nbsp;</span>
+                                </div>
+                                <input type="text" name="quantity" disabled id="{{this.product._id}}"
+                                    class="quantity form-control input-number mt-2" value=" {{this.quantity}}" min="1"
+                                    max="100" style="max-width: 40px;">
+                                <div class="mb-0">
+                                    <span class="btn btn-dark bg-transparent ml-2 text-center mt-2"
+                                        onclick="changeQuantity('{{this.product._id}}', 1,'{{this.product.price}}')"
+                                        style="color: black;border-color: rgb(192, 192, 192);">&nbsp;+&nbsp;</span>
+                                </div>
+                            </div>
+                        </td>
+                        {{!-- <td id="sub-{{this.product._id}}">$ {{this.product.price}}*{{this.quantity}}</td> --}}
+                        <td class="product-close"><a href="/deleteCart/{{this.product._id}}"
+                                style="margin-left:35px; color: black;">x</a></td>
+                    </tr>
+
+                </tbody>
+                {{/each}}
+
+
+            </table>
+
+        </div>
+        {{!-- <div class="cart-btn">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="coupon-input">
+                        <input type="text" placeholder="Enter cupone code">
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1 text-left text-lg-right">
+                    <div class="site-btn clear-btn">Clear Cart</div>
+                    <div class="site-btn update-btn">Update Cart</div>
+                </div>
+            </div>
+        </div> --}}
+    </div>
+    <div class="shopping-method">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="page-breadcrumb">
-                        <h2>Cart<span>.</span></h2>
-                        <a href="#">Home</a>
-                        <a href="#">Dresses</a>
-                        <a class="active" href="#">Night Dresses</a>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <img src="img/add.jpg" alt="">
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Page Add Section End -->
+                <div class="col-lg-12">
+                    <div class="total-info">
+                        <div class="total-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        {{!-- <th>Total</th>
+                                        <th>Subtotal</th> --}}
+                                        {{!-- <th>Shipping</th> --}}
+                                        <th class="total-cart">Total Cart</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        {{!-- <td class="total">$29</td>
+                                        <td id="sub-total">$29</td> --}}
+                                        {{!-- <td class="shipping">10</td> --}}
+                                        <td id="total" class="total-cart-p">{{total}}</td>
+                                    </tr>
 
-    <!-- Cart Page Section Begin -->
-    <div class="cart-page">
-        <div class="container">
-            <div class="cart-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="product-h">Product</th>
-                            <th>Price</th>
-                            <th class="quan">Quantity</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="product-col">
-                                <img src="img/cart/minnal-murali-tshirt-navy-blue-mydesignation-website-image-latest.jpg" alt="">
-                                <div class="p-title">
-                                    <h5>Blue Dotted Shirt</h5>
-                                </div>
-                            </td>
-                            <td class="price-col">$29</td>
-                            <td class="quantity-col">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
-                            </td>
-                            <td class="total">$29</td>
-                            <td class="product-close">x</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="cart-btn">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="coupon-input">
-                            <input type="text" placeholder="Enter cupone code">
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                    <div class="col-lg-5 offset-lg-1 text-left text-lg-right">
-                        <div class="site-btn clear-btn">Clear Cart</div>
-                        <div class="site-btn update-btn">Update Cart</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="shopping-method">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="shipping-info">
-                            <h5>Choose a shipping</h5>
-                            <div class="chose-shipping">
-                                <div class="cs-item">
-                                    <input type="radio" name="cs" id="one">
-                                    <label for="one" class="active">
-                                        Free Standard shhipping
-                                        <span>Estimate for New York</span>
-                                    </label>
-                                </div>
-                                <div class="cs-item">
-                                    <input type="radio" name="cs" id="two">
-                                    <label for="two">
-                                        Next Day delievery $10
-                                    </label>
-                                </div>
-                                <div class="cs-item last">
-                                    <input type="radio" name="cs" id="three">
-                                    <label for="three">
-                                        In Store Pickup - Free
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="total-info">
-                            <div class="total-table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Total</th>
-                                            <th>Subtotal</th>
-                                            <th>Shipping</th>
-                                            <th class="total-cart">Total Cart</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="total">$29</td>
-                                            <td class="sub-total">$29</td>
-                                            <td class="shipping">$10</td>
-                                            <td class="total-cart-p">$39</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12 text-right">
-                                    <a href="#" class="primary-btn chechout-btn">Proceed to checkout</a>
-                                </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <a href="/checkOut" class="primary-btn chechout-btn">Proceed to checkout</a>
                             </div>
                         </div>
                     </div>
@@ -126,3 +124,111 @@
             </div>
         </div>
     </div>
+</div>
+
+
+{{else}}
+
+
+<style>
+
+    body {
+        background-color: #fff;
+    }
+
+    .mt-100 {
+        margin-top: 100px;
+
+    }
+
+    .card {
+        margin-bottom: 30px;
+        border: 0;
+        -webkit-transition: all .3s ease;
+        transition: all .3s ease;
+        letter-spacing: .5px;
+        border-radius: 8px;
+        -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+        box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+    }
+
+    .card .card-header {
+        background-color: #fff;
+        border-bottom: none;
+        padding: 24px;
+        border-bottom: 1px solid #f6f7fb;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .card-header:first-child {
+        border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+    }
+
+
+
+    .card .card-body {
+        padding: 30px;
+        background-color: transparent;
+    }
+
+    .btn-primary,
+    .btn-primary.disabled,
+    .btn-primary:disabled {
+        background-color: #4466f2 !important;
+        border-color: #4466f2 !important;
+    }
+</style>
+
+<div class="container-fluid  mt-100">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    {{!-- <h5>Cart</h5> --}}
+                </div>
+                <div class="card-body cart">
+                    <div class="col-sm-12 empty-cart-cls text-center mb-5">
+                        <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+                        <h3 class="mb-3"><strong>Your Cart is Empty</strong></h3>
+                        <h4  class="mb-3">Add something to make me happy :)</h4>
+                        <a href="/shop" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{/if}}
+
+
+
+{{!-- Scripts --}}
+<script>
+    function changeQuantity(productId, count, productPrice) {
+        let quantity = parseInt(document.getElementById(productId).value)
+        let Count = parseInt(count)
+        let price = parseFloat(productPrice);
+        $.ajax({
+            url: '/change-product-quantity',
+            data: {
+                product: productId,
+                count: Count,
+                quantity: quantity
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.removeProduct) {
+                    alert("Product removed from cart")
+                    location.reload()
+                } else {
+                    document.getElementById(productId).value = quantity + count
+                    document.getElementById('total').innerHTML = response.total
+                    document.getElementById('total1').innerHTML = response.total + 10
+                    document.getElementById('sub-' + productId).innerHTML = (price * (quantity + count))
+                }
+            }
+        })
+    }
+</script>

@@ -70,7 +70,6 @@ module.exports = {
                           }
                         }
                     ]).toArray();
-                // console.log(products[0].productDetails);
                 resolve(products[0].productDetails);
             }catch{
                 resolve(null);
