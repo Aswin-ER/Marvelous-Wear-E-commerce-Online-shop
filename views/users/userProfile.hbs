@@ -139,7 +139,7 @@
                     </div>
                 </div>  
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6">  
                 <div class="profile-head">
                     <h5>{{userName}}</h5>
                     <h6 class="pt-3">Our valuable customer</h6>
@@ -148,10 +148,10 @@
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                 aria-controls="home" aria-selected="true">Profile</a>
                         </li>
-                        <li class="nav-item">
+                        {{!-- <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                                 aria-controls="profile" aria-selected="false">Addresses</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </div>
@@ -164,14 +164,14 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-work">
-                    <a href="">My Orders</a><br>
+                    <a href="/orders">My Orders</a><br>
                     <p>Account Settings</p>
                     <a href="">Profile Informations</a><br />
                     <a href="/userManageAddress">Manage Addresses</a><br>
                     <a href="">Wallet</a><br />
                     <p>Collection</p>
-                    <a href="">My Wishlist</a><br />
-                    <a href="">Cart</a><br />
+                    <a href="/wishlist">My Wishlist</a><br />
+                    <a href="/cart">Cart</a><br />
                 </div>
             </div>
             {{#if userDetailes}}
@@ -241,38 +241,40 @@
 
 
                     </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    {{!-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Active Address</label>
                             </div>
                              {{!-- {{#if address}} --}}
-                             {{#if address}}
-                             
-                                    <div class="col-md-6">
+                             {{!-- {{#if address}}
+                             {{#each address}} --}}
+                                    {{!-- <div class="col-md-6"> --}}
                                         {{!-- selected address   --}}
-                                        <b>{{address.address}}</b>, <br> 
-                                            {{address.name}}, <br>
-                                            {{address.city}}, {{address.state}}, <br> 
-                                            postCode: {{address.postCode}}, Mobile:{{address.phone}}
-                                    </div>
+                                        {{!-- <b>{{address}}</b>, <br> 
+                                            {{name}}, <br>
+                                            {{city}}, {{state}}, <br> 
+                                            postCode: {{postCode}}, Mobile:{{phone}}
+                                            {{/each}}
+                                    </div> --}}
 
-                                    {{else}}
-                                    <div class="col-md-6">
+                                    {{!-- {{else}} --}}
+                                    {{!-- <div class="col-md-6">
                                         No address added
-                                    </div>
+                                    </div> --}}
                                     
-                                {{/if}}
-                        </div>
+                                {{!-- {{/if}} --}}
+                        {{!-- </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Manage Adress</label>
                             </div>
-                        </div>
-                        {{/if}}
-                    </div>
+                        </div> --}}
+                        
+                    {{!-- </div> --}}
                 </div>
             </div>
+            {{/if}}
         </div>
         </div>
 </form>

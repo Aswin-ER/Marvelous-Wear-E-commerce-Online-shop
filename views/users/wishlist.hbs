@@ -1,0 +1,177 @@
+
+
+{{#if wishlist}}
+<section class="page-add cart-page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="page-breadcrumb">
+                    <h2>Wishlist<span>.</span></h2>
+                    <a href="#">Home</a>
+                    <a href="#">Products</a>
+                    <a class="active" href="#"></a>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Add Section End -->
+
+<!-- Cart Page Section Begin -->
+<div class="cart-page">
+    <div class="container">
+        <div class="cart-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="product-h">Product</th>
+                        <th>Price</th>
+                        <th>Add to Cart</th>
+                        <th class="pl-4">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each wishlist}}
+                    <tr>
+                        <td class="product-col">
+                            <img src="{{this.product.images.[0]}}" alt="">
+                            <div class="p-title">
+                                <h5>{{this.product.name}}</h5>
+                            </div>
+                        </td>
+                        <td class="price-col">{{this.product.price}}</td>
+                        <td class="btn btn-dark mb-4" style="padding-top: 0.5rem;" onclick="addToCart('{{product._id}}')">Add to Cart</td>
+                        <td class="product-close"><a class="pl-5" href="/deleteWishlist/{{this.product._id}}"
+                                style="color: black;">x</a></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <hr class="mb-5">
+        </div>
+    </div>
+
+    {{!-- <div class="shopping-method">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="total-info">
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <a onclick="addToCart('{{product._id}}')" class="primary-btn chechout-btn">Add to Cart</a>
+                            </div>
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+</div>
+
+
+<script>
+
+       function addToCart (productId) {
+        console.log("apicall")
+        axios.get(`/addToCart/${productId}`).then((response) => {
+            if (response.status) {
+                Toastify({
+                    text: `${response.data.message}`,
+                    duration: 3000,
+                    className: "info",
+                    gravity: "bottom",
+                    position: "center",
+                    style: {
+                        background: "linear-gradient(to right, #00b09b, #96c93d)",
+                    }
+                }).showToast();
+                }
+            }).catch((err) => {
+                 Toastify({
+                text: "product is not added to cart",
+                duration: 3000,
+                className: "info",
+                gravity: "bottom",
+                position: "center",
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                }
+            }).showToast();
+        })    
+    }
+
+</script>
+
+{{else}}
+
+<style>
+     body {
+        background-color: #fff;
+    }
+
+    .mt-100 {
+        margin-top: 100px;
+
+    }
+
+    .card {
+        margin-bottom: 30px;
+        border: 0;
+        -webkit-transition: all .3s ease;
+        transition: all .3s ease;
+        letter-spacing: .5px;
+        border-radius: 8px;
+        -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+        box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+    }
+
+    .card .card-header {
+        background-color: #fff;
+        border-bottom: none;
+        padding: 24px;
+        border-bottom: 1px solid #f6f7fb;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .card-header:first-child {
+        border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+    }
+
+
+
+    .card .card-body {
+        padding: 30px;
+        background-color: transparent;
+    }
+
+    .btn-primary,
+    .btn-primary.disabled,
+    .btn-primary:disabled {
+        background-color: #4466f2 !important;
+        border-color: #4466f2 !important;
+    }
+</style>
+
+<div class="container-fluid  mt-100">
+    <div class="row">
+        <div class="col-md-12  my-5">
+            <div class="card my-5">
+                <div class="card-body cart">
+                    <div class="col-sm-12 empty-cart-cls text-center  mb-5">
+                        <i class="fa fa-heart-o mb-5" style="font-size:58px;color:red"></i>
+                        <h3 class="mb-4"><strong>Your Wishlist is Empty</strong></h3>
+                        <h4  class="mb-4">Add something to Wishlist :)</h4>
+                        <a href="/shop" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{/if}}

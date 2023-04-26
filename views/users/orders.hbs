@@ -1,41 +1,50 @@
+
 {{#if orders}}
-<div class="container">
-    <div class="row tm-content-row tm-mt-big">
-        <div class="col-xl-12 col-lg-12 tm-md-12 tm-sm-12 tm-block-col">
-            <div class="bg-white tm-block h-100">
-                <div class="row">
-                    <div class="col-md-8 col-sm-12 mt-5">
-                        <h2 class="tm-block-title d-inline-block">Orders</h2>
-                    </div>
+<section class="page-add cart-page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="page-breadcrumb">
+                    <h2>Orders<span>.</span></h2>
+                    <a href="#">Home</a>
+                    <a href="#">Products</a>
+                    <a class="active" href="#"></a>
                 </div>
-                <div class="table-responsive mb-5">
-                    <table class="table table-hover table-striped tm-table-striped-even mt-3 mb-5">
-                        <thead>
-                            <tr class="tm-bg-gray">
-                                <th scope="col">Date</th>
-                                <th scope="col">Address</th>
-                                <th scope="col" class="text-center">Mobile</th>
-                                <th scope="col">Payment</th>
-                                <th scope="col">Status</th>
-                                <th scope="col" class="text-center">View</th>
-                                <th scope="col">Cancel</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each orders}}
-                            {{!-- {{#each order as |order|}}
-                            {{#each order.item as |item|}} --}}
+            </div>
+            <div class="col-lg-8">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<div class="cart-page" style="margin-bottom: 13rem;">
+    <div class="container">
+        <div class="cart-table">
+            <table class="table-hover table-striped tm-table-striped-even mb-5 text-center">
+                <thead>
+                     <tr class="tm-bg-gray">
+                                <th>Date</th>
+                                <th>Address</th>
+                                <th class="text-center">Mobile</th>
+                                <th>Payment</th>
+                                <th>Status</th>
+                                <th class="text-center">View</th>
+                                <th>Cancel</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    {{#each orders}}
                             <tr>
                                 <td class="tm-product-name">{{date}}</td>
                                 <td class="text-center">{{shippingAddress.address}}</td>
                                 <td class="text-center">{{shippingAddress.phone}}</td>
                                 <td>{{paymentMethod}}</td>
                                 <td>{{status}}</td>
-                                <td><a class="btn btn-primary" href="/orders/viewProduct/{{_id}}">View Details</a></td>
-                                <td><a class=" btn btn-primary" data-toggle="modal" data-target="#delete{{_id}}">Cancel</a></td>
+                                <td><a class="btn btn-dark" href="/orders/viewProduct/{{_id}}">View Details</a></td>
+                                <td><a class=" btn btn-dark text-light" data-toggle="modal" data-target="#delete{{_id}}">Cancel</a></td>
 
-                                {{!-- Delete Modal --}}
-                                <div class="modal fade" id="delete{{orders._id}}" tabindex="-1" role="dialog"
+                                {{!-- Cancel Modal --}}
+                                <div class="modal fade" id="delete{{_id}}" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
@@ -48,28 +57,25 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                Do you want to cancel order <b class="text-dark">{{order.name}}</b>
+                                                Do you want to cancel order <b class="text-dark"></b>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-dismiss="modal">cancel</button>
-                                                <a href="/cancelOrder/{{order.id}}" type="button"
+                                                <a href="/cancelOrder/{{_id}}" type="button"
                                                     class="btn btn-danger">yes</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </tr>
-                            {{!-- {{/each}}
-                            {{/each}} --}}
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                    {{/each}}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
 {{else}}
 
 <style>
@@ -128,8 +134,8 @@
             <div class="card my-5">
                 <div class="card-body cart">
                     <div class="col-sm-12 empty-cart-cls text-center  mb-5">
-                        <h3 class="mb-3"><strong>Your Have No Order History</strong></h3>
-                        <h4  class="mb-3">Order something to make me happy :)</h4>
+                        <h3 class="mb-4"><strong>Your Have No Order History</strong></h3>
+                        <h4  class="mb-4">Order something to make me happy :)</h4>
                         <a href="/shop" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
                     </div>
                 </div>
@@ -137,6 +143,5 @@
         </div>
     </div>
 </div>
-
 
 {{/if}}

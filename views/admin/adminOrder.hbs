@@ -1,3 +1,4 @@
+{{#if adminOrder}}
 <div class="container">
     <div class="row tm-content-row tm-mt-big">
         <div class="col-xl-12 col-lg-12 tm-md-12 tm-sm-12 tm-block-col">
@@ -59,24 +60,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{#if adminOrder}}
+                            
                             {{#each adminOrder}}
-                            {{#each this.order as |order|}}
-                            {{#each order.item as |item|}}
+                            
                             <tr>
-                                <td class="tm-product-name">{{item.product.name}}</td>
-                                <td class="text-center">{{order.shippingAddress.name}}</td>
-                                <td class="text-center">{{order.shippingAddress.phone}}</td>
-                                <td>{{order.total}}</td>
-                                <td>{{order.status}}</td>
-                                <td><img src="{{item.product.images.[0]}}" alt="" style="width: 60px; height: 60px;">
+                                <td class="tm-product-name"> {{#each products}}{{product.name}} <br> {{/each}}</td>
+                                <td class="text-center">{{userName}}</td>
+                                <td class="text-center">{{shippingAddress.phone}}</td>
+                                
+
+                                <td>{{total}}</td>
+                                <td>{{status}}</td>
+                                <td> {{#each products}}<img src="{{product.images.[0]}}" alt="" style="width: 60px; height: 60px;" >{{/each}} 
                                 </td>
-                                <td><a data-toggle="modal" data-target="#edit{{order.id}}"><i
+                                <td><a data-toggle="modal" data-target="#edit{{_id}}"><i
                                             class="fas fa-edit"></i></a></td>
                             </tr>
 
-                            {{!-- Edit products Modal --}}
-                            <div class="modal fade" id="edit{{order.id}}" tabindex="-1" role="dialog"
+                            {{!-- Edit order Modal --}}
+                            <div class="modal fade" id="edit{{_id}}" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -87,13 +89,25 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form class="text-dark" action="/admin/adminOrderStatus/{{order.id}}"
+                                            <form class="text-dark" action="/admin/adminOrderStatus/{{_id}}"
                                                 method="post">
                                                 <div class="form-group">
-                                                    <label for="name" class="col-form-label">Status: </label>
-                                                    <input type="text" name="status" value="{{order.status}}"
-                                                        style="color: black;" class="border" id="name">
-                                                    <input hidden name="userId" value="{{this.userId}}">
+                                                   {{!-- <select name="" id=""><label for="name" class="col-form-label">Status: 
+                                                        <option value="{{this.name}}">{{status}}</option> --}}
+                                                        
+                                                        {{!-- <input type="text" name="status" value="{{status}}"
+                                                        style="color: black;" class="border" id="name"> --}}
+                                                    {{!-- </label>
+                                                    </select> --}}
+
+                                                <select class="custom-select tm-select-accounts" id="name" name="status">
+                                                  <option value="placed">placed</option>
+                                                  <option value="Shipped" >Shipped</option>
+                                                  <option value="Delivered" >Delivered</option>
+                                                  <option value="Canceled" >Cancelled</option>
+                                                </select>
+                                                    
+                                                    {{!-- <input hidden name="userId" value="{{this.userId}}"> --}}
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
@@ -106,9 +120,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {{/each}}
-                            {{/each}}
-                            {{/each}}
+                            {{/each}} 
                             {{else}}
                             <tr>
                                 <td colspan="7" class="text-center">No orders found.</td>

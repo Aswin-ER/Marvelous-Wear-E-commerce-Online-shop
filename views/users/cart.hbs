@@ -45,7 +45,6 @@
                         <td class="price-col">{{this.product.price}}</td>
                         <td class="quantity-col">
                             <div class="input-group mb-3">
-                                {{!-- <input type="text" value="{{this.quantity}}"> --}}
 
                                 <div class="mb-0">
                                     <span class="btn bg-transparent mr-2 text-center mt-2" id="minus"
@@ -62,7 +61,7 @@
                                 </div>
                             </div>
                         </td>
-                        {{!-- <td id="sub-{{this.product._id}}">$ {{this.product.price}}*{{this.quantity}}</td> --}}
+                        {{!-- <td id='sub-+{{this.product._id}}''> {{this.product.price}}*{{this.quantity}}</td> --}}
                         <td class="product-close"><a href="/deleteCart/{{this.product._id}}"
                                 style="margin-left:35px; color: black;">x</a></td>
                     </tr>
@@ -204,7 +203,7 @@
 
 
 
-{{!-- Scripts --}}
+{{!-- Change Quantity --}}
 <script>
     function changeQuantity(productId, count, productPrice) {
         let quantity = parseInt(document.getElementById(productId).value)

@@ -66,6 +66,16 @@ router.get('/cancelOrder/:id', verifySession.verifyUserLoggedIn, userControllers
 router.get('/orders/viewProduct/:id', verifySession.verifyUserLoggedIn, userControllers.viewDet);
 
 
+//Wishlist 
+router.get('/wishlist', verifySession.verifyUserLoggedIn, userControllers.wishlist);
+
+router.get('/addToWishlist/:id', verifySession.verifyUserLoggedIn, userControllers.wishlistPage);
+
+router.get('/deleteWishlist/:id', verifySession.verifyUserLoggedIn, userControllers.deleteWishlist);
+
+
+
+
 // Contact Page
 router.get('/contact',verifySession.verifyUserLoggedIn, userControllers.contactPage);
 

@@ -127,19 +127,24 @@ module.exports = {
         });
     },
 
-    adminOrderStatus:(userId,orderId,status)=>{
+    adminOrderStatus:(orderId,status)=>{
         return new Promise((resolve,reject)=>{
         db.get().collection(collection.ORDER_COLLECTION)
         .updateOne({
-          userId: new objectId(userId),
-          order:{$elemMatch:{id: new objectId(orderId)}}
+
+          _id: new objectId(orderId),
+        //   order:{$elemMatch:{id: new objectId(orderId)}}
+
         },
         {
           $set: {
-            "order.$.status": status,
+            "status": status,
             }
-        }).then((response)=>{resolve(response)})
+        }).then((response)=>{
+            // console.log(response+"111111111111111111111122222222222222211111111");
+            resolve(response)
+        })
       })
       }
-      
+
 }

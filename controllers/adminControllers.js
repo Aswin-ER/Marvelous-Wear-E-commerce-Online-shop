@@ -198,7 +198,7 @@ module.exports = {
 adminOrder: (req, res) => {
     const adminName = req.session.adminName;
     adminHelpers.getUserOrder().then((adminOrder)=>{
-        console.log("api call");
+        // console.log("api call");
         console.log(adminOrder);
         res.render('admin/adminOrder', {admin: true, adminName, adminOrder});
     })
@@ -206,10 +206,11 @@ adminOrder: (req, res) => {
 
 adminOrderStatus:(req, res) => {
    const orderId = req.params.id;
-   const userId = req.body.userId;
+//    const userId = req.body.userId;
    const status = req.body.status;
-   console.log(userId);
-   adminHelpers.adminOrderStatus(userId ,orderId, status).then(() => {
+   console.log(req.body);
+   
+   adminHelpers.adminOrderStatus(orderId, status).then(() => {
     res.redirect('back');
    })
 }

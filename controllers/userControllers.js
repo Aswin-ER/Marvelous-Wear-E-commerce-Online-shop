@@ -178,10 +178,9 @@ module.exports = {
 
 
 //User Product Page
-  productPage: (req, res) => {
+  productPage: async (req, res) => {
     const productData = req.params.id;
     const userName = req.session.userName;
-    
     productHelpers.getSingleProduct(productData)
     .then((product) => {
       res.render("users/productPages", { user: true, userName, product});
@@ -219,12 +218,13 @@ module.exports = {
     const cartItems=await cartHelpers.getCart(req.session.user._id)
     const order={
       userId : new ObjectId(req.session.user._id),
+      userName : req.session.userName,
       item:cartItems,
       shippingAddress:shippingAddress,
       total:total,
       paymentMethod:paymentMethod,
       products: cartItems,
-      date: new Date(),
+      date:new Date().toISOString().slice(0, 19),
       status: "placed"
     }
 
@@ -366,20 +366,40 @@ module.exports = {
 
   cancelOrder:(req,res)=>{
     const orderId=req.params.id
-    userHelpers.cancelOrder(req.session.user._id,orderId).then(()=>{
+    userHelpers.cancelOrder(orderId).then(()=>{
       res.redirect('back')
     })
   },
 
     viewDet: async(req, res) => {
     const userName = req.session.userName;
-    const userId = req.session.user._id;
     const orderId = req.params.id;
-    const orderDet = await adminHelpers.getUserOrder(userId);
     const orders = await userHelpers.getOrderedProducts(orderId);
-    console.log(orderDet+"ddddddddddddddddddddddddddddddd");
     console.log(orders+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-    res.render('users/viewDet', {user: true, userName, orders, orderDet})
+    res.render('users/viewDet', {user: true, userName, orders})
+  },
+
+
+  wishlist: async (req, res) => {
+    const userName = req.session.userName;
+    const wishlist = await userHelpers.getWishlist(req.session.user._id);
+    res.render('users/wishlist', {user: true, userName, wishlist})
+  },
+
+  wishlistPage: async (req, res) => {
+    const productId = req.params.id;
+    await userHelpers.addToWishlist(req.session.user._id, productId);
+    res.json({
+      status:"success",
+      message:"added to Wishlist"
+    })
+  },
+
+  deleteWishlist:(req, res) => {
+    const userId = req.session.user._id;
+    const productId = req.params.id;
+    userHelpers.deleteWishlist(userId, productId);
+    res.redirect('back');
   }
 
   
