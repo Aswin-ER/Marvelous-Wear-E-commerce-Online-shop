@@ -28,6 +28,8 @@ router.post('/adminEditProduct/:id', multer.array('image'), adminControllers.adm
 
 router.get('/adminDeleteProduct/:id', adminControllers.adminDeleteProduct);
 
+router.post('/adminSearchProduct', verifySession.verifyAdminLoggedIn, adminControllers.adminSearchProduct);
+
 
 // Admin Users
 router.get('/adminUserManagement',  verifySession.verifyAdminLoggedIn, adminControllers.adminUserManagement);

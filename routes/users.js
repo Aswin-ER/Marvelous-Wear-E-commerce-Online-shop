@@ -58,7 +58,7 @@ router.get('/deleteAddress/:id' , verifySession.verifyUserLoggedIn, userControll
 router.post('/placeOrder', verifySession.verifyUserLoggedIn, userControllers.placeOrder);
 
 
-// User  Orders
+// User Orders
 router.get('/orders', verifySession.verifyUserLoggedIn, userControllers.orders);
 
 router.get('/cancelOrder/:id', verifySession.verifyUserLoggedIn, userControllers.cancelOrder);
@@ -66,7 +66,7 @@ router.get('/cancelOrder/:id', verifySession.verifyUserLoggedIn, userControllers
 router.get('/orders/viewProduct/:id', verifySession.verifyUserLoggedIn, userControllers.viewDet);
 
 
-//Wishlist 
+//Wishlist
 router.get('/wishlist', verifySession.verifyUserLoggedIn, userControllers.wishlist);
 
 router.get('/addToWishlist/:id', verifySession.verifyUserLoggedIn, userControllers.wishlistPage);
@@ -90,8 +90,6 @@ router.get('/userProfile', verifySession.verifyUserLoggedIn, userControllers.use
 router.post('/userProfilePost', verifySession.verifyUserLoggedIn, userControllers.userProfilePost);
 
 router.get('/userManageAddress', verifySession.verifyUserLoggedIn, userControllers.manageAddress);
-
-
 
 
 

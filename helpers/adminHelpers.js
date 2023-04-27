@@ -145,6 +145,20 @@ module.exports = {
             resolve(response)
         })
       })
-      }
+      },
 
+      adminSearchProduct:(serach)=> {
+        return new Promise ( async (resolve, reject) => {
+            await db.get().collection(collection.PRODUCT_COLLECTION).find(
+                {
+                    name:{$regex: new RegExp(serach), $options:"i"}
+                }
+            ).toArray()
+            .then((productData) => {
+                resolve(productData);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+      }
 }

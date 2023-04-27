@@ -231,14 +231,17 @@ module.exports = {
     userHelpers.addOrderDetails(order)
     .then(async()=>{
       await cartHelpers.deleteCartFull(req.session.user._id);
+      res.redirect('/');
     })
     .catch((err)=>{
       console.log(err);
     });
 
     res.json({
-      status:true
-    })
+      status:true,
+      redirectUrl:'/'
+    });
+
   },
 
   editAddressPost: (req, res) => {
@@ -386,9 +389,9 @@ module.exports = {
     res.render('users/wishlist', {user: true, userName, wishlist})
   },
 
-  wishlistPage: async (req, res) => {
+  wishlistPage: (req, res) => {
     const productId = req.params.id;
-    await userHelpers.addToWishlist(req.session.user._id, productId);
+    userHelpers.addToWishlist(req.session.user._id, productId);
     res.json({
       status:"success",
       message:"added to Wishlist"

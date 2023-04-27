@@ -215,10 +215,10 @@
           </li>
           <li>
             <label for="COD">Pay when you get the package</label>
-            <input type="radio" id="COD" name="paymentMethod" class="custom-control-input" value="COD">
+            <input type="radio" id="COD" name="paymentMethod" class="custom-control-input" onclick="validateSubmit()" value="COD">
           </li>
         </ul>
-        <button class="btn-block" type="submit">Place your order</button>
+        <button id="checkoutBtn" disabled class="btn-block" type="submit">Place your order</button>
       </div>
     </div>
   </div>
@@ -227,7 +227,8 @@
 </section>
 <!-- Cart Total Page End -->
 
-<!-- Modal HTML -->
+
+<!-- Success HTML -->
 <div id="demoModal" class="modal fade">
   <div class="modal-dialog modal-confirm">
     <div class="modal-content">
@@ -246,8 +247,6 @@
     </div>
   </div>
 </div>
-
-
 
 {{!-- add new Address MODAL --}}
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -388,53 +387,6 @@
 
 
 
-{{!-- <script>
-    const changeActive = async(addressId)=>{
-      console.log(addressId)
-        const res = await axios({
-            method: "GET",
-            url: `/changeActiveAddress/${addressId}`
-        });
-        try{
-			      if(res.data.status === "success"){
-                const radio = document.getElementById(addressId);
-                radio.checked = true;
-			          Toastify({
-			          	text: res.data.message,
-			          	duration: 3000,
-			          	gravity: "top",
-			          	position: "center",
-			          	style: {
-			          		background: "linear-gradient(to right, #fe6d00, #ffb900)",
-			          	},
-			          }).showToast();
-
-			      }else{
-			          Toastify({
-			          	text: res.data.message,
-			          	duration: 3000,
-			          	gravity: "top",
-			          	position: "center",
-			          	style: {
-			          		background: "linear-gradient(to right, #fe6d00, #ffb900)",
-			          	},
-			          }).showToast();
-			      }
-		    }catch(err){
-		    	console.log(err);
-		    }
-    }
-
-    document.querySelectorAll('.activeAddress').forEach(item => {
-	  item.addEventListener('click', function(e) {
-	    e.preventDefault();
-	    changeActive(this.dataset.address);
-	  });
-
-	});
-</script> --}}
-
-
 <script>
   $('#checkoutForm').on('submit', function(event) {
     event.preventDefault();
@@ -451,6 +403,12 @@
         console.log(response);
         const demoModal = new bootstrap.Modal(document.getElementById('demoModal'));
         demoModal.show();
+        
+        // redirect after the modal is displayed
+        setTimeout(function() {
+        window.location.href = response.redirectUrl;
+      }, 2000);
+
       },
       error: function (xhr, status, error) {
         // handle error response
@@ -462,7 +420,7 @@
 
 
 
-{{!-- <script>
+<script>
   function validateRadioAddr() {
     var radioButtons = document.getElementsByName('address');
     var isSelected = false;
@@ -508,4 +466,4 @@
       }
     }
   }
-</script> --}}
+</script>
