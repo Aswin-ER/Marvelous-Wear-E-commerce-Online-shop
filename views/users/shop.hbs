@@ -127,6 +127,28 @@
                 </div>
             </div>
             {{/each}}
+            {{else if sortedProducts}}
+            {{#each sortedProducts}}
+
+            <div class="col-lg-3 col-md-6">
+                <div class="single-product-item">
+                    <figure>
+                        <img src="{{this.images.[0]}}" alt="">
+                        <div class="p-status">new</div>
+                        <div class="hover-icon">
+                            <a href="{{this.images.[0]}}" class="pop-up"><img src="img/icons/zoom-plus.png" alt=""></a>
+                        </div>
+                    </figure>
+                    <div class="product-text">
+                        <a href="/product/{{this._id}}">
+                            <h5>{{this.name}}</h5>
+                            <h6>{{this.category}}</h6>
+                            <p>₹{{this.price}}.00</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
             {{else}}
 
             <div id="notfound">

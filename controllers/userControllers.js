@@ -279,24 +279,31 @@ module.exports = {
   shopPage: async(req, res) => {
     const userName = req.session.userName;
     const filteredProducts = req.session.filteredProduct;
-    const maxPrice = req.session.maxPrice;
-    const minPrice = req.session.minPrice;
+    const sortedProducts = req.session.sortedProduct;
+    // console.log(sortedProducts+"sssssssssssssssssssssssssssssssssssssssssssss");
     const categories = await productHelpers.getListedCategory();
 
     if(filteredProducts){
-      res.render("users/shop", { user: true, categories, userName,filteredProducts, maxPrice, minPrice});
+      res.render("users/shop", { user:true, categories, userName,filteredProducts});
+      req.session.filteredProduct = false;
+
+    }else if(sortedProducts){
+
+      res.render("users/shop", { user:true, categories, userName, sortedProducts});
+      req.session.sortedProduct = false;
 
     }else{
+      req.session.category = false;
+      req.session.filteredProduct = false;
+      req.session.sortedProduct = false;
+      req.session.maxPrice = false;
+      req.session.minPrice = false;
       productHelpers.getProducts().then((products) => {
         res.render("users/shop", { user: true, categories, userName, products});
       }).catch((err) => {
-        // res.render("users/shop", { user: true, userName });
         console.log(err);
       });
     }
-      req.session.filteredProduct = false;
-      req.session.maxPrice = false;
-      req.session.minPrice = false;
   },
 
 
@@ -438,8 +445,8 @@ module.exports = {
   sortPrice: async (req, res) => {
     req.session.minPrice = req.body.minPrice;
     req.session.maxPrice = req.body.maxPrice;
-    // const category = req.session.category;
-    req.session.filteredProduct = await productHelpers.sortPrice(req.body);
+    const category = req.session.category;
+    req.session.sortedProduct = await productHelpers.sortPrice(req.body, category);
 
     res.json({
       status: "success"
