@@ -4,6 +4,7 @@ const cartHelpers = require("../helpers/cartHelpers");
 const categoryHelpers = require("../helpers/categoryHelpers");
 const productHelpers = require("../helpers/productHelpers");
 const userHelpers = require("../helpers/userHelpers");
+const { default: axios } = require("axios");
 
 // Twilio-config
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -172,7 +173,11 @@ module.exports = {
     const userId = req.session.user._id;
     const productId = req.params.id;
     cartHelpers.deleteCart(productId, userId).then(()=> {
-      res.redirect('back');
+      res.json({
+        status:"success",
+        message:"Product deleted from cart"
+      })
+      // res.redirect('back');
     })
   },
 
@@ -273,13 +278,25 @@ module.exports = {
 
   shopPage: async(req, res) => {
     const userName = req.session.userName;
+    const filteredProducts = req.session.filteredProduct;
+    const maxPrice = req.session.maxPrice;
+    const minPrice = req.session.minPrice;
     const categories = await productHelpers.getListedCategory();
-    productHelpers.getProducts().then((products) => {
+
+    if(filteredProducts){
+      res.render("users/shop", { user: true, categories, userName,filteredProducts, maxPrice, minPrice});
+
+    }else{
+      productHelpers.getProducts().then((products) => {
         res.render("users/shop", { user: true, categories, userName, products});
       }).catch((err) => {
         // res.render("users/shop", { user: true, userName });
         console.log(err);
       });
+    }
+      req.session.filteredProduct = false;
+      req.session.maxPrice = false;
+      req.session.minPrice = false;
   },
 
 
@@ -294,11 +311,12 @@ module.exports = {
   categoryFilter: async(req, res)=>{
     const userName = req.session.userName;
     const catName = req.params.name;
+    req.session.category = catName;
     const categories = await productHelpers.getListedCategory();
     try{
       categoryHelpers.getSelectedCategory(catName)
       .then((products)=>{
-        res.render("users/shop", { user: true, categories, userName, products });
+        res.render("users/shop", { user: true, categories, userName, products});
       })
       .catch(()=>{
         res.redirect('/shop');
@@ -403,7 +421,30 @@ module.exports = {
     const productId = req.params.id;
     userHelpers.deleteWishlist(userId, productId);
     res.redirect('back');
+  },
+
+  priceFilter: async (req, res) => {
+    req.session.minPrice = req.body.minPrice;
+    req.session.maxPrice = req.body.maxPrice;
+    const category = req.session.category; 
+
+    req.session.filteredProduct = await productHelpers.filterPrice(req.session.minPrice, req.session.maxPrice, category);
+    // console.log(req.session.filteredProduct+"asasasasssssssssssssssssss");
+    res.json({
+      status: "success"
+    });
+  },
+
+  sortPrice: async (req, res) => {
+    req.session.minPrice = req.body.minPrice;
+    req.session.maxPrice = req.body.maxPrice;
+    // const category = req.session.category;
+    req.session.filteredProduct = await productHelpers.sortPrice(req.body);
+
+    res.json({
+      status: "success"
+    });
   }
 
-  
+
 };

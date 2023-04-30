@@ -207,7 +207,7 @@ module.exports = {
                     userId: userId
                 }
                 ).sort({date: -1}).toArray();
-            console.log(orders+"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+            // console.log(orders+"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
             resolve(orders);
         })
     },
@@ -260,7 +260,7 @@ module.exports = {
         // console.log(orders[0].productDetails); 
         console.log(orders);
         resolve(orders); 
-    }); 
+    });
 },
 
       cancelOrder:(orderId)=>{

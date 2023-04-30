@@ -62,7 +62,7 @@
                             </div>
                         </td>
                         {{!-- <td id='sub-+{{this.product._id}}''> {{this.product.price}}*{{this.quantity}}</td> --}}
-                        <td class="product-close"><a href="/deleteCart/{{this.product._id}}"
+                        <td class="product-close"><a class="deleteProduct" onclick="deleteProduct('{{this.product._id}}')"
                                 style="margin-left:35px; color: black;">x</a></td>
                     </tr>
 
@@ -230,4 +230,42 @@
             }
         })
     }
+
+
+    async function deleteProduct(productId){
+		const res = await axios({
+			method: 'GET', 
+            url: `/deleteCart/${productId}`
+		});
+		try{
+			if(res.data.status === "success"){
+				Toastify({
+					text: res.data.message,
+					duration: 3000,
+					gravity: "bottom",
+					position: "center",
+					style: {
+						background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
+					},
+				}).showToast();
+				setTimeout(()=>{
+					location.reload();
+				}, 850);
+			}else{
+				Toastify({
+					text: res.data.message,
+					duration: 3000,
+					gravity: "bottom",
+					position: "center",
+					style: {
+						background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
+					},
+				}).showToast();
+				location.assign('/login')
+			}
+		}catch(err){
+			console.log(err);
+		}
+	}
+    
 </script>

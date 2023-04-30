@@ -143,5 +143,95 @@ module.exports = {
             console.log(categories);
             resolve(categories);
         })
-    }
+    },
+
+    filterPrice: (minPrice, maxPrice, Category) => {
+        return new Promise(async (resolve, reject) => {
+          let filteredProducts;
+          if (Category) {
+            filteredProducts = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+              {
+                $lookup: {
+                  from: 'category',
+                  localField: 'category',
+                  foreignField: 'name',
+                  as: 'result'
+                }
+              },
+              {
+                $match: {
+                  category: Category
+                }
+              },
+              {
+                $match: {
+                  price: {
+                    $gte: parseInt(minPrice),
+                    $lte: parseInt(maxPrice)
+                  }
+                }
+              }
+            ]).toArray();
+          } else {
+            filteredProducts = await db.get().collection(collection.PRODUCT_COLLECTION).find({
+              price: {
+                $gte: parseInt(minPrice),
+                $lte: parseInt(maxPrice)
+              }
+            }).toArray();
+          }
+          resolve(filteredProducts);
+        })
+      },
+
+      sortPrice:(detailes, category) => {
+        return new Promise (async (resolve, reject) => {
+        try{
+            const minPrice = Number(detailes.minPrice);
+            const maxPrice = Number(detailes.maxPrice);
+            const value = detailes.sort;
+            let product;
+
+            if(category){
+                product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+                    {
+                      $lookup: {
+                        from: 'category',
+                        localField: 'category',
+                        foreignField: 'name',
+                        as: 'result'
+                      }
+                    },
+                    {
+                      $match: {
+                        category: category
+                      }
+                    },
+                    {
+                      $match: {
+                        price: {
+                          $gte: parseInt(minPrice),
+                          $lte: parseInt(maxPrice)
+                        }
+                      }
+                    }
+                  ]).sort({price: value}).toArray();
+            }else{
+                product = await db.get().collection(collection.PRODUCT_COLLECTION).find({
+                    price: {
+                        $gte: parseInt(minPrice),
+                        $lte: parseInt(maxPrice)
+                      }
+                }).sort({price: value}).toArray();
+            }
+            resolve(product);
+             
+        }catch{
+            console.log("Error");
+        }
+            
+        });
+      }
+      
+
 }

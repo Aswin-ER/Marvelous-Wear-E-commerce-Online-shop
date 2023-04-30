@@ -26,7 +26,7 @@ router.post('/adminAddProduct', multer.array('image'), adminControllers.adminAdd
 
 router.post('/adminEditProduct/:id', multer.array('image'), adminControllers.adminEditProduct);
 
-router.get('/adminDeleteProduct/:id', adminControllers.adminDeleteProduct);
+router.get('/adminDeleteProduct/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminDeleteProduct);
 
 router.post('/adminSearchProduct', verifySession.verifyAdminLoggedIn, adminControllers.adminSearchProduct);
 
@@ -40,9 +40,9 @@ router.post('/adminAddUser', adminControllers.adminAddUserPost);
 
 router.post('/adminEditUser/:id', adminControllers.adminEditUser);
 
-router.get('/adminUserDelete/:id', adminControllers.adminDeleteUser);
+router.get('/adminUserDelete/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminDeleteUser);
 
-router.get('/adminBlockUser/:id', adminControllers.adminBlockUser);
+router.get('/adminBlockUser/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminBlockUser);
 
 
 // Admin Category
@@ -50,7 +50,7 @@ router.get('/adminCategory', verifySession.verifyAdminLoggedIn, adminControllers
 
 router.post('/adminCategory', adminControllers.addCategory);
 
-router.get('/adminDeleteCategory/:id', adminControllers.deleteCategory);
+router.get('/adminDeleteCategory/:id', verifySession.verifyAdminLoggedIn, adminControllers.deleteCategory);
 
 
 // Admin Order

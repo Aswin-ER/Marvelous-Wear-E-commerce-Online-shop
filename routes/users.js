@@ -15,7 +15,7 @@ router.get('/logout',verifySession.verifyUserLoggedIn, userControllers.logout);
 
 router.get('/signUp',verifySession.ifUserLoggedIn, userControllers.signUp);
 
-router.post('/signUp', userControllers.signUpPost);
+router.post('/signUp',userControllers.signUpPost);
 
 
 // otp
@@ -29,7 +29,10 @@ router.get('/shop',verifySession.verifyUserLoggedIn, userControllers.shopPage);
 
 router.get('/product/:id',verifySession.verifyUserLoggedIn, userControllers.productPage);
 
+
+//Category
 router.get('/category/:name', verifySession.verifyUserLoggedIn, userControllers.categoryFilter);
+
 
 
 // User Cart
@@ -91,6 +94,12 @@ router.post('/userProfilePost', verifySession.verifyUserLoggedIn, userController
 
 router.get('/userManageAddress', verifySession.verifyUserLoggedIn, userControllers.manageAddress);
 
+
+//Filter
+
+router.post('/shopPriceFilter', verifySession.verifyUserLoggedIn, userControllers.priceFilter);
+
+router.post('/shopPriceSort', verifySession.verifyUserLoggedIn, userControllers.sortPrice);
 
 
 module.exports = router;

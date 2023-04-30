@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <section class="page-add">
     <div class="container">
         <div class="row">
@@ -24,30 +30,59 @@
             <a href="#">Next</a>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            {{!-- <div class="col-lg-6">
                 <div class="product-slider owl-carousel">
                     <div class="product-img">
                         <figure>
-                            <img src="{{product.images.[0]}}" id="main_product_image" data-zoom-image='{{product.images.[0]}}' class="img-fluid" alt="image of product">
+                            <img src="{{product.images.[0]}}" id="main_product_image"
+                                data-zoom-image='{{product.images.[0]}}' class="img-fluid" alt="image of product">
                             <div class="p-status">new</div>
                         </figure>
                     </div>
                 </div>
-                
-                 <div style="width: 30vh;" class="mt-4">
-                            <ul style="list-style-type: none; display: flex; flex-direction: row;" class="col-sm-12">
-                                {{#each product.images}}
-                                {{#unless @first}}
-                                <li class="col-sm-12">
-                            <img src="{{this}}" id="main_product_image" data-zoom-image='{{this}}' class="img-fluid" alt="image of product">
-                                </li>
-                                {{/unless}}
-                                {{/each}}
 
-                            </ul>
+                <div style="width: 30vh;" class="mt-4">
+                    <ul style="list-style-type: none; display: flex; flex-direction: row;" class="col-sm-12">
+                        {{#each product.images}}
+                        {{#unless @first}}
+                        <li class="col-sm-12">
+                            <img src="{{this}}" id="main_product_image" data-zoom-image='{{this}}' class="img-fluid"
+                                alt="image of product">
+                        </li>
+                        {{/unless}}
+                        {{/each}}
+
+                    </ul>
+                </div>
+            </div> --}}
+            <div class="col-lg-6">
+                <div class="product-slider owl-carousel">
+                    <div class="product-img">
+                        <figure>
+                            <a href="{{product.images.[0]}}" data-fancybox="product-gallery">
+                            <img src="{{product.images.[0]}}" id="main_product_image"
+                                data-zoom-image='{{product.images.[0]}}' class="img-fluid" alt="image of product">
+                                </a>
+                            <div class="p-status">new</div>
+                        </figure>
                     </div>
+                </div>
+
+                <div style="width: 30vh;" class="mySlides mt-4">
+                    <ul style="list-style-type: none; display: flex; flex-direction: row;" class="col-sm-12">
+                        {{#each product.images}}
+                        {{#unless @first}}
+                        <li class="col-sm-12">
+                            <a href="{{this}}" data-fancybox="product-gallery">
+                            <img src="{{this}}" data-zoom-image="{{this}}" class="img-fluid " alt="image of product">
+                            </a>
+                        </li>
+                        {{/unless}}
+                        {{/each}}
+                    </ul>
+                </div>
             </div>
-            
+
             <div class="col-lg-6">
                 <div class="product-content">
                     <h2>{{product.name}}</h2>
@@ -66,35 +101,19 @@
                         <li><span>Category :</span> {{product.category}}</li>
                         <li><span>Tags :</span> {{product.category}}, elegant, cool</li>
                     </ul>
-                    {{!-- <div class="product-quantity">
+                    <div class="product-quantity">
                         <div class="pro-qty">
                             <input type="text" value="1">
                         </div>
-                    </div> --}}
-
+                    </div>
                     <div class="input-group mb-3">
-
-                                {{!-- <div class="mb-0">
-                                    <span class="btn bg-transparent mr-2 text-center mt-2 quantity input quantity-minus"
-                                        style="color: rgb(0, 0, 0);border-color: rgb(192, 192, 192);">&nbsp;-&nbsp;</span>
-                                </div>
-
-                               <input type="text" name="quantity" disabled 
-                                    class="quantity form-control input-number mt-2 input" value="1" min="1"
-                                    max="100" style="max-width: 40px;" id="quantity" name="quantity">
-
-                                <div class="mb-0">
-                                    <span class="btn btn-dark bg-transparent ml-2 text-center mt-2 quantity input quantity-plus"
-                                        style="color: black;border-color: rgb(192, 192, 192);">&nbsp;+&nbsp;</span>
-                                </div> --}}
-
-                                <a onclick="addToCart('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to cart</a>
-                                <a onclick="addWishlist('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to Wishlist</a>
-                    <ul class="p-info">
-                        <li>Product Information</li>
-                        <li>Reviews</li>
-                        <li>Product Care</li>
-                    </ul>
+                        <a onclick="addToCart('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to cart</a>
+                        <a onclick="addWishlist('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to Wishlist</a>
+                        <ul class="p-info">
+                            <li>Product Information</li>
+                            <li>Reviews</li>
+                            <li>Product Care</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -124,7 +143,6 @@
                     <div class="product-text">
                         <h6>T-Shirt</h6>
                         <p>₹499.00</p>
-                        {{!-- {{/each}} --}}
                     </div>
                 </div>
             </div>
@@ -139,7 +157,6 @@
                     <div class="product-text">
                         <h6>T-Shirt</h6>
                         <p>₹499.00</p>
-                        {{!-- {{/each}} --}}
                     </div>
                 </div>
             </div>
@@ -153,7 +170,6 @@
                     <div class="product-text">
                         <h6>T-Shirt</h6>
                         <p>₹499.00</p>
-                        {{!-- {{/each}} --}}
                     </div>
                 </div>
             </div>
@@ -167,7 +183,6 @@
                     <div class="product-text">
                         <h6>T-Shirt</h6>
                         <p>₹499.00</p>
-                        {{!-- {{/each}} --}}
                     </div>
                 </div>
             </div>
@@ -177,39 +192,9 @@
 <!-- Related Product Section End -->
 
 
-{{!-- Quantity Increase --}}
-{{!-- <script>
-    const quantityInput = document.getElementById('quantity');
-    let quantityValue = parseInt(quantityInput.value);
-
-
-    quantityInput.addEventListener('input', (event) => {
-        quantityValue = event.target.value;
-    })
-
-    document.querySelector('.quantity-minus').addEventListener('click', () => {
-	  if (quantityValue <= 1) {
-	    quantityValue = 1;
-	  } else {
-	    quantityValue--;
-	  }
-	  quantityInput.value = quantityValue;
-	});
-
-    document.querySelector('.quantity-plus').addEventListener('click', () => {
-		if(quantityValue>=1){
-			quantityValue++;
-		}
-		quantityInput.value = quantityValue;
-	});
-
-
-</script> --}}
-
-
-{{!-- axios --}}
+{{!-- axios AddToCart and AddToWishlist --}}
 <script>
-   function addToCart (productId) {
+    function addToCart(productId) {
         console.log("apicall")
         axios.get(`/addToCart/${productId}`).then((response) => {
             if (response.status) {
@@ -220,28 +205,28 @@
                     gravity: "bottom",
                     position: "center",
                     style: {
-                        background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
                     }
                 }).showToast();
-                }
-            }).catch((err) => {
-                 Toastify({
+            }
+        }).catch((err) => {
+            Toastify({
                 text: "product is not added to cart",
                 duration: 3000,
                 className: "info",
                 gravity: "bottom",
                 position: "center",
                 style: {
-                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                    background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
                 }
             }).showToast();
-        })    
+        })
     }
 
 
-    function addWishlist (productId) {
+    function addWishlist(productId) {
         axios.get(`/addToWishlist/${productId}`).then((response) => {
-            if(response.status){
+            if (response.status) {
                 Toastify({
                     text: `${response.data.message}`,
                     duration: 3000,
@@ -249,42 +234,64 @@
                     gravity: "bottom",
                     position: "center",
                     style: {
-                        background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
                     }
                 }).showToast();
             }
         }).catch((err) => {
             Toastify({
-                 text: "product is not added to wishlis",
-                    duration: 3000,
-                    className: "info",
-                    gravity: "bottom",
-                    position: "center",
-                    style: {
-                        background: "linear-gradient(to right, #00b09b, #96c93d)",
-                    }
-                }).showToast();
-            })
+                text: "product is not added to wishlis",
+                duration: 3000,
+                className: "info",
+                gravity: "bottom",
+                position: "center",
+                style: {
+                    background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
+                }
+            }).showToast();
+        })
     }
-    
+
 </script>
 
 
 {{!-- elevate zoom --}}
 <script>
-    function changeImage(element) {
+
     let main_prodcut_image = document.getElementById('main_product_image');
-    main_prodcut_image.src = element.src;
+    //console.log(main_prodcut_image+"imgggggggggggggggggggggggggggggggggg")
+    //console.log(main_prodcut_image.src+"aaaaaaaasssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaa")
     $("#main_product_image").data('zoom-image', main_prodcut_image.src).elevateZoom({
         responsive: true,
         zoomWindowWidth: 300,
-        zoomWindowHeight: 300
+        zoomWindowHeight: 300,
+        borderSize: 2,
+        borderColour: '#888',
+        lensShape: 'square',
+        lensSize: 150,
+        zoomWindowFadeIn: 500,
+        zoomWindowFadeOut: 500
     });
-    $("#main_product_image").elevateZoom({
-        responsive: true
+
+
+    $(document).ready(function() {
+    $("[data-fancybox='product-gallery']").fancybox({
+      buttons: [
+        "zoom",
+        "share",
+        "slideShow",
+        "fullScreen",
+        "thumbs",
+        "close"
+      ],
+      thumbs: {
+        autoStart: true
+      }
     });
-    }
+  });
+
+
+    
+
 
 </script>
-
-
