@@ -26,15 +26,39 @@ module.exports = {
         })
     },
 
+    getSomeProducts:() => {
+        return new Promise(async (resolve, reject) => {
+            const someProduct = await db.get().collection(collection.PRODUCT_COLLECTION).find().limit(8).toArray();
+            if(someProduct){
+                resolve(someProduct)
+            }else{
+                resolve("No data found");
+            }
+        })
+    },
+
     getSingleProduct: (productId) => {
         return new Promise (async (resolve, reject) =>{
             const productSingleData = await db.get().collection(collection.PRODUCT_COLLECTION).findOne(
                 {
                     _id: new objectId(productId)
                 });
-                // console.log(productSingleData);
+                console.log(productSingleData);
                 resolve(productSingleData);
             })
+    },
+
+    getRelatedProducts:(category) => {
+        return new Promise (async (resolve, reject) => {
+            const getRelatedProduct = await db.get().collection(collection.PRODUCT_COLLECTION).find({
+                category: category
+            }).limit(4).toArray();
+            if(getRelatedProduct){
+                resolve(getRelatedProduct)
+            }else{
+                resolve("No data Found");
+            }
+        })
     },
 
     editProduct: (productId, data) => {

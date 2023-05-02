@@ -1,34 +1,35 @@
+{{!-- Razorpay --}}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
 
 {{!-- Modal styles --}}
-
 <style>
+  body {
+    font-family: 'Varela Round', sans-serif;
+  }
 
   .modal-confirm {
-    color: #434e65;
-    width: 525px;
+    color: #636363;
+    width: 325px;
+    font-size: 14px;
   }
 
   .modal-confirm .modal-content {
     padding: 20px;
-    font-size: 16px;
     border-radius: 5px;
     border: none;
   }
 
   .modal-confirm .modal-header {
-    background: #47c9a2;
     border-bottom: none;
     position: relative;
-    text-align: center;
-    margin: -20px -20px 0;
-    border-radius: 5px 5px 0 0;
-    padding: 35px;
   }
 
   .modal-confirm h4 {
     text-align: center;
-    font-size: 36px;
-    margin: 10px 0;
+    font-size: 26px;
+    margin: 30px 0 -15px;
   }
 
   .modal-confirm .form-control,
@@ -39,67 +40,58 @@
 
   .modal-confirm .close {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    color: #fff;
-    text-shadow: none;
-    opacity: 0.5;
+    top: -5px;
+    right: -5px;
   }
 
-  .modal-confirm .close:hover {
-    opacity: 0.8;
+  .modal-confirm .modal-footer {
+    border: none;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 13px;
   }
 
   .modal-confirm .icon-box {
     color: #fff;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: -70px;
     width: 95px;
     height: 95px;
-    display: inline-block;
     border-radius: 50%;
     z-index: 9;
-    border: 5px solid #fff;
+    background: #82ce34;
     padding: 15px;
     text-align: center;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
   }
 
   .modal-confirm .icon-box i {
-    font-size: 64px;
-    margin: -4px 0 0 -4px;
+    font-size: 58px;
+    position: relative;
+    top: 3px;
   }
 
   .modal-confirm.modal-dialog {
     margin-top: 80px;
   }
 
-  .modal-confirm .btn,
-  .modal-confirm .btn:active {
+  .modal-confirm .btn {
     color: #fff;
     border-radius: 4px;
-    background: #eeb711 !important;
+    background: #82ce34;
     text-decoration: none;
     transition: all 0.4s;
     line-height: normal;
-    border-radius: 30px;
-    margin-top: 10px;
-    padding: 6px 20px;
     border: none;
   }
 
   .modal-confirm .btn:hover,
   .modal-confirm .btn:focus {
-    background: #eda645 !important;
+    background: #6fb32b;
     outline: none;
-  }
-
-  .modal-confirm .btn span {
-    margin: 1px 3px 0;
-    float: left;
-  }
-
-  .modal-confirm .btn i {
-    margin-left: 1px;
-    font-size: 20px;
-    float: right;
   }
 
   .trigger-btn {
@@ -146,8 +138,8 @@
                   <div class="col-md-12">
                     {{#each addresses}}
                     <div class="d-flex mb-3">
-                      <input type="radio" id="{{_id}}" value="{{_id}}" class="activeAddress mr-3"
-                        name="address" data-address="{{_id}}" >
+                      <input type="radio" id="{{_id}}" value="{{_id}}" class="activeAddress mr-3" name="address"
+                        data-address="{{_id}}">
                       <div class="border p-3" style="color: rgb(80, 80, 80);">
                         <b>{{name}}</b>, <br>
                         {{address}}, <br>
@@ -205,20 +197,21 @@
     <div class="col-lg-12">
       <div class="payment-method">
         <h3>Payment</h3>
-        <ul>
-          <li> <label for="payPal">Paypal</label><img class="ml-4 mr-4" src="img/paypal.jpg" alt="">
-            <input type="radio" id="payPal" name="paymentMethod" value="payPal">
-          </li>
+          <div class="custom custom-radio">
+            <label for="payPal">Paypal<img class="ml-4 mr-4" src="img/paypal.jpg" alt=""></label>
+            <input type="radio" id="payPal" name="paymentMethod" onclick="validateSubmit()" class="custom-control-label" value="payPal" required>
+          </div>
 
-          <li for="card">Credit / Debit card <img class="ml-4 mr-4" src="img/mastercard.jpg" alt="">
-            <input type="radio" id="card" name="paymentMethod" value="card">
-          </li>
-          <li>
+          <div class="custom custom-radio"><label for="card">Credit / Debit card <img class="ml-4 mr-4" src="" alt=""></label>
+            <input type="radio" id="card" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
+              value="card" required>
+          </div>
+          <div class="custom custom-radio">
             <label for="COD">Pay when you get the package</label>
-            <input type="radio" id="COD" name="paymentMethod" class="custom-control-input" onclick="validateSubmit()" value="COD">
-          </li>
-        </ul>
-        <button id="checkoutBtn" disabled class="btn-block" type="submit">Place your order</button>
+            <input type="radio" id="COD" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
+              value="COD" required>
+          </div>
+        <button id="checkoutBtn" disabled class="btn btn-dark btn-lg btn-block mt-3" type="submit">Place your order</button>
       </div>
     </div>
   </div>
@@ -243,6 +236,33 @@
         <p>Your order has been created successfully.</p>
         <a href="/orders" class="btn btn-success" data-dismiss="modal"><span>Orders</span> <i
             class="material-icons">&#xE5C8;</i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Second success modal online pay --}}
+<!-- Modal HTML -->
+<div class="modal fade auto-off" id="demoModal2" tabindex="-1" role="dialog" aria-labelledby="demoModal"
+  aria-hidden="true">
+  <div class="modal-dialog animated zoomInDown modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="container-fluid">
+
+        <div class="row py-5">
+          <div class="col-md-12 m-h-20 bg-img rounded-left text-center">
+            <img style="max-width: 40%;"
+              src="https://lirp.cdn-website.com/bbca9e7c/dms3rep/multi/opt/green-tick-icon-0-1000x1000-640w.png" alt="">
+          </div>
+          <div class="col-md-12 text-center pt-4 px-sm-5 ">
+
+            <h2>Order Placed Successfuly</h2>
+            <p class="text-muted"></p>
+            <a href="/orders"><button class="btn btn-dark w-50">Go to Orders</button></a>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -303,8 +323,8 @@
 
 {{!-- modal deleteAddress --}}
 {{#each addresses}}
-<div class="modal fade" id="deleteAddr{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
+<div class="modal fade" id="deleteAddr{{this._id}}" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -388,33 +408,36 @@
 
 
 <script>
-  $('#checkoutForm').on('submit', function(event) {
+
+
+  $('#checkoutForm').on('submit', function (event) {
     event.preventDefault();
 
     // collect form data
     var formData = $(this).serialize();
 
     // send AJAX request
-    $.ajax({
+    axios({
       url: '/placeOrder', // replace with your server-side script URL
-      type: 'POST', // or 'GET' depending on your server-side script
+      method: 'POST', // or 'GET' depending on your server-side script
       data: formData,
-      success: function (response) {
-        console.log(response);
+    }).then((response) => {
+      if (response.data.paymentMethod === 'COD') {
         const demoModal = new bootstrap.Modal(document.getElementById('demoModal'));
         demoModal.show();
-        
-        // redirect after the modal is displayed
-        setTimeout(function() {
-        window.location.href = response.redirectUrl;
-      }, 2000);
+        setTimeout(function () {
+          window.location.href = '/'; // redirect after the modal is displayed
+        }, 2000);
 
-      },
-      error: function (xhr, status, error) {
-        // handle error response
-        console.log(error);
+      } else if (response.data.paymentMethod === 'card') {
+        console.log(response.data.response + "responseeeeeeeeeeee");
+        console.log(response.data.userDetails + "User detailes");
+        razorpayPayment(response.data.response, response.data.userDetails);
       }
-    });
+    }).catch((err) => {
+      console.log(err + "erorrrrr")
+    })
+
   });
 </script>
 
@@ -459,11 +482,64 @@
       for (var i = 0; i < isCOD.length; i++) {
         if (isCOD[i].checked) {
           const value = isCOD[i].value;
-          if (value === "COD" || value === "onlineRazorpay" || value === "onlinePaypal") {
+          if (value === "COD" || value === "card" || value === "payPal") {
             document.getElementById('checkoutBtn').removeAttribute('disabled');
           }
         }
       }
     }
   }
+
+  function razorpayPayment(order, userDetails) {
+    var options = {
+      "key": "rzp_test_vvCKSsUVdpOthK",       // Enter the Key ID generated from the Dashboard
+      "amount": order.amount * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "Marvelous Wear", //your business name
+      "description": "Test Transaction",
+      "image": "https://res.cloudinary.com/dcc8meh8i/image/upload/v1679116198/logo3_gtrtz9.jpg",
+      "order_id": order.id,       //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      //"callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+
+      "handler": function (response) {
+        verifyPayment(response, order);
+      },
+      "prefill": {
+        "name": userDetails.name, //your customer's name
+        "email": userDetails.email,
+        "contact": userDetails.phone
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    }
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+  };
+
+  function verifyPayment(response, order) {
+    axios({
+      url: "/verifyPayment",
+      method: "POST",
+      data: {
+        response: response,
+        order: order
+      }
+    }).then((response) => {
+      if (response.data.status) {
+        console.log("hiiiiiii")
+        const demoModal2 = new bootstrap.Modal(document.getElementById('demoModal2'));
+        demoModal2.show();
+        setTimeout(function () {
+          window.location.href = '/'; // redirect after the modal is displayed
+        }, 2000);
+      }
+    }).catch((error) => {
+      console.error(error);
+    })
+  };
+
 </script>

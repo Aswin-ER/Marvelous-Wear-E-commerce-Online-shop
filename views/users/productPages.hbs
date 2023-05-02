@@ -101,14 +101,23 @@
                         <li><span>Category :</span> {{product.category}}</li>
                         <li><span>Tags :</span> {{product.category}}, elegant, cool</li>
                     </ul>
-                    <div class="product-quantity">
+                    {{!-- <div class="product-quantity">
                         <div class="pro-qty">
                             <input type="text" value="1">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="input-group mb-3">
+                        {{#if userName}}
                         <a onclick="addToCart('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to cart</a>
+                        {{else}}
+                        <a href="/login" class="primary-btn pc-btn mx-4">Add to cart</a>
+                        {{/if}}
+
+                        {{#if userName}}
                         <a onclick="addWishlist('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to Wishlist</a>
+                        {{else}}
+                        <a href="/login" class="primary-btn pc-btn mx-4">Add to Wishlist</a>
+                        {{/if}}
                         <ul class="p-info">
                             <li>Product Information</li>
                             <li>Reviews</li>
@@ -133,60 +142,28 @@
                 </div>
             </div>
         </div>
+        {{#if getRelatedProduct}}
         <div class="row">
-            <div class="col-lg-3 col-sm-6">
+            {{#each getRelatedProduct}}
+            <div class="col-lg-3 col-md-6">
                 <div class="single-product-item">
                     <figure>
-                        <a href="#"><img src="/img/hope-tshirt-duo-image.jpg" alt="image"></a>
+                        <img src="{{this.images.[0]}}" alt="">
                         <div class="p-status">new</div>
                     </figure>
                     <div class="product-text">
-                        <h6>T-Shirt</h6>
-                        <p>₹499.00</p>
+                        <a href="/product/{{this._id}}">
+                            <h5>{{this.name}}</h5>
+                            <h6>{{this.category}}</h6>
+                            <p>₹{{this.price}}.00</p>
+                        </a>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-product-item">
-                    <figure>
-                        <a href="#"><img src="/img/swag-oversized-tshirt-display-image-unisex-latest.jpg"
-                                alt="image"></a>
-                        <div class="p-status">new</div>
-                    </figure>
-                    <div class="product-text">
-                        <h6>T-Shirt</h6>
-                        <p>₹499.00</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-product-item">
-                    <figure>
-                        <a href="#"><img src="/img/kumbidi-tshirt-mydesignation-website-image-.jpg" alt="image"></a>
-                        <div class="p-status">new</div>
-                    </figure>
-                    <div class="product-text">
-                        <h6>T-Shirt</h6>
-                        <p>₹499.00</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-product-item">
-                    <figure>
-                        <a href="#"><img src="/img/Astro-Kathakali-tshirt-duo-image.jpg" alt="image"></a>
-                        <div class="p-status">new</div>
-                    </figure>
-                    <div class="product-text">
-                        <h6>T-Shirt</h6>
-                        <p>₹499.00</p>
-                    </div>
-                </div>
-            </div>
+            {{/each}}
         </div>
+        
+        {{/if}}
     </div>
 </section>
 <!-- Related Product Section End -->

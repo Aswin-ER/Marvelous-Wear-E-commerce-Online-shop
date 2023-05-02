@@ -27,7 +27,7 @@ router.post('/otpverification', userControllers.otpVerification);
 // User Panel shop page
 router.get('/shop',verifySession.verifyUserLoggedIn, userControllers.shopPage);
 
-router.get('/product/:id',verifySession.verifyUserLoggedIn, userControllers.productPage);
+router.get('/product/:id', userControllers.productPage);
 
 
 //Category
@@ -59,6 +59,8 @@ router.get('/deleteAddress/:id' , verifySession.verifyUserLoggedIn, userControll
 // router.get('/changeActiveAddress/:id', verifySession.verifyUserLoggedIn, userControllers.changeActiveAddress);
 
 router.post('/placeOrder', verifySession.verifyUserLoggedIn, userControllers.placeOrder);
+
+router.post('/verifyPayment', verifySession.verifyUserLoggedIn, userControllers.verifyPayment);
 
 
 // User Orders

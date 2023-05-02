@@ -8,7 +8,6 @@ const session = require('express-session');
 const noCache = require('nocache');
 const hbs = require('express-handlebars');
 const db = require('./configurations/connection')
-
 require('dotenv').config();
 
 // const fileUpload = require('express-fileupload')

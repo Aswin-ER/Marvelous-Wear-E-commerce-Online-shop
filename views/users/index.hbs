@@ -160,57 +160,30 @@
                 </div>
             </div>
         </div>
-        <div class="row" id="product-list">
-            <div class="col-lg-3 col-sm-6 mix all accesories bags">
-                <div class="single-product-item">
-                    <figure>
-                        <a href="#"><img src="img/products/neon-graffiti-shirt-male-model-display-image.jpg" alt=""></a>
-                        <div class="p-status popular">popular</div>
-                    </figure>
-                    <div class="product-text">
-                        <h6>Blue Dress with details</h6>
-                        <p>$35.50</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 mix all accesories bags">
-                <div class="single-product-item">
-                    <figure>
-                        <a href="#"><img src="img/products/neon-graffiti-shirt-male-model-display-image.jpg" alt=""></a>
-                        <div class="p-status popular">popular</div>
-                    </figure>
-                    <div class="product-text">
-                        <h6>Blue Dress with details</h6>
-                        <p>$35.50</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 mix all accesories bags">
-                <div class="single-product-item">
-                    <figure>
-                        <a href="#"><img src="img/products/neon-graffiti-shirt-male-model-display-image.jpg" alt=""></a>
-                        <div class="p-status popular">popular</div>
-                    </figure>
-                    <div class="product-text">
-                        <h6>Blue Dress with details</h6>
-                        <p>$35.50</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 mix all accesories bags">
-                <div class="single-product-item">
-                    <figure>
-                        <a href="#"><img src="img/products/neon-graffiti-shirt-male-model-display-image.jpg" alt=""></a>
-                        <div class="p-status popular">popular</div>
-                    </figure>
-                    <div class="product-text">
-                        <h6>Blue Dress with details</h6>
-                        <p>$35.50</p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+
+
+    <div class="container">
+        <div class="row">
+            {{#each products}}
+            <div class="col-lg-3 col-md-6">
+                <div class="single-product-item">
+                    <figure>
+                        <img src="{{this.images.[0]}}" alt="">
+                        <div class="p-status">new</div>
+                    </figure>
+                    <div class="product-text">
+                        <a href="/product/{{this._id}}">
+                            <h5>{{name}}</h5>
+                            <h6>{{category}}</h6>
+                            <p>₹{{price}}.00</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
 </section>
 <!-- Latest Product End -->
 

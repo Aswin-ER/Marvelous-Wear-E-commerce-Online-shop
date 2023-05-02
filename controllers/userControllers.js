@@ -15,7 +15,7 @@ module.exports = {
 
  //User Home 
   userHome: (req, res) => {
-    productHelpers.getProducts().then((products) => {
+    productHelpers.getSomeProducts().then((products) => {
       res.render("users/index", { user: true, userName: req.session.userName, products });
     })
   },
@@ -49,7 +49,9 @@ module.exports = {
           req.session.user = response.user;
           req.session.userName = req.session.user.name;
           req.session.userLoggedIn = true;
-          res.render("users/index", {user: true, userName: req.session.userName});
+          productHelpers.getSomeProducts().then((products) => {
+            res.render("users/index", { user: true, userName: req.session.userName, products });
+          })
         }
       }).catch((err) => {
         console.log(err);
@@ -187,8 +189,10 @@ module.exports = {
     const productData = req.params.id;
     const userName = req.session.userName;
     productHelpers.getSingleProduct(productData)
-    .then((product) => {
-      res.render("users/productPages", { user: true, userName, product});
+    .then(async (product) => {
+      console.log(product+"category");
+      const getRelatedProduct = await productHelpers.getRelatedProducts(product.category);
+      res.render("users/productPages", { user: true, userName, product, getRelatedProduct});
     })
     .catch((err) => {
       console.log(err);
@@ -212,8 +216,10 @@ module.exports = {
     res.redirect('back');
   },
 
-  placeOrder:async(req,res)=>{
+    placeOrder:async(req,res)=>{
     const addressId=req.body.address
+    const userDetails = req.session.user;
+    console.log(userDetails+"user detailes");
     const total= await cartHelpers.getCartTotal(req.session.user._id);
     // console.log(total+"//////////////////////////"); 
     const paymentMethod=req.body.paymentMethod
@@ -234,17 +240,31 @@ module.exports = {
     }
 
     userHelpers.addOrderDetails(order)
-    .then(async()=>{
-      await cartHelpers.deleteCartFull(req.session.user._id);
-      res.redirect('/');
+    .then((order)=>{
+      cartHelpers.deleteCartFull(req.session.user._id);
+
+      if(req.body.paymentMethod === "COD"){
+        res.json({
+          status:true,
+          paymentMethod: req.body.paymentMethod,
+        });
+      
+      }else if (req.body.paymentMethod === "card"){
+        const orderId = order.insertedId;
+        // console.log(orderId,"order id annu mone");
+        userHelpers.generateRazorpay(orderId, total).then((response) => {
+          res.json({
+            response: response,
+            paymentMethod: "card",
+            userDetails: userDetails
+          });
+        })
+      }else{
+        console.log("Error in cardPayment");
+      }
     })
     .catch((err)=>{
       console.log(err);
-    });
-
-    res.json({
-      status:true,
-      redirectUrl:'/'
     });
 
   },
@@ -260,36 +280,25 @@ module.exports = {
     userHelpers.deleteAddress(addressId, req.session.user._id);
     res.redirect('back');
   },
-
-  // changeActiveAddress: (req, res) => {
-  //   const addresId = req.params.id;
-  //   const userId = req.session.user._id;
-  //   userHelpers.changeAddressActive(userId, addresId).then(() => {
-  //     res.json({
-  //       status: true,
-  //       message: "Active address Changed"
-  //     });
-  //   });
-  // },
-
-
-//User Shop page
   
 
+//User Shop page
   shopPage: async(req, res) => {
     const userName = req.session.userName;
     const filteredProducts = req.session.filteredProduct;
+    const minPrice = req.session.minPrice;
+    const maxPrice = req.session.maxPrice;
     const sortedProducts = req.session.sortedProduct;
     // console.log(sortedProducts+"sssssssssssssssssssssssssssssssssssssssssssss");
     const categories = await productHelpers.getListedCategory();
 
     if(filteredProducts){
-      res.render("users/shop", { user:true, categories, userName,filteredProducts});
+      res.render("users/shop", { user:true, categories, userName,filteredProducts,minPrice, maxPrice});
       req.session.filteredProduct = false;
 
     }else if(sortedProducts){
 
-      res.render("users/shop", { user:true, categories, userName, sortedProducts});
+      res.render("users/shop", { user:true, categories, userName, sortedProducts, minPrice, maxPrice});
       req.session.sortedProduct = false;
 
     }else{
@@ -399,6 +408,7 @@ module.exports = {
     })
   },
 
+  //Order View Page
     viewDet: async(req, res) => {
     const userName = req.session.userName;
     const orderId = req.params.id;
@@ -408,6 +418,7 @@ module.exports = {
   },
 
 
+  //Wishlist
   wishlist: async (req, res) => {
     const userName = req.session.userName;
     const wishlist = await userHelpers.getWishlist(req.session.user._id);
@@ -430,6 +441,8 @@ module.exports = {
     res.redirect('back');
   },
 
+
+  //Price Sort Filter 
   priceFilter: async (req, res) => {
     req.session.minPrice = req.body.minPrice;
     req.session.maxPrice = req.body.maxPrice;
@@ -451,7 +464,19 @@ module.exports = {
     res.json({
       status: "success"
     });
-  }
+  },
 
+
+  //Razorpay 
+  verifyPayment : (req, res)=>{
+    console.log(req.body+"verify payment");
+    userHelpers.verifyPayment(req.body).then(()=>{
+      userHelpers.changeOrderStatus(req.body.order.receipt).then(()=>{
+        res.json({
+          status: true
+        });
+      })
+    })
+  },
 
 };
