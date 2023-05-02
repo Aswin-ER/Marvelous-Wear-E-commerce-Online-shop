@@ -15,9 +15,12 @@ module.exports = {
         })
     },
 
-    getProducts:() => {
+    getProducts:(currentPage) => {
         return new Promise (async (resolve, reject) => {
-            const productData = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray();
+            currentPage = parseInt(currentPage);
+            const limit = 10;
+            const skip = (currentPage-1)*limit;
+            const productData = await db.get().collection(collection.PRODUCT_COLLECTION).find().skip(skip).limit(limit).toArray();
             if(productData){
                 resolve(productData);
             }else{
@@ -255,6 +258,13 @@ module.exports = {
         }
             
         });
+      },
+
+      totalPages:()=> {
+        return new Promise(async (resolve, reject) => {
+            const totalCount = await db.get().collection(collection.PRODUCT_COLLECTION).countDocuments({});
+            resolve(totalCount);
+        })
       }
       
 

@@ -292,13 +292,17 @@ module.exports = {
     // console.log(sortedProducts+"sssssssssssssssssssssssssssssssssssssssssssss");
     const categories = await productHelpers.getListedCategory();
 
+    //pagination
+    const totalPages = await productHelpers.totalPages();
+    const currentPage = req.query.page || 1;
+
     if(filteredProducts){
-      res.render("users/shop", { user:true, categories, userName,filteredProducts,minPrice, maxPrice});
+      res.render("users/shop", { user:true, categories,currentPage, userName,filteredProducts,minPrice, maxPrice});
       req.session.filteredProduct = false;
 
     }else if(sortedProducts){
 
-      res.render("users/shop", { user:true, categories, userName, sortedProducts, minPrice, maxPrice});
+      res.render("users/shop", { user:true, categories, userName, currentPage, totalPages, sortedProducts, minPrice, maxPrice});
       req.session.sortedProduct = false;
 
     }else{
@@ -307,8 +311,8 @@ module.exports = {
       req.session.sortedProduct = false;
       req.session.maxPrice = false;
       req.session.minPrice = false;
-      productHelpers.getProducts().then((products) => {
-        res.render("users/shop", { user: true, categories, userName, products});
+      productHelpers.getProducts(currentPage).then((products) => {
+        res.render("users/shop", { user: true, categories, userName, products , currentPage, totalPages});
       }).catch((err) => {
         console.log(err);
       });
