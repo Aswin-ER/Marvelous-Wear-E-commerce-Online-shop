@@ -43,7 +43,11 @@
                             </div>
                         </td>
                         <td class="price-col">{{this.product.price}}</td>
+                         {{#if (eq this.product.stock 0) }}
+                          <td class="btn btn-danger mb-4 text-dark" style="padding-top: 0.5rem;" onclick="this.blur()">Out of Stock</td>
+                          {{else}}
                         <td class="btn btn-dark mb-4" style="padding-top: 0.5rem;" onclick="addToCart('{{product._id}}')">Add to Cart</td>
+                        {{/if}}
                         <td class="product-close"><a class="pl-5" href="/deleteWishlist/{{this.product._id}}"
                                 style="color: black;">x</a></td>
                     </tr>

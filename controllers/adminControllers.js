@@ -19,7 +19,7 @@ module.exports = {
     },
 
     adminLoginPost: (req, res) => {
-        adminHelpers.doAdminLogin(req.body).then((response) => {
+        adminHelpers.doAdminLogin(req.body).then(async (response) => {
             if(response.status == "Invalid password"){
                 req.session.passErr = response.status;
                 res.redirect('/admin');
@@ -30,7 +30,7 @@ module.exports = {
                 req.session.admin = response.admin;
                 req.session.adminName = req.session.admin.email;
                 req.session.adminLoggedIn = true;
-                res.render('admin/adminPanel', {admin: true, adminName: req.session.adminName});
+                res.redirect('/admin/adminPanel')
             }
         })
     },
@@ -43,23 +43,42 @@ module.exports = {
 
 
  //Admin Panel
-    adminPanel: (req, res) => {
-        res.render('admin/adminPanel', {admin: true, adminName: req.session.adminName});
+    adminPanel: async (req, res) => {
+
+        const jan = await adminHelpers.getMonthCount(1,2023)
+        const feb = await adminHelpers.getMonthCount(2,2023)
+        const mar = await adminHelpers.getMonthCount(3,2023)
+        const apr = await adminHelpers.getMonthCount(4,2023)
+        const may = await adminHelpers.getMonthCount(5,2023)
+        const jun = await adminHelpers.getMonthCount(6,2023)
+        const userCount =await adminHelpers.getUsersCount()
+        const total = await adminHelpers.getLastMonthTotal()
+        const totalOrdersPlaced = await productHelpers.totalOrdersPlaced()
+        let totalEarnings = 0;
+        totalEarnings = await adminHelpers.getOrderTotalPrice();
+        const deliveredCounts = await adminHelpers.getAllDeliveredOrdersCount();
+        const placedCounts = await adminHelpers.getAllPlacedOrdersCount();
+        const cancelledCounts = await adminHelpers.getAllCanceldOrdersCount();
+        const returnCounts = await adminHelpers.getAllReturnOrdersCount();
+        // const topProducts = await adminHelpers.getTopProduct();
+        res.render('admin/adminPanel', {admin: true, adminName: req.session.adminName, deliveredCounts , placedCounts, cancelledCounts, returnCounts, userCount, totalOrdersPlaced, total, totalEarnings, jan,feb,mar,apr,may,jun});
     },
 
 
 //Admin Product CRUD
     adminProduct: async (req, res) => {
         const adminName = req.session.adminName;
+        const productData = await productHelpers.getAdminProducts();
+        categoryHelpers.getCategory().then((category) => {
+            // console.log(category+"Category vannuu moneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+            res.render('admin/adminProduct', {admin: true, adminName, productData, category});
+        })
         
-        const productData = await productHelpers.getProducts();
-        res.render('admin/adminProduct', {admin: true, adminName, productData});
     },
 
     adminAddProduct: (req, res) => {
         const adminName = req.session.adminName;
         categoryHelpers.getCategory().then((category) => {
-            console.log(category);
             res.render('admin/adminAddProduct', {admin: true, adminName, category});
         });
         
@@ -74,7 +93,6 @@ module.exports = {
                     imgUrls.push(result.url);
                 }
                     productHelpers.addProductImage(id, imgUrls).then(()=>{}).catch(()=>{});
-
             }catch(err){
                 console.log(`error : ${err}`);
             }finally{
@@ -178,15 +196,23 @@ module.exports = {
     },
 
     addCategory:(req, res) => {
-        categoryHelpers.addCategory(req.body).then(async(id) => {
-            res.redirect('/admin/adminCategory');
-        })
+        try{
+            categoryHelpers.addCategory(req.body).then(async(id) => {
+                res.redirect('/admin/adminCategory');
+            }).catch((err) => {
+                // Handle the error here and show an alert to the admin
+                res.send(`<script>alert('${err}'); window.location='/admin/adminCategory';</script>`);
+            });
+        }catch{
+            res.redirect('back');
+        }
     },
 
     deleteCategory: (req, res) => {
         const category = req.params.id;
+        const cateName = req.params.name;
         console.log(category);
-        categoryHelpers.deleteCategory(category).then(() => {
+        categoryHelpers.deleteCategory(category, cateName).then(() => {
             res.redirect('/admin/adminCategory');
         }).catch((err) => {
             console.log(err);
@@ -194,33 +220,75 @@ module.exports = {
     },
 
     
-// Orders
-adminOrder: (req, res) => {
-    const adminName = req.session.adminName;
-    adminHelpers.getUserOrder().then((adminOrder)=>{
-        // console.log("api call");
-        console.log(adminOrder);
-        res.render('admin/adminOrder', {admin: true, adminName, adminOrder});
-    })
-},
+    // Orders
+    adminOrder: (req, res) => {
+        const adminName = req.session.adminName;
+        adminHelpers.getUserOrder().then((adminOrder)=>{
+            // console.log("api call");
+            console.log(adminOrder);
+            res.render('admin/adminOrder', {admin: true, adminName, adminOrder});
+        })
+    },
 
-adminOrderStatus:(req, res) => {
-   const orderId = req.params.id;
-//    const userId = req.body.userId;
-   const status = req.body.status;
-   console.log(req.body);
-   
-   adminHelpers.adminOrderStatus(orderId, status).then(() => {
-    res.redirect('back');
-   })
-},
+    adminOrderStatus:(req, res) => {
+       const orderId = req.params.id;
+    //    const userId = req.body.userId;
+       const status = req.body.status;
+       console.log(req.body);
+    
+       adminHelpers.adminOrderStatus(orderId, status).then(() => {
+        res.redirect('back');
+       })
+    },
 
-adminSearchProduct: async (req, res) => {
-    const adminName = req.session.adminName;
-    // console.log(req.body.name+"weweweweew");
-    const product = await adminHelpers.adminSearchProduct(req.body.name);
-    // console.log(product+"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-    res.render('admin/adminProduct', {admin: true, adminName, product})
-}
+
+    adminSalesReport: async (req, res) => {
+        const deliveredOrders = await adminHelpers.getAllDeliveredOrders();
+
+        let totalEarnings = 0;
+        totalEarnings = await adminHelpers.getOrderTotalPrice();
+
+        deliveredOrders.forEach(eachOrder => {
+            eachOrder.productCount = eachOrder.products.length;
+
+            // date formatting
+            const newDate = new Date(eachOrder.date);
+            const year = newDate.getFullYear();
+            const month = newDate.getMonth() + 1;
+            const day = newDate.getDate();
+            const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+            eachOrder.date = formattedDate;
+          });
+          res.render('admin/adminSalesReport', {admin: true, adminName:req.session.adminName,  deliveredOrders, totalEarnings})
+    },
+
+    adminSalesReportFilter:(req, res) => {
+        req.redirect('/admin/adminSalesReport');
+    },
+
+    adminSalesReportFilterPost:(req, res) => {
+        adminHelpers.filterDate(req.body.date).then((filteredOrders) => {
+
+            let totalEarnings = 0;
+            if(filteredOrders.length >=1 ){
+                filteredOrders.forEach(eachOrder => {
+                    eachOrder.productCount = eachOrder.item.length;
+                    totalEarnings += eachOrder.total;
+
+                    // date formatting
+                    const newDate = new Date(eachOrder.date);
+                    const year = newDate.getFullYear();
+                    const month = newDate.getMonth() + 1;
+                    const day = newDate.getDate();
+                    const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+                    eachOrder.date = formattedDate;
+                });
+            }else{
+                filteredOrders = false;
+            }
+
+            res.render('admin/adminSalesReport', {admin: true, adminName: req.session.adminName, deliveredOrders:filteredOrders, totalEarnings});
+        })
+    }
     
 }

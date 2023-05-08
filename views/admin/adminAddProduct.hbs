@@ -31,7 +31,6 @@
                                 id="category" required>
                                 <option selected>Select one</option>
                                 {{#each category}}
-                                
                                 <option value="{{this.name}}">{{this.name}}</option>
                                 {{/each}}
                             </select>
@@ -62,7 +61,40 @@
                         <input type="button" class="btn btn-primary d-block mx-auto" value="Upload ..."
                             onclick="document.getElementById('fileInput').click();" required />
                     </div>
-                </div>
+
+
+
+                {{!-- Script for Image Upload --}}
+                    <script>
+                        // Get the input element for the file
+                            var input = document.getElementById('fileInput');
+
+                            // Add an event listener to the input element to detect when a file is selected
+                            input.addEventListener('change', function() {
+                              // Get the selected files
+                              var files = input.files;
+
+                              // Loop through the selected files
+                              for (var i = 0; i < files.length; i++) {
+                                // Show a success notification for each file
+                                Toastify({
+                                  text: 'Image ' + (i+1) + ' uploaded successfully!',
+                                  duration: 3000, // Duration of the notification in ms
+                                  close: true, // Show close button or not
+                                  gravity: 'top',
+                                  position: 'center', // Position of the notification
+                                  style: {
+					                	background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
+					                }, // Background color of the notification
+                                  stopOnFocus: true // Stop timeout when notification is clicked
+                                }).showToast();
+                              }
+                            });
+                    </script>
+
+
+
+                </div>  
                 <div class="input-group mb-3">
                     <div class="ml-auto col-xl-8 col-lg-8 col-md-8 col-sm-7 pl-0">
                         <button type="submit" class="btn btn-primary">Add

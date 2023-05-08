@@ -20,15 +20,15 @@
 <div class="cart-page" style="margin-bottom: 13rem;">
     <div class="container">
         <div class="cart-table">
-            <table class="table-hover table-striped tm-table-striped-even mb-5 text-center">
+            <table class="table-hover table-striped tm-table-striped-even mb-5 text-center" id="productsTable">
                 <thead>
                      <tr class="tm-bg-gray">
                                 <th>Date</th>
                                 <th>Address</th>
-                                <th class="text-center">Mobile</th>
+                                <th>Mobile</th>
                                 <th>Payment</th>
                                 <th>Status</th>
-                                <th class="text-center">View</th>
+                                <th>View</th>
                                 <th>Cancel</th>
                         </tr>
                 </thead>
@@ -41,7 +41,15 @@
                                 <td>{{paymentMethod}}</td>
                                 <td>{{status}}</td>
                                 <td><a class="btn btn-dark" href="/orders/viewProduct/{{_id}}">View Details</a></td>
-                                <td><a class=" btn btn-dark text-light" data-toggle="modal" data-target="#delete{{_id}}">Cancel</a></td>
+                                 {{#if isCancelled}}
+                                <td><a class=" btn btn-danger text-light">Cancel Order</a></td>
+                                 {{else if isDelivered}}
+                                <td><a class=" btn btn-danger text-light" data-toggle="modal" data-target="#return{{_id}}">Return Order</a></td>
+                                {{else if isReturned}}
+                                <td><a href="" class="btn btn-danger disabled">order returned</a> &nbsp;</td>
+                                {{else}}
+                                <td><a href="" class="btn btn-danger text-light" data-toggle="modal" data-target="#delete{{this._id}}">cancel order</a> &nbsp;</td>
+                                {{/if}}
 
                                 {{!-- Cancel Modal --}}
                                 <div class="modal fade" id="delete{{_id}}" tabindex="-1" role="dialog"
@@ -63,6 +71,32 @@
                                                 <button type="button" class="btn btn-secondary"
                                                     data-dismiss="modal">cancel</button>
                                                 <a href="/cancelOrder/{{_id}}" type="button"
+                                                    class="btn btn-danger">yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{!-- Return Order --}}
+                                <div class="modal fade" id="return{{_id}}" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Return confirmation
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you want to Return order <b class="text-dark"></b>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">cancel</button>
+                                                <a href="/returnOrder/{{_id}}" type="button"
                                                     class="btn btn-danger">yes</a>
                                             </div>
                                         </div>
@@ -145,3 +179,10 @@
 </div>
 
 {{/if}}
+
+
+<script>
+     $(function () {
+    $('#productsTable').DataTable();
+  });
+</script>

@@ -47,7 +47,7 @@
                         </tbody>
                     </table> --}}
                     <!-- orders.hbs -->
-                    <table class="table table-hover table-striped tm-table-striped-even mt-3">
+                    <table class="table table-hover table-striped tm-table-striped-even mt-3 mb-4" id="productsTable">
                         <thead>
                             <tr class="tm-bg-gray">
                                 <th scope="col">Product Name</th>
@@ -61,8 +61,8 @@
                         </thead>
                         <tbody>
                             
-                            {{#each adminOrder}}
                             
+                            {{#each adminOrder}}
                             <tr>
                                 <td class="tm-product-name"> {{#each products}}{{product.name}} <br> {{/each}}</td>
                                 <td class="text-center">{{userName}}</td>
@@ -132,3 +132,9 @@
             </div>
         </div>
     </div>
+
+<script>
+  $(function () {
+    $('#productsTable').DataTable();
+  });
+</script>

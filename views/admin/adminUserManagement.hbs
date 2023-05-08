@@ -7,12 +7,12 @@
                             <h2 class="tm-block-title d-inline-block">Users</h2>
 
                         </div>
-                        <div class="col-md-4 col-sm-12 text-right">
+                        <div class="col-md-4 col-sm-12 text-right mb-4">
                             <a href="/admin/adminAddUser" class="btn btn-small btn-primary">Add New Users</a>
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-hover table-striped tm-table-striped-even mt-3">
+                        <table class="table table-hover table-striped tm-table-striped-even mt-3" id="productsTable">
                             <thead>
                                 <tr class="tm-bg-gray">
                                     <th scope="col">User Name</th>
@@ -115,3 +115,10 @@
         </div>
     </div>
     {{/each}}
+
+
+<script>
+  $(function () {
+    $('#productsTable').DataTable();
+  });
+</script>

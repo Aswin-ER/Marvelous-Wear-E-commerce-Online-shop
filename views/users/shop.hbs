@@ -162,6 +162,7 @@
             </div>
             {{/if}}
         </div>
+        {{!-- Pagination --}}
         <div class="col d-flex justify-content-center pagination text-dark">
         </div>
         
@@ -172,7 +173,7 @@
 
 
 
-<!-- Your JavaScript code for initializing and updating the range slider -->
+<!-- Your JavaScript code for initializing and updating the range slider Sort price -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 <script>
@@ -236,15 +237,17 @@
 
 </script>
 
-<script>
 
+
+{{!-- Pagination  --}}
+<script>
     document.addEventListener("DOMContentLoaded", () =>{
         const totalCountInput = document.getElementById('totalCount');
         const totalCount = Number(totalCountInput.value);
 
         const currentPageInput  = document.getElementById('currentPages');
         const currentPage = Number(currentPageInput.value);
-        const totalPages = Math.ceil(totalCount/10);
+        const totalPages = Math.ceil(totalCount/8);
 
         let page = currentPage || 1;
         const paginationElement = document.querySelector('.pagination')
@@ -257,5 +260,4 @@
         }
         paginationElement.innerHTML = pageLinks;
     });
-
 </script>

@@ -1,102 +1,232 @@
 <section id="reportsPage">
-    <div class="" id="home">
-        <div class="container">
-            <div class="row tm-content-row tm-mt-big">
-                <div class="tm-col tm-col-big">
-                    <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title">Latest Hits</h2>
-                        <canvas id="lineChart"></canvas>
-                    </div>
-                </div>
-                <div class="tm-col tm-col-big">
-                    <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title">Performance</h2>
-                        <canvas id="barChart"></canvas>
-                    </div>
-                </div>
-                <div class="tm-col tm-col-small">
-                    <div class="bg-white tm-block h-100">
-                        <canvas id="pieChart" class="chartjs-render-monitor"></canvas>
-                    </div>
-                </div>
+  <div class="" id="home">
+    <div class="container">
+      <div class="row tm-content-row tm-mt-big">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
 
-                <div class="tm-col tm-col-big">
-                    <div class="bg-white tm-block h-100">
-                        <div class="row">
-                            <div class="col-8">
-                                <h2 class="tm-block-title d-inline-block">Top Product List</h2>
-
-                            </div>
-                            <div class="col-4 text-right">
-                                <a href="products.html" class="tm-link-black">View All</a>
-                            </div>
-                        </div>
-                        <ol class="tm-list-group tm-list-group-alternate-color tm-list-group-pad-big">
-                            <li class="tm-list-group-item">
-                                Donec eget libero
-                            </li>
-                            <li class="tm-list-group-item">
-                                Nunc luctus suscipit elementum
-                            </li>
-                            <li class="tm-list-group-item">
-                                Maecenas eu justo maximus
-                            </li>
-                            <li class="tm-list-group-item">
-                                Pellentesque auctor urna nunc
-                            </li>
-                            <li class="tm-list-group-item">
-                                Sit amet aliquam lorem efficitur
-                            </li>
-                            <li class="tm-list-group-item">
-                                Pellentesque auctor urna nunc
-                            </li>
-                            <li class="tm-list-group-item">
-                                Sit amet aliquam lorem efficitur
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="tm-col tm-col-big">
-                    <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title">Calendar</h2>
-                        <div id="calendar"></div>
-                        <div class="row mt-4">
-                            <div class="col-12 text-right">
-                                <a href="#" class="tm-link-black">View Schedules</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="tm-col tm-col-small">
-                    <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title">Upcoming Tasks</h2>
-                        <ol class="tm-list-group">
-                            <li class="tm-list-group-item">List of tasks</li>
-                            <li class="tm-list-group-item">Lorem ipsum doloe</li>
-                            <li class="tm-list-group-item">Read reports</li>
-                            <li class="tm-list-group-item">Write email</li>
-
-                            <li class="tm-list-group-item">Call customers</li>
-                            <li class="tm-list-group-item">Go to meeting</li>
-                            <li class="tm-list-group-item">Weekly plan</li>
-                            <li class="tm-list-group-item">Ask for feedback</li>
-
-                            <li class="tm-list-group-item">Meet Supervisor</li>
-                            <li class="tm-list-group-item">Company trip</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            {{!-- <footer class="row tm-mt-small">
-                <div class="col-12 font-weight-light">
-                    <p class="d-inline-block tm-bg-black text-white py-2 px-4">
-                        Copyright &copy; 2018. Created by
-                        <a href="http://www.tooplate.com" class="text-white tm-footer-link">Tooplate</a> | Distributed
-                        by <a href="https://themewagon.com" class="text-white tm-footer-link">ThemeWagon</a>
+          {{!--Total sales Money of Last Month Delieverd Products--}}
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold"> This Month Sales</p>
+                    <h5 class="font-weight-bolder">
+                      Rs.{{total}}
+                    </h5>
+                    <p class="mb-0">
+                      <span class="text-success text-sm font-weight-bolder">Good</span>
+                      since last month
                     </p>
+                  </div>
                 </div>
-            </footer> --}}
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {{!--Total User Count --}}
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Users</p>
+                    <h5 class="font-weight-bolder">
+                      {{userCount}}
+                    </h5>
+                    <p class="mb-0">
+                      <span class="text-success text-sm font-weight-bolder">Perfect</span>
+                      since 2023
+                    </p>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{!-- Total count of Orders Placed --}}
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Orders</p>
+                    <h5 class="font-weight-bolder">
+                      {{totalOrdersPlaced}}
+                    </h5>
+                    <p class="mb-0">
+                      <span class="text-success text-sm font-weight-bolder">Good</span>
+                      since 2023
+                    </p>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{!-- Total sales Money of Delieverd Products --}}
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <a href="/admin/adminSalesReport">
+                    <div class="numbers">
+                      <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Sales</p>
+                      <h5 class="font-weight-bolder">
+                        Rs.{{totalEarnings}}
+                      </h5>
+                      <p class="mb-0">
+                        <span class="text-success text-sm font-weight-bolder">Good</span>&nbsp;since 2023
+                      </p>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          .numbers {
+            color: black;
+          }
+        </style>
+
+
+        {{!-- Graph Implementation --}}
+        <div class=" tm-col-big mt-5 mx-5 mb-5">
+          <div class="bg-white tm-block h-100">
+            <h2 class="tm-block-title">Performance</h2>
+            <canvas id="myChart"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <script>
+              const ctx = document.getElementById('myChart');
+
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                  datasets: [{
+                    label: 'Number of sales',
+                    data: [{{ jan }}, {{ feb }}, {{ mar }}, {{ apr }}, {{ may }}, {{ jun }}],
+                borderWidth: 1
+                              }]
+                            },
+                options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+                          });
+            </script>
+          </div>
+        </div>
+
+
+        {{!-- Pie chart --}}
+        <div class="tm-col-big mt-5 mx-5 mb-5">
+          <div class="bg-white tm-block h-100">
+            <h2 class="tm-block-title">Order Status</h2>
+            <canvas id="myChart2"></canvas>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+              const ctx2 = document.getElementById('myChart2');
+
+              const data = {
+                labels: [
+                  'Orders Delivered',
+                  'Orders Placed',
+                  'Orders Returned',
+                  'Orders Canceled'
+                ],
+                datasets: [{
+                  labels: 'Orders Status',
+                  data: [{{deliveredCounts}}, {{placedCounts}}, {{cancelledCounts}}, {{returnCounts}}],
+                  backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)'
+                  ],
+                  hoverOffset: 4
+                }]
+              };
+
+              const config = {
+                type: 'pie',
+                data: data,
+              };
+
+              new Chart(ctx2, config);
+            </script>
+          </div>
+        </div>
+
+
+        <div class="tm-col-big mt-5 mx-5 mb-5">
+          <div class="bg-white tm-block h-100">
+            <div class="row">
+              <div class="col-8">
+                <h2 class="tm-block-title d-inline-block">category</h2>
+
+              </div>
+              {{!-- <div class="col-4 text-right">
+                <a href="products.html" class="tm-link-black">View All</a>
+              </div> --}}
+            </div>
+            <ol class="tm-list-group tm-list-group-alternate-color tm-list-group-pad-big">
+              <li class="tm-list-group-item"> <a href="/admin/adminUserManagement">
+                  Total {{userCount}} users </a>
+              </li>
+              <li class="tm-list-group-item"> <a href="/admin/adminOrder">
+                  Total {{totalOrdersPlaced}} Orders </a>
+              </li>
+              <li class="tm-list-group-item"> <a href="/admin/adminProduct">
+                  Total Products </a>
+              </li>
+              <li class="tm-list-group-item"> <a href="/admin/adminSalesReport">
+                  Total Sales Report </a>
+              </li>
+            </ol>
+            <style>
+              .tm-list-group-item a {
+                color: black;
+                text-decoration: none;
+              }
+            </style>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>

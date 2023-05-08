@@ -18,9 +18,24 @@ module.exports = {
     getProducts:(currentPage) => {
         return new Promise (async (resolve, reject) => {
             currentPage = parseInt(currentPage);
-            const limit = 10;
+            const limit = 8;
             const skip = (currentPage-1)*limit;
-            const productData = await db.get().collection(collection.PRODUCT_COLLECTION).find().skip(skip).limit(limit).toArray();
+            const productData = await db.get().collection(collection.PRODUCT_COLLECTION).find(
+                {
+                    listed: true
+                }
+            ).skip(skip).limit(limit).toArray();
+            if(productData){
+                resolve(productData);
+            }else{
+                resolve("No data to show")
+            }
+        })
+    },
+
+    getAdminProducts:(currentPage) => {
+        return new Promise (async (resolve, reject) => {
+            const productData = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray();
             if(productData){
                 resolve(productData);
             }else{
@@ -80,6 +95,7 @@ module.exports = {
                         description: data.description,
                         price: Number(data.price),
                         stock: Number(data.stock),
+                        listed: true,
                     }
                 }
              ).then((response) => {
@@ -194,24 +210,30 @@ module.exports = {
                 $match: {
                   price: {
                     $gte: parseInt(minPrice),
-                    $lte: parseInt(maxPrice)
+                    $lte: parseInt(maxPrice),
                   }
                 }
+              },
+
+              {
+                $match: {
+                    listed: true,
+                }
               }
+
             ]).toArray();
           } else {
             filteredProducts = await db.get().collection(collection.PRODUCT_COLLECTION).find({
               price: {
                 $gte: parseInt(minPrice),
-                $lte: parseInt(maxPrice)
-              }
-            }).toArray();
+                $lte: parseInt(maxPrice),
+              }, listed: true }).toArray();
           }
           resolve(filteredProducts);
         })
       },
 
-      sortPrice:(detailes, category) => {
+      sortPrice:(detailes, category, currentPage) => {
         return new Promise (async (resolve, reject) => {
         try{
             const minPrice = Number(detailes.minPrice);
@@ -229,27 +251,32 @@ module.exports = {
                         as: 'result'
                       }
                     },
+
                     {
                       $match: {
                         category: category
                       }
                     },
+
                     {
                       $match: {
                         price: {
                           $gte: parseInt(minPrice),
-                          $lte: parseInt(maxPrice)
+                          $lte: parseInt(maxPrice),
                         }
                       }
+                    },
+
+                    {
+                        $match: {
+                            listed: true,
+                        }
                     }
+
                   ]).sort({price: value}).toArray();
             }else{
                 product = await db.get().collection(collection.PRODUCT_COLLECTION).find({
-                    price: {
-                        $gte: parseInt(minPrice),
-                        $lte: parseInt(maxPrice)
-                      }
-                }).sort({price: value}).toArray();
+                    price: {$gte: parseInt(minPrice),$lte: parseInt(maxPrice)}, listed: true}).sort({price: value}).toArray();
             }
             resolve(product);
              
@@ -264,6 +291,24 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             const totalCount = await db.get().collection(collection.PRODUCT_COLLECTION).countDocuments({});
             resolve(totalCount);
+        })
+      },
+
+      totalOrdersPlaced:() => {
+        return new Promise (async (resolve, reject) => {
+            try{
+                const orderPlacedCount = await db.get().collection(collection.ORDER_COLLECTION).countDocuments({});
+                resolve(orderPlacedCount);
+            }catch{
+                resolve(0)
+            }
+        })
+      },
+
+      totalPagesOfOrder:()=>{
+        return new Promise(async (resolve, reject) => {
+            const totalPages = await db.get().collection(collection.ORDER_COLLECTION).countDocuments({});
+            resolve(totalPages);
         })
       }
       

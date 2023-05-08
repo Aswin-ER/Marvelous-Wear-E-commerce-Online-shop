@@ -4,10 +4,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const handlebars = require('handlebars')
 const session = require('express-session');
 const noCache = require('nocache');
 const hbs = require('express-handlebars');
 const db = require('./configurations/connection')
+const mathHelpers = require('./helpers/mathHelpers');
 require('dotenv').config();
 
 // const fileUpload = require('express-fileupload')
@@ -18,11 +20,10 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 // view engine setup
+handlebars.registerHelper(mathHelpers);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'}));
-
-// app.use(fileUpload());
 
 app.use(noCache());
 app.use(bodyParser.urlencoded({ extended: true }));

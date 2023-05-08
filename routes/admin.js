@@ -28,8 +28,6 @@ router.post('/adminEditProduct/:id', multer.array('image'), adminControllers.adm
 
 router.get('/adminDeleteProduct/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminDeleteProduct);
 
-router.post('/adminSearchProduct', verifySession.verifyAdminLoggedIn, adminControllers.adminSearchProduct);
-
 
 // Admin Users
 router.get('/adminUserManagement',  verifySession.verifyAdminLoggedIn, adminControllers.adminUserManagement);
@@ -50,13 +48,19 @@ router.get('/adminCategory', verifySession.verifyAdminLoggedIn, adminControllers
 
 router.post('/adminCategory', adminControllers.addCategory);
 
-router.get('/adminDeleteCategory/:id', verifySession.verifyAdminLoggedIn, adminControllers.deleteCategory);
+router.get('/adminDeleteCategory/:id/:name', verifySession.verifyAdminLoggedIn, adminControllers. deleteCategory);
 
 
 // Admin Order
 router.get('/adminOrder', verifySession.verifyAdminLoggedIn, adminControllers.adminOrder);
 
 router.post('/adminOrderStatus/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminOrderStatus);
+
+router.get('/adminSalesReport', verifySession.verifyAdminLoggedIn, adminControllers.adminSalesReport);
+
+router.get('/adminSalesReportFilter', verifySession.verifyAdminLoggedIn, adminControllers.adminSalesReportFilter);
+
+router.post('/adminSalesReportFilter', verifySession.verifyAdminLoggedIn, adminControllers.adminSalesReportFilterPost);
 
 
 module.exports = router;

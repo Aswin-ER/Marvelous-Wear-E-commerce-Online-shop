@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const objectId = require('mongodb-legacy').ObjectId;
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-const { json } = require('body-parser');
 
 const razorpay_key_id = process.env.RAZORPAY_KEY_ID;
 const razorpay_key_secret = process.env.RAZORPAY_KEY_SECRET;
@@ -77,7 +76,7 @@ module.exports = {
                     $set:{
                         name: info.name,
                         email: info.email,
-                        phone: Number(info.phone)
+                        phone: info.phone
                     }
                 }
             ).then((response) => {
@@ -88,8 +87,28 @@ module.exports = {
 
     editPassword: (userId, info) => {
         return new Promise( async (resolve, reject) => {
-            const user = db.get().collection(collection.USER_COLLECTION).findOne({
+            const user = await db.get().collection(collection.USER_COLLECTION).findOne({
                 _id: new objectId(userId)
+            })
+            const userPassword = await bcrypt.hash(info.newPassword, 10);
+            bcrypt.compare(info.oldPassword, info.newPassword).then((status) => {
+                if(status){
+                    db.get().collection(collection.USER_COLLECTION).updateOne(
+                        {
+                            _id: new objectId(userId)
+                        },
+                        {
+                            $set: {
+                                password: userPassword
+                            }
+                        }
+                    )
+                    status = true;
+                    resolve(status);
+                }else{
+                    status = false;
+                    reject(false);
+                }
             })
             resolve(user);
         })
@@ -227,12 +246,23 @@ module.exports = {
         // Object.assign(order, {status: "pending"});
         return new Promise((resolve, reject) => {
           db.get().collection(collection.ORDER_COLLECTION).insertOne(order)
-          .then((response)=>{
-            // console.log(response);
+          .then(async (response)=>{
             resolve(response);
+            for(let i =0 ; i < order.item.length;i++){
+                const stock = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
+                    {
+                        _id: order.item[i].product._id
+                    },
+                    {
+                        $inc: {
+                            stock: -order.item[i].quantity
+                        }
+                    }
+                )
+            }
           })
-          .catch(()=>{
-            reject();
+          .catch((err)=>{
+            reject(err);
           })
         })
       },
@@ -279,7 +309,7 @@ module.exports = {
           db.get().collection(collection.ORDER_COLLECTION)
           .updateOne({
             _id: new objectId(orderId),
-            // order:{$elemMatch:{id:new objectId(orderId)}}
+            
           },
           {
             $set: {
@@ -409,6 +439,7 @@ module.exports = {
                 console.log(err);
                 reject(err);
             }else{
+                
                 resolve(order);
             }
         })
@@ -424,7 +455,7 @@ module.exports = {
              
             hmac.update(details.response.razorpay_order_id + '|' + details.response.razorpay_payment_id);
             hmac = hmac.digest('hex');
-            console.log( "ok da monu sugam alle", JSON.stringify(details));
+            // console.log( "ok da monu sugam alle", JSON.stringify(details));
             if(hmac===details.response.razorpay_signature){
                 resolve();
             }else{
@@ -450,6 +481,70 @@ module.exports = {
                 
                 console.log(err);
             })
+        })
+    },
+
+    doLoginWithMobile: (mobile)=> {
+        return new Promise(async (resolve, reject) => {
+            // mobile = Number(mobile);
+
+            let response= {};
+            const user = await db.get().collection(collection.USER_COLLECTION).findOne({phone: mobile});
+            if(user){
+                response.user = user;
+                response.status = true;
+                response.isBlocked = user.isblocked;
+                resolve(response);
+            }else{
+                response.status = false;
+                resolve({status: false})
+            }
+        })
+    },
+
+    setNewPassword: (userDetails) => {
+        return new Promise( async (resolve, reject)=> {
+
+            const mobile = userDetails.mobile;
+
+            let userPassword = await bcrypt.hash(userDetails.password, 10);
+            db.get().collection(collection.USER_COLLECTION).updateOne({phone: mobile},
+                {
+                    $set: {
+                        password: userPassword
+                    }
+                }).then((response) => {
+                    resolve(response)
+                })
+        })
+    },
+
+    getUser:(userId)=> {
+
+        return new Promise((resolve, reject) => {
+
+            const user = db.get().collection(collection.USER_COLLECTION).findOne(
+                {
+                    _id: new objectId(userId)
+                }
+            )
+            console.log(user);
+            resolve(user);
+        })
+    },
+
+    returnProduct:(orderId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.ORDER_COLLECTION).updateOne(
+                {
+                    _id: new objectId(orderId)
+                },
+                {
+                    $set: {
+                        status: "Return"
+                    }
+                }
+            ).then((response) => {resolve(response)})
         })
     }
 

@@ -10,11 +10,11 @@
                         </div>
 
                        <div class="col-md-4 col-sm-12 text-right">
-                            <a data-toggle="modal" data-target="#add" class="btn btn-small btn-primary">Add Category</a>
+                            <a data-toggle="modal" data-target="#add" class="btn btn-small btn-primary mb-4">Add Category</a>
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-hover table-striped tm-table-striped-even mt-3">
+                        <table class="table table-hover table-striped tm-table-striped-even mt-3" id="productsTable">
                             <thead>
                                 <tr class="tm-bg-gray">
                                     <th scope="col">Category Name</th>
@@ -39,7 +39,7 @@
     </div>
 
 
-{{!-- Add category --}}
+            {{!-- Add category --}}
             <div class="modal fade" id="add"
                 tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -67,6 +67,7 @@
             </div>
         </div>
 
+        {{!-- Delete Modal --}}
         {{#each category}}
         <div class="modal fade" id="delete{{this._id}}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -83,11 +84,18 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
-                        <a href="/admin/adminDeleteCategory/{{this._id}}" type="button" class="btn btn-danger">delete</a>
+                        <a href="/admin/adminDeleteCategory/{{this._id}}/{{this.name}}" type="button" class="btn btn-danger">delete</a>
                     </div>
                 </div>
             </div>
         </div>
         {{/each}}
+
+
+<script>
+  $(function () {
+    $('#productsTable').DataTable();
+  });
+</script>
         
         

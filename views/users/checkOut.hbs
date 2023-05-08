@@ -3,6 +3,7 @@
 
 
 
+
 {{!-- Modal styles --}}
 <style>
   body {
@@ -189,6 +190,7 @@
           <div class="cart-total">
             <span>Amount Payable</span>
             <p>{{total}}</p>
+             <input type="text" id="total" name="total" value="{{total}}" hidden>
           </div>
         </div>
       </div>
@@ -198,8 +200,8 @@
       <div class="payment-method">
         <h3>Payment</h3>
           <div class="custom custom-radio">
-            <label for="payPal">Paypal<img class="ml-4 mr-4" src="img/paypal.jpg" alt=""></label>
-            <input type="radio" id="payPal" name="paymentMethod" onclick="validateSubmit()" class="custom-control-label" value="payPal" required>
+            <label for="paypal">Paypal<img class="ml-4 mr-4" src="img/paypal.jpg" alt=""></label>
+            <input type="radio" id="paypal" name="paymentMethod" onclick="validateSubmit()" class="custom-control-label" value="paypal" required>
           </div>
 
           <div class="custom custom-radio"><label for="card">Credit / Debit card <img class="ml-4 mr-4" src="" alt=""></label>
@@ -430,10 +432,12 @@
         }, 2000);
 
       } else if (response.data.paymentMethod === 'card') {
-        console.log(response.data.response + "responseeeeeeeeeeee");
-        console.log(response.data.userDetails + "User detailes");
+        //console.log(response.data.response + "responseeeeeeeeeeee");
+        //console.log(response.data.userDetails + "User detailes");
         razorpayPayment(response.data.response, response.data.userDetails);
-      }
+      }else if(response.data.status==="success"){
+            window.location.href = response.data.approval_link;
+        }
     }).catch((err) => {
       console.log(err + "erorrrrr")
     })
@@ -482,13 +486,14 @@
       for (var i = 0; i < isCOD.length; i++) {
         if (isCOD[i].checked) {
           const value = isCOD[i].value;
-          if (value === "COD" || value === "card" || value === "payPal") {
+          if (value === "COD" || value === "card" || value === "paypal") {
             document.getElementById('checkoutBtn').removeAttribute('disabled');
           }
         }
       }
     }
   }
+
 
   function razorpayPayment(order, userDetails) {
     var options = {
@@ -505,7 +510,7 @@
         verifyPayment(response, order);
       },
       "prefill": {
-        "name": userDetails.name, //your customer's name
+        "name": userDetails.name, 
         "email": userDetails.email,
         "contact": userDetails.phone
       },
@@ -530,11 +535,11 @@
       }
     }).then((response) => {
       if (response.data.status) {
-        console.log("hiiiiiii")
+        //console.log("hiiiiiii")
         const demoModal2 = new bootstrap.Modal(document.getElementById('demoModal2'));
         demoModal2.show();
         setTimeout(function () {
-          window.location.href = '/'; // redirect after the modal is displayed
+          window.location.href = '/'; 
         }, 2000);
       }
     }).catch((error) => {

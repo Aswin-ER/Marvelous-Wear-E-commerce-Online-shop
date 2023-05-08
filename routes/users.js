@@ -17,6 +17,14 @@ router.get('/signUp',verifySession.ifUserLoggedIn, userControllers.signUp);
 
 router.post('/signUp',userControllers.signUpPost);
 
+router.get('/forgotPassword', userControllers.forgotPassword);
+
+router.post('/forgotPasswordPost', userControllers.forgotPasswordPost);
+
+router.post('/forgotPasswordVerify', userControllers.forgotPasswordVerify);
+
+router.post('/setNewPassword', userControllers.setNewPassword);
+
 
 // otp
 router.get('/otpverification',verifySession.ifUserLoggedIn, userControllers.otpPageRender);
@@ -62,11 +70,17 @@ router.post('/placeOrder', verifySession.verifyUserLoggedIn, userControllers.pla
 
 router.post('/verifyPayment', verifySession.verifyUserLoggedIn, userControllers.verifyPayment);
 
+router.get('/success', verifySession.verifyUserLoggedIn, userControllers.paypalSuccess);
+
+router.get('/cancel', verifySession.verifyUserLoggedIn, userControllers.failure);
+
 
 // User Orders
 router.get('/orders', verifySession.verifyUserLoggedIn, userControllers.orders);
 
 router.get('/cancelOrder/:id', verifySession.verifyUserLoggedIn, userControllers.cancelOrder);
+
+router.get('/returnOrder/:id', verifySession.verifyUserLoggedIn, userControllers.retunOrder);
 
 router.get('/orders/viewProduct/:id', verifySession.verifyUserLoggedIn, userControllers.viewDet);
 

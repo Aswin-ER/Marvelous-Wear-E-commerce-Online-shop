@@ -100,6 +100,11 @@
                     <ul class="tags">
                         <li><span>Category :</span> {{product.category}}</li>
                         <li><span>Tags :</span> {{product.category}}, elegant, cool</li>
+                        {{#if (gte product.stock 1)}}
+                        <li><span>Product in Stock :</span> {{product.stock}}</li>
+                        {{else}}
+                         <li><span class="text-danger mt-5" style="font-weight: bold;">Product out of stock</span></li>
+                         {{/if}}
                     </ul>
                     {{!-- <div class="product-quantity">
                         <div class="pro-qty">
@@ -108,7 +113,12 @@
                     </div> --}}
                     <div class="input-group mb-3">
                         {{#if userName}}
+                        {{#if (eq product.stock 0) }}
+                        <a onclick="this.blur()" class="primary-btn pc-btn mx-4 text-danger">Out of Stock</a>
+                        {{else}}
                         <a onclick="addToCart('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to cart</a>
+                        {{/if}}
+
                         {{else}}
                         <a href="/login" class="primary-btn pc-btn mx-4">Add to cart</a>
                         {{/if}}
