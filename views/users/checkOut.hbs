@@ -123,102 +123,123 @@
 <!-- Cart Total Page Begin -->
 <section class="cart-total-page spad">
   <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
 
-    {{!-- address selection --}}
-    <form id="checkoutForm" class="checkout-form">
-      <div class="row">
-        <div class="col-lg-12">
-          <h3>Your Information</h3>
+        <h3>Your Information</h3>
+        <span id="invalidCoupon" class="text-danger" style="display: flex; justify-content: end;"></span>
+        <br>
+        <div style="display: flex; justify-content: end; ">
+          <form>
+            <input type="text" id="couponCode" placeholder="Promo code" style="width: 9.5rem;">
+            <span onclick="submitCoupon()" class="btn btn-secondary">Redeem</span>
+          </form>
+
         </div>
-        <div class="col-lg-9">
+
+
+
+        <form id="checkoutForm" class="checkout-form">
           <div class="row">
-            <div class="col-md-8 order-md-1">
-              <h4 class="mb-5">Billing address</h4>
+            <div class="col-lg-9">
               <div class="row">
-                <div class="col-md-12 mb-3">
-                  <div class="col-md-12">
-                    {{#each addresses}}
-                    <div class="d-flex mb-3">
-                      <input type="radio" id="{{_id}}" value="{{_id}}" class="activeAddress mr-3" name="address"
-                        data-address="{{_id}}">
-                      <div class="border p-3" style="color: rgb(80, 80, 80);">
-                        <b>{{name}}</b>, <br>
-                        {{address}}, <br>
-                        {{city}}, {{state}}, <br>
-                        pincode: {{postCode}}, Mobile: {{phone}}
+                <div class="col-md-8 order-md-1">
+                  <h4 class="mb-5">Billing address</h4>
+                  <div class="row">
+                    <div class="col-md-12 mb-3">
+                      <div class="col-md-12">
+                        {{#each addresses}}
+                        <div class="d-flex mb-3">
+                          <input type="radio" id="{{_id}}" value="{{_id}}" class="activeAddress mr-3" name="address"
+                            data-address="{{_id}}">
+                          <div class="border p-3" style="color: rgb(80, 80, 80);">
+                            <b>{{name}}</b>, <br>
+                            {{address}}, <br>
+                            {{city}}, {{state}}, <br>
+                            pincode: {{postCode}}, Mobile: {{phone}}
+                          </div>
+                          <div class="ml-5 pr-3 d-flex">
+                            <div>
+                              <a class="btn btn-primary pl-3 pr-3 text-light"
+                                style="letter-spacing: 0.1rem;cursor: pointer;" data-toggle="modal"
+                                data-target="#edit{{this._id}}">Edit</a>
+                            </div>
+                            <div class="ml-3 mt-1" style="cursor: pointer;">
+                              <a data-toggle="modal" data-target="#deleteAddr{{this._id}}">
+                                <div class="border border-warning text-center" style="width: fit-content;">
+                                  <span class="ion-ios-close p-3">x</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="ml-5 pr-3 d-flex">
-                        <div>
-                          <a class="btn btn-primary pl-3 pr-3 text-light"
-                            style="letter-spacing: 0.1rem;cursor: pointer;" data-toggle="modal"
-                            data-target="#edit{{this._id}}">Edit</a>
-                        </div>
-                        <div class="ml-3 mt-1" style="cursor: pointer;">
-                          <a data-toggle="modal" data-target="#deleteAddr{{this._id}}">
-                            <div class="border border-warning text-center" style="width: fit-content;">
-                              <span class="ion-ios-close p-3">x</span>
-                          </a>
-                        </div>
+                      {{/each}}
+                      <div class="custom-control">
+                        <a class="text-primary" data-toggle="modal" data-target=".bd-example-modal-lg"
+                          style="cursor: pointer;">Add a new Address</a>
                       </div>
                     </div>
                   </div>
-                  {{/each}}
-                  <div class="custom-control">
-                    <a class="text-primary" data-toggle="modal" data-target=".bd-example-modal-lg"
-                      style="cursor: pointer;">Add a new Address</a>
-                  </div>
                 </div>
+
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="order-table">
+              <div class="cart-item">
+                <span>Total Price</span>
+                <p>{{total}}</p>
+              </div>
+
+              <div class="cart-item">
+                <span>Shipping(Free)</span>
+                <p>Rs 0</p>
+              </div>
+              <div class="cart-item  d-flex justify-content-between bg-light">
+                <div class="text-success">
+                  <h6 class="my-0">Coupon</h6>
+                  <small id="couponName"></small>
+                </div>
+                <span class="text-success" id="couponPrice">Rs.0</span>
+              </div>
+              <div class="cart-total">
+                <span>Amount Payable</span>
+                <p id="strong">{{total}}</p>
+                <input type="text" id="total" name="total" value="{{total}}" hidden>
               </div>
             </div>
 
           </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="payment-method">
+            <h3>Payment</h3>
+            <div class="custom custom-radio">
+              <label for="paypal">Paypal<img class="ml-4 mr-4" src="img/paypal.jpg" alt=""></label>
+              <input type="radio" id="paypal" name="paymentMethod" onclick="validateSubmit()"
+                class="custom-control-label" value="paypal" required>
+            </div>
 
+            <div class="custom custom-radio"><label for="card">Credit / Debit card <img class="ml-4 mr-4" src=""
+                  alt=""></label>
+              <input type="radio" id="card" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
+                value="card" required>
+            </div>
+            <div class="custom custom-radio">
+              <label for="COD">Pay when you get the package</label>
+              <input type="radio" id="COD" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
+                value="COD" required>
+            </div>
+            <button id="checkoutBtn" disabled class="btn btn-dark btn-lg btn-block mt-3" type="submit">Place your
+              order</button>
+          </div>
         </div>
       </div>
-      <div class="col-lg-3">
-        <div class="order-table">
-          <div class="cart-item">
-            <span>Total Price</span>
-            <p>{{total}}</p>
-          </div>
-
-          <div class="cart-item">
-            <span>Shipping(Free)</span>
-            <p>Rs 0</p>
-          </div>
-
-          <div class="cart-total">
-            <span>Amount Payable</span>
-            <p>{{total}}</p>
-             <input type="text" id="total" name="total" value="{{total}}" hidden>
-          </div>
-        </div>
-      </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="payment-method">
-        <h3>Payment</h3>
-          <div class="custom custom-radio">
-            <label for="paypal">Paypal<img class="ml-4 mr-4" src="img/paypal.jpg" alt=""></label>
-            <input type="radio" id="paypal" name="paymentMethod" onclick="validateSubmit()" class="custom-control-label" value="paypal" required>
-          </div>
-
-          <div class="custom custom-radio"><label for="card">Credit / Debit card <img class="ml-4 mr-4" src="" alt=""></label>
-            <input type="radio" id="card" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
-              value="card" required>
-          </div>
-          <div class="custom custom-radio">
-            <label for="COD">Pay when you get the package</label>
-            <input type="radio" id="COD" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
-              value="COD" required>
-          </div>
-        <button id="checkoutBtn" disabled class="btn btn-dark btn-lg btn-block mt-3" type="submit">Place your order</button>
-      </div>
+      </form>
     </div>
-  </div>
-  </form>
-  </div>
 </section>
 <!-- Cart Total Page End -->
 
@@ -408,45 +429,6 @@
 
 
 
-
-<script>
-
-
-  $('#checkoutForm').on('submit', function (event) {
-    event.preventDefault();
-
-    // collect form data
-    var formData = $(this).serialize();
-
-    // send AJAX request
-    axios({
-      url: '/placeOrder', // replace with your server-side script URL
-      method: 'POST', // or 'GET' depending on your server-side script
-      data: formData,
-    }).then((response) => {
-      if (response.data.paymentMethod === 'COD') {
-        const demoModal = new bootstrap.Modal(document.getElementById('demoModal'));
-        demoModal.show();
-        setTimeout(function () {
-          window.location.href = '/'; // redirect after the modal is displayed
-        }, 2000);
-
-      } else if (response.data.paymentMethod === 'card') {
-        //console.log(response.data.response + "responseeeeeeeeeeee");
-        //console.log(response.data.userDetails + "User detailes");
-        razorpayPayment(response.data.response, response.data.userDetails);
-      }else if(response.data.status==="success"){
-            window.location.href = response.data.approval_link;
-        }
-    }).catch((err) => {
-      console.log(err + "erorrrrr")
-    })
-
-  });
-</script>
-
-
-
 <script>
   function validateRadioAddr() {
     var radioButtons = document.getElementsByName('address');
@@ -495,6 +477,81 @@
   }
 
 
+
+
+  let coupon
+  function submitCoupon() {
+    let totalCost = parseInt(document.getElementById('total').value)
+    const code = document.getElementById('couponCode').value;
+    coupon = document.getElementById('couponCode').value;
+
+    console.log(code, coupon, totalCost + "asasasasas")
+
+    axios.post('/couponApply', { 'couponCode': code }).then((response) => {
+      if (response.data.status === 'success') {
+        const coupon = response.data.coupon;
+        if (coupon.status == 'Deactivated' || coupon.status == 'Expired') {
+          document.getElementById('invalidCoupon').innerHTML = "Coupon has been expired!"
+        } else if (totalCost <= 1000) {
+          document.getElementById('invalidCoupon').innerHTML = "Purchase for atleast 1000 to apply Coupon!"
+        } else {
+          const couponAmt = parseInt(coupon.discount);
+          totalCost = totalCost - couponAmt;
+
+          document.getElementById('total').value = totalCost;
+          document.getElementById('strong').innerHTML = `Rs.${totalCost}`;
+          document.getElementById('invalidCoupon').innerHTML = "";
+          document.getElementById('couponName').innerHTML = coupon.code;
+          document.getElementById('couponPrice').innerHTML = `Rs.${couponAmt}`;
+          document.getElementById('couponCode').value = code;
+          console.log(totalCost, couponAmt)
+        }
+      } else {
+        document.getElementById('invalidCoupon').innerHTML = response.data.status;
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+
+
+  $('#checkoutForm').on('submit', function (event) {
+    event.preventDefault();
+
+    // collect form data
+    var formData = $(this).serialize();
+
+    formData += `&coupon=${coupon}`
+    // send AJAX request
+    axios({
+      url: '/placeOrder', // replace with your server-side script URL
+      method: 'POST', // or 'GET' depending on your server-side script
+      data: formData,
+    }).then((response) => {
+      if (response.data.paymentMethod === 'COD') {
+        const demoModal = new bootstrap.Modal(document.getElementById('demoModal'));
+        demoModal.show();
+        setTimeout(function () {
+          window.location.href = '/'; // redirect after the modal is displayed
+        }, 2000);
+
+      } else if (response.data.paymentMethod === 'card') {
+        //console.log(response.data.response + "responseeeeeeeeeeee");
+        //console.log(response.data.userDetails + "User detailes");
+        razorpayPayment(response.data.response, response.data.userDetails);
+      } else if (response.data.status === "success") {
+        window.location.href = response.data.approval_link;
+      }
+    }).catch((err) => {
+      console.log(err + "erorrrrr")
+    })
+
+  });
+
+
+
+
   function razorpayPayment(order, userDetails) {
     var options = {
       "key": "rzp_test_vvCKSsUVdpOthK",       // Enter the Key ID generated from the Dashboard
@@ -510,7 +567,7 @@
         verifyPayment(response, order);
       },
       "prefill": {
-        "name": userDetails.name, 
+        "name": userDetails.name,
         "email": userDetails.email,
         "contact": userDetails.phone
       },
@@ -539,7 +596,7 @@
         const demoModal2 = new bootstrap.Modal(document.getElementById('demoModal2'));
         demoModal2.show();
         setTimeout(function () {
-          window.location.href = '/'; 
+          window.location.href = '/';
         }, 2000);
       }
     }).catch((error) => {

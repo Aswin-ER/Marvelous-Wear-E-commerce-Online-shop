@@ -114,7 +114,7 @@
                     <div class="input-group mb-3">
                         {{#if userName}}
                         {{#if (eq product.stock 0) }}
-                        <a onclick="this.blur()" class="primary-btn pc-btn mx-4 text-danger">Out of Stock</a>
+                        <a class="primary-btn pc-btn mx-4 text-danger" onclick="this.blur(); Toastify({text: 'This product is currently out of stock', duration: 2000, close: true, gravity: 'top', style: {background: 'linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)'}, position: 'center'}).showToast();">Out of Stock</a>
                         {{else}}
                         <a onclick="addToCart('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to cart</a>
                         {{/if}}

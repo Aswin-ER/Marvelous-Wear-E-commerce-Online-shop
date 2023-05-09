@@ -44,7 +44,7 @@
                         </td>
                         <td class="price-col">{{this.product.price}}</td>
                          {{#if (eq this.product.stock 0) }}
-                          <td class="btn btn-danger mb-4 text-dark" style="padding-top: 0.5rem;" onclick="this.blur()">Out of Stock</td>
+                        <td class="btn btn-danger mb-4 text-dark" style="padding-top: 0.5rem;" onclick="this.blur(); Toastify({text: 'This product is currently out of stock', duration: 2000, close: true, gravity: 'top', style: {background: 'linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)'}, position: 'center'}).showToast();">Out of Stock</td>
                           {{else}}
                         <td class="btn btn-dark mb-4" style="padding-top: 0.5rem;" onclick="addToCart('{{product._id}}')">Add to Cart</td>
                         {{/if}}

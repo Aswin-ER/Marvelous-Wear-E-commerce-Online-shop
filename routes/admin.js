@@ -63,4 +63,16 @@ router.get('/adminSalesReportFilter', verifySession.verifyAdminLoggedIn, adminCo
 router.post('/adminSalesReportFilter', verifySession.verifyAdminLoggedIn, adminControllers.adminSalesReportFilterPost);
 
 
+router.get('/adminCoupon', verifySession.verifyAdminLoggedIn, adminControllers.adminCoupon);
+
+router.post('/adminAddCoupon', verifySession.verifyAdminLoggedIn, adminControllers.adminAddCoupon);
+
+router.post('/adminEditCoupon/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminEditCoupon);
+
+router.get('/adminDeactivate/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminDeactivate);
+
+router.get('/adminActivate/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminActivate);
+
+
+
 module.exports = router;

@@ -106,13 +106,11 @@ module.exports = {
   signUpPost: (req, res) => {
     try {
       // Password check
-      const passwordRegex =
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+      const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
       if (!passwordRegex.test(req.body.password)) {
         res.render("users/signUp", {
           user: true,
-          errMsg:
-            "Password must contain 8 characters, uppercase, lowercase, number, and special(!@#$%^&*)",
+          errMsg: "Password must contain 8 characters, uppercase, lowercase, number, and special(!@#$%^&*)",
         });
         return;
       }
@@ -122,8 +120,7 @@ module.exports = {
       const mobileRegex = /^[0-9]{10}$/;
       if (!mobileRegex.test(req.body.phone)) {
         res.render("users/signUp", {
-          user: true,
-          errmsg: "Mobile number should be 10 digit number",
+          user: true, errmsg: "Mobile number should be 10 digit number",
         });
         return;
       }
@@ -131,14 +128,11 @@ module.exports = {
 
       // Redirect to otp page
       const phone = req.body.phone;
-      client.verify.v2
-        .services("VA7ef1b38c123d6d8de4e63d54b6e2b4e6")
-        .verifications.create({ to: "+91" + phone, channel: "sms" })
-        .then(() => {
+      client.verify.v2.services("VA7ef1b38c123d6d8de4e63d54b6e2b4e6")
+        .verifications.create({ to: "+91" + phone, channel: "sms" }).then(() => {
           req.session.userDetailes = req.body;
           res.redirect("/otpverification");
-        })
-        .catch((err) => console.log(err));
+        }).catch((err) => console.log(err));
     } catch (err) {
       console.log(err);
     }
@@ -187,6 +181,7 @@ module.exports = {
         })
         .catch((error) => {
           console.log(error);
+
           // Render the OTP verification page with an error message
           res.render("users/otpVerify", {
             user: true,
@@ -356,6 +351,7 @@ module.exports = {
   },
 
   placeOrder: async (req, res) => {
+    console.log(req.body+"asasasasasasasasasasasas")
     try {
       const addressId = req.body.address;
       const userDetails = req.session.user;
@@ -376,9 +372,10 @@ module.exports = {
         products: cartItems,
         date: new Date(now.getFullYear(),now.getMonth(),now.getDate(),0,0,0,0),
         status,
+        coupon: req.body.coupon,
       };
-
-      userHelpers.addOrderDetails(order)
+      const userId = req.session.user._id;
+      userHelpers.addOrderDetails(order, userId)
         .then((order) => {
           cartHelpers.deleteCartFull(req.session.user._id);
 
@@ -751,6 +748,28 @@ module.exports = {
     userHelpers.returnProduct(orderId).then(() => {
       res.redirect('back');
     })
-  }
+  },
+
+  couponApply:(req, res)=> {
+    const userId = req.session.user._id;
+    userHelpers.couponApply(req.body.couponCode, userId).then((coupon)=> {
+      if(coupon){
+        if(coupon === 'couponExists'){
+          res.json({
+            status:"coupon is already used, try another coupon"
+          })
+        }else{
+          res.json({
+            status: "success",
+            coupon: coupon
+          })
+        }
+      }else{
+        res.json({
+          status: "coupon is not valid !!"
+        })
+      }
+    });
+  },
 
 }

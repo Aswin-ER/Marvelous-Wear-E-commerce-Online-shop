@@ -26,9 +26,21 @@ module.exports = {
                             userId: new objectId(user),
                             product:{$elemMatch:{productId}}
                         },{
-                            $inc:{'product.$.quantity': quantity}
+                          $inc:{'product.$.quantity': quantity}
                         }
-                    ).then(()=>{resolve()})
+                    ).then(()=>{
+                        resolve()
+                        db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
+                            {
+                                _id: productId
+                            },
+                            {
+                                $inc: {
+                                    stock: -quantity
+                                }
+                            }
+                        )
+                    })
                 }else{
                     db.get().collection(collection.CART_COLLECTION).updateOne(
                         {

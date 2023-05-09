@@ -117,5 +117,7 @@ router.post('/shopPriceFilter', verifySession.verifyUserLoggedIn, userController
 
 router.post('/shopPriceSort', verifySession.verifyUserLoggedIn, userControllers.sortPrice);
 
+router.post('/couponApply', verifySession.verifyUserLoggedIn, userControllers.couponApply);
+
 
 module.exports = router;

@@ -1,0 +1,207 @@
+<div class="container">
+    <div class="row tm-content-row tm-mt-big">
+        <div class="col-xl-12 col-lg-12 tm-md-12 tm-sm-12 tm-block-col">
+            <div class="bg-white tm-block h-100">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12">
+                        <h2 class="tm-block-title d-inline-block">Coupon</h2>
+
+                    </div>
+                    <div class="col-md-4 col-sm-12 text-right mb-4">
+                        <a href="#" data-toggle="modal" data-target="#add" class="btn btn-small btn-primary">Create New
+                            Coupon</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped tm-table-striped-even mt-3 text-center"
+                        id="productsTable">
+                        <thead>
+                            <tr class="tm-bg-gray">
+                                <th scope="col" class="text-center">SI No</th>
+                                <th scope="col" class="text-center">Coupon Code</th>
+                                <th scope="col" class="text-center">Discount</th>
+                                <th scope="col" class="text-center">Expiry Date</th>
+                                <th scope="col" class="text-center">Edit</th>
+                                <th scope="col" class="text-center">Deactivate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {{#each coupons}}
+                            <tr>
+                                <td class="tm-product-name">{{@index}}</td>
+                                <td class="tm-product-name">{{this.code}}</td>
+                                <td>{{this.discount}}</td>
+                                {{#if this.expired}}
+                                <td class="text-danger" style="font-weight: bold;">expired</td>
+                                {{else if this.deactivated}}
+                                <td class="text-danger" style="font-weight: bold;">deactivated</td>
+                                {{else}}
+                                <td class="text-center text-success">{{this.date}}</td>
+                                {{/if}}
+                                <td><a data-toggle="modal" data-target="#edit{{this._id}}"><i
+                                            class="fas fa-edit"></i></a></td>
+
+                                {{#if this.deactivate}}
+                                <td><a class="btn btn-success" data-toggle="modal"
+                                        data-target="#activate{{this._id}}">Activate</a></td>
+                                {{else if this.expired}}
+                                <td><a class="btn btn-danger disabled">expired</a></td>
+                                {{else}}
+                                <td><a class="btn btn-danger" data-toggle="modal"
+                                        data-target="#deactivate{{this._id}}">Deactivate</a></td>
+                                {{/if}}
+
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{!-- Add Coupon --}}
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Coupon</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="text-dark" action="/admin/adminAddCoupon" method="post">
+                    <div class="form-group">
+                        <label for="code" class="col-form-label">Coupon Code : </label>
+                        <input type="text" name="code" style="color: black;" class="border" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="discount" class="col-form-label">Discount : </label>
+                        <input type="text" name="discount" style="color: black;" class="border" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Discription : </label>
+                        <input type="text" name="description" style="color: black;" class="border" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date" class="col-form-label">Expiry Date : </label>
+                        <input type="date" name="date" style="color: black;" class="border" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                        <a><button type="submit" class="btn btn-primary">confirm</button></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{#each coupons}}
+{{!-- Edit Coupon --}}
+<div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Coupon</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="text-dark" action="/admin/adminEditCoupon/{{this._id}}" method="post">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Coupon Code : </label>
+                        <input type="text" name="code" style="color: black;" class="border" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="category" class="col-form-label">Discount : </label>
+                        <input type="text" name="discount" class="border" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Discription : </label>
+                        <input type="text" name="discription" class="border" id="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Expiry Date : </label>
+                        <input type="date" name="date" class="border" id="phone">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                        <a><button type="submit" class="btn btn-primary">confirm</button></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+
+{{!-- deactivate modal --}}
+{{#each coupons}}
+<div class="modal fade" id="deactivate{{this._id}}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to Deactivate {{this.code}} ?
+            </div>
+            <div class="modal-footer">
+                <a href=""><button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button></a>
+                <a href="/admin/adminDeactivate/{{this._id}}"><button type="button"
+                        class="btn btn-danger">Deactivate</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+
+{{!-- activate Modal --}}
+{{#each coupons}}
+<div class="modal fade" id="activate{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to Activate {{this.code}} ?
+            </div>
+            <div class="modal-footer">
+                <a href=""><button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button></a>
+                <a href="/admin/adminActivate/{{this._id}}"><button type="button"
+                        class="btn btn-success">activate</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+
+
+<script>
+    $(function () {
+        $('#productsTable').DataTable();
+    });
+</script>

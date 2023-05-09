@@ -253,8 +253,10 @@
         const paginationElement = document.querySelector('.pagination')
 
         let pageLinks = '';
-        console.log(currentPage);
-        console.log(totalPages);
+
+        //console.log(currentPage);
+        //console.log(totalPages);
+    
         for(let i = 1; i <= totalPages; i++){
             pageLinks += `<ul style="list-style-type: none;"><li class="page-item${i === page ? ' active' : ''}"><a class="page-link" style="color: black;" href="?page=${i}">${i}</a></li></ul>`;
         }

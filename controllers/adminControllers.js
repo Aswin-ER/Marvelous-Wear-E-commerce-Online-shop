@@ -286,9 +286,52 @@ module.exports = {
             }else{
                 filteredOrders = false;
             }
-
             res.render('admin/adminSalesReport', {admin: true, adminName: req.session.adminName, deliveredOrders:filteredOrders, totalEarnings});
         })
+    },
+
+    adminCoupon: async (req, res)=> {
+       const coupons = await adminHelpers.getCoupon();
+       coupons.forEach(coupon=> {
+        coupon.deactivate = coupon.status === 'Deactivated'? true:false;
+        coupon.expired = coupon.status === 'Expired'?true:false;
+       });
+        res.render('admin/adminCoupon', {admin: true, adminName: req.session.adminName, coupons})
+    },
+
+    adminAddCoupon:(req, res)=> {
+        adminHelpers.adminAddCoupon(req.body).then(()=> {
+            res.redirect('/admin/adminCoupon');
+        }).catch(()=> {
+            res.redirect('/admin/adminCoupon');
+        })
+    },
+
+    adminEditCoupon:(req, res)=> {
+        const couponId = req.params.id; 
+        adminHelpers.adminEditCoupon(couponId, req.body).then(()=> {
+            res.redirect('/admin/adminCoupon')
+        })
+    },
+
+    adminDeactivate:(req, res)=> {
+        const couponId = req.params.id;
+        adminHelpers.deactivateoCupon(couponId).then(()=> {
+            res.redirect('/admin/adminCoupon')
+        }).catch(()=> {
+            res.redirect('/admin/adminCoupon')
+        })
+    },
+
+    adminActivate:(req, res)=> {
+        const couponId = req.params.id;
+        adminHelpers.activateCoupon(couponId).then(()=> {
+            res.redirect('/admin/adminCoupon')
+        }).catch(()=> {
+            res.redirect('/admin/adminCoupon');
+        })
     }
+
+
     
 }

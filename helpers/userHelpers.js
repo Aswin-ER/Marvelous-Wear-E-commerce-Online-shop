@@ -242,28 +242,79 @@ module.exports = {
         })
     },
 
-    addOrderDetails: (order) => {
-        // Object.assign(order, {status: "pending"});
-        return new Promise((resolve, reject) => {
-          db.get().collection(collection.ORDER_COLLECTION).insertOne(order)
-          .then(async (response)=>{
-            resolve(response);
-            for(let i =0 ; i < order.item.length;i++){
-                const stock = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
-                    {
-                        _id: order.item[i].product._id
-                    },
-                    {
-                        $inc: {
-                            stock: -order.item[i].quantity
-                        }
+    addOrderDetails: (order, userId) => {
+        return new Promise(async (resolve, reject) => {
+            if(order.coupon != 'undefined'){
+                const couponCode = order.coupon;
+                const coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({
+                    code: order.coupon
+                });
+                order.coupon = coupon;
+                try{
+                    const couponExist = await db.get().collection(collection.USER_COLLECTION).findOne(
+                        {
+                            _id: new objectId(userId),
+                            usedCoupons: { $elemMatch: {couponCode}},
+                        },
+                    )
+                    if(! couponExist){
+                        db.get().collection(collection.USER_COLLECTION).updateOne(
+                            {
+                                _id: new objectId(userId)
+                            },
+                            {
+                                $push: {
+                                    usedCoupons: {couponCode}
+                                }
+                            }
+                        )
                     }
-                )
+                }catch(err){
+                    console.log(err)
+                }finally{
+                    db.get().collection(collection.ORDER_COLLECTION).insertOne(order)
+                    .then(async (response)=>{
+                      resolve(response);
+                      for(let i =0 ; i < order.item.length;i++){
+                      const stock = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
+                         {
+                             _id: order.item[i].product._id
+                         },
+                         {
+                             $inc: {
+                                 stock: -order.item[i].quantity
+                             }
+                         }
+                        )
+                    }
+                    })
+                    .catch((err)=>{
+                      reject(err);
+                    })
+                }
+            }else{
+                delete order.coupon
+                db.get().collection(collection.ORDER_COLLECTION).insertOne(order)
+                    .then(async (response)=>{
+                      resolve(response);
+                      for(let i =0 ; i < order.item.length;i++){
+                      const stock = await db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
+                         {
+                             _id: order.item[i].product._id
+                         },
+                         {
+                             $inc: {
+                                 stock: -order.item[i].quantity
+                             }
+                         }
+                        )
+                    }
+                    })
+                    .catch((err)=>{
+                      reject(err);
+                    })
             }
-          })
-          .catch((err)=>{
-            reject(err);
-          })
+          
         })
       },
 
@@ -545,6 +596,28 @@ module.exports = {
                     }
                 }
             ).then((response) => {resolve(response)})
+        })
+    },
+
+    couponApply:(couponCode, userId)=>{
+        return new Promise(async(resolve, reject)=>{
+            const couponExists = await db.get().collection(collection.USER_COLLECTION)
+            .findOne(
+                {
+                    _id: new objectId(userId),
+                    usedCoupons: { $elemMatch: { couponCode } }
+                }
+            )
+            const coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({code: couponCode});
+            if(coupon){
+                if(couponExists){
+                    resolve("couponExists");
+                }else{
+                    resolve(coupon);
+                }
+            }else{
+                resolve(null);
+            }
         })
     }
 

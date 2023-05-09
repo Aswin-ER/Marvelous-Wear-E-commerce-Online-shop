@@ -120,9 +120,9 @@
 
 
         {{!-- Graph Implementation --}}
-        <div class=" tm-col-big mt-5 mx-5 mb-5">
+        {{!-- <div class=" tm-col-big mt-5 mx-5 mb-5">
           <div class="bg-white tm-block h-100">
-            <h2 class="tm-block-title">Performance</h2>
+            <h2 class="tm-block-title">Sales Performance</h2>
             <canvas id="myChart"></canvas>
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -149,7 +149,55 @@
                           });
             </script>
           </div>
-        </div>
+        </div> --}}
+
+        <div class=" tm-col-big mt-5 mx-5 mb-5">
+  <div class="bg-white tm-block h-100">
+    <h2 class="tm-block-title">Sales Performance</h2>
+
+    <form>
+      <label for="year">Select a year:</label>
+      <input type="number" id="year" name="year" min="2022" max="2023" value="2023">
+      <button type="button" onclick="updateSalesData()" class="btn-dark">Update</button>
+    </form>
+
+    <canvas id="myChart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+      let salesData = {
+        '2023': [{{ jan }}, {{ feb }}, {{ mar }}, {{ apr }}, {{ may }}, {{ jun }}],
+      };
+
+      const ctx = document.getElementById('myChart');
+      let myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+          datasets: [{
+            label: 'Number of sales',
+            data: salesData['2023'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      function updateSalesData() {
+        let year = document.getElementById('year').value;
+        myChart.data.datasets[0].data = salesData[year];
+        myChart.update();
+      }
+    </script>
+  </div>
+</div>
+
 
 
         {{!-- Pie chart --}}
@@ -197,7 +245,7 @@
           <div class="bg-white tm-block h-100">
             <div class="row">
               <div class="col-8">
-                <h2 class="tm-block-title d-inline-block">category</h2>
+                <h2 class="tm-block-title d-inline-block">Total Reports</h2>
 
               </div>
               {{!-- <div class="col-4 text-right">

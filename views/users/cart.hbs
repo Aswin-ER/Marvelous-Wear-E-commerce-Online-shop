@@ -60,6 +60,16 @@
                                         style="color: black;border-color: rgb(192, 192, 192);">&nbsp;+&nbsp;</span>
                                 </div>
                             </div>
+
+                            {{!-- <span id="{{this.product._id}}stockOut text-danger" hidden >stock is out</span>  --}}
+								<span id="{{this.product._id}}stocks" style="font-weight: bold;" class="text-danger">{{substract this.product.stock this.quantity}}</span>
+
+								<span class="text-danger" style="font-weight: bold;" id="{{this.product._id}}inStock">Product in Stock</span>
+
+                                <span class="text-danger" style="font-weight: bold; display: none;"  id="{{this.product._id}}outOfStock">Out of stock</span>
+
+
+
                         </td>
                         <td class="product-close"><a class="deleteProduct" onclick="deleteProduct('{{this.product._id}}')"
                                 style="margin-left:35px; color: black;">x</a></td>
@@ -208,7 +218,16 @@
         let quantity = parseInt(document.getElementById(productId).value)
         let Count = parseInt(count)
         let price = parseFloat(productPrice);
-        $.ajax({
+
+        let stocks = document.getElementById(`${productId}stocks`);
+
+        //console.log(stocks+"thendi")
+        //console.log(stocks.innerHTML+"asasasasas")
+
+		let stocksValue = Number(stocks.innerHTML);
+
+        if(stocksValue-(count)>=0){
+            $.ajax({
             url: '/change-product-quantity',
             data: {
                 product: productId,
@@ -223,10 +242,24 @@
                 } else {
                     document.getElementById(productId).value = quantity + count
                     document.getElementById('total').innerHTML = response.total
+                    document.getElementById(`${productId}stocks`).innerHTML = stocksValue-(count);
                     //document.getElementById('total1').innerHTML = response.total + 10
+                    if(stocksValue - count === 0){
+                        document.getElementById(`${productId}outOfStock`).style.display='inline'
+                        document.getElementById(`${productId}stocks`).style.display='none'
+                        document.getElementById(`${productId}inStock`).style.display='none'
+
+                    }else{
+                        document.getElementById(`${productId}outOfStock`).style.display='none'
+                        document.getElementById(`${productId}stocks`).style.display='inline'
+                        document.getElementById(`${productId}inStock`).style.display='inline'
+
+                    }
                 }
             }
         })
+        }
+        
     }
 
 
