@@ -3,6 +3,7 @@ const collection = require('../configurations/collections');
 const objectId = require('mongodb-legacy').ObjectId;
 
 module.exports = {
+
     addCategory:(detailes) => {
         return new Promise (async (resolve, reject) => {
                 const Category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({name: detailes.name})
@@ -134,7 +135,7 @@ module.exports = {
             ]).toArray()
             .then((count) => {
                 const totalCount = count[0].totalProducts;
-                console.log(totalCount+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+               // console.log(totalCount+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 resolve(totalCount);
             }).catch((err) => {
                 console.log(err);

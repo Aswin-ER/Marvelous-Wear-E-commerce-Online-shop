@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="categories-filter">
-                            <!--  price slider -->
+                        <!--  price slider -->
                         <div class="col-md-12">
                             <label for="range">Price range:</label>
                             <div class="range-slider">
@@ -52,7 +52,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-xs-12">
                             <div class="extra-controls mb-4">
                                 <label hidden for="selectMinPrice">Minimum price:</label>
                                 <input hidden type="number" class="form-control" id="selectMinPrice" name="minPrice"
@@ -68,15 +68,13 @@
                             </div>
                         </div>
 
-                         <div class="cf-left mt-3">
-                                    {{!-- <select class="sort"> --}}
-                                        {{!-- <option value="" >Sort by</option> --}}
-                                        <a href="" class="btn btn-dark" onclick="sortPrice(1)">Low to High</a>
-                                        <a href="" class="btn btn-dark" onclick="sortPrice(-1)">High to Low</a>
-                                        {{!-- <option value="" onclick="sortPrice(1)">Low to High</option>
-                                        <option value="" onclick="sortPrice(-1)">High to Low</option> --}}
-                                    {{!-- </select> --}}
-                            </div>
+                        <div class="cf-left col-md-12" >
+                            <select class="sort" onchange="sortPrice(this.value)">
+                                <option value="">Sort by</option>
+                                <option value="1">Low to High</option>
+                                <option value="-1">High to Low</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,8 +86,8 @@
             {{#each products}}
             <div class="col-lg-3 col-md-6">
                 <div class="single-product-item">
-                    <figure>
-                        <img src="{{this.images.[0]}}" alt="">
+                   <figure>
+                      <img src="{{this.images.[0]}}" alt="">
                         <div class="p-status">new</div>
                         <div class="hover-icon">
                             <a href="{{this.images.[0]}}" class="pop-up"><img src="img/icons/zoom-plus.png" alt=""></a>
@@ -165,8 +163,8 @@
         {{!-- Pagination --}}
         <div class="col d-flex justify-content-center pagination text-dark">
         </div>
-        
-        
+
+
     </div>
 </section>
 <!-- Categories Page Section End -->
@@ -184,17 +182,17 @@
     // initialize range slider
     let instance = null;
     const min = 300;
-    const max = 1000;
-    const defaultMin = min;
-    const defaultMax = max;
+    const max = 999;
+    const defaultMin = selectMinPrice.value ?? min;
+    const defaultMax = selectMaxPrice.value ?? max;
     range.value = `${defaultMin},${defaultMax}`;
     instance = $(range).ionRangeSlider({
         skin: "square",
         type: "double",
         min: min,
         max: max,
-        from: defaultMin,
-        to: defaultMax,
+        from: min,
+        to: max,
         onStart: updateInputs,
         onChange: updateInputs
     }).data("ionRangeSlider");
@@ -239,27 +237,26 @@
 
 
 
-{{!-- Pagination  --}}
+{{!-- Pagination --}}
 <script>
-    document.addEventListener("DOMContentLoaded", () =>{
+    document.addEventListener("DOMContentLoaded", () => {
         const totalCountInput = document.getElementById('totalCount');
         const totalCount = Number(totalCountInput.value);
 
-        const currentPageInput  = document.getElementById('currentPages');
+        const currentPageInput = document.getElementById('currentPages');
         const currentPage = Number(currentPageInput.value);
-        const totalPages = Math.ceil(totalCount/8);
+        const totalPages = Math.ceil(totalCount / 8);
 
         let page = currentPage || 1;
         const paginationElement = document.querySelector('.pagination')
 
         let pageLinks = '';
 
-        //console.log(currentPage);
-        //console.log(totalPages);
-    
-        for(let i = 1; i <= totalPages; i++){
-            pageLinks += `<ul style="list-style-type: none;"><li class="page-item${i === page ? ' active' : ''}"><a class="page-link" style="color: black;" href="?page=${i}">${i}</a></li></ul>`;
+        for (let i = 1; i <= totalPages; i++) {
+            pageLinks += `<ul style="list-style-type: none;"> <li class="mx-2 page-item${i === page ? ' active' : ''}"> <a class="page-link" style="color: black;" href="?page=${i}">${i}</a></li></ul>`;
         }
         paginationElement.innerHTML = pageLinks;
     });
+
+
 </script>

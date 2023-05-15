@@ -241,7 +241,21 @@ module.exports = {
        })
     },
 
+    adminOrderView: async (req, res)=> {
+        const orderId = req.params.id;
+        const order = await adminHelpers.getSingleOrder(orderId);
+        res.render('admin/adminOrderView', {admin: true, adminName: req.session.adminName, order})
+    },
 
+    adminRefund:(req, res)=> {
+        const orderId = req.params.id;
+        adminHelpers.adminRefund(orderId).then(()=>{
+            res.redirect('back');
+        })
+    },
+
+    
+    // Admin SalesReport
     adminSalesReport: async (req, res) => {
         const deliveredOrders = await adminHelpers.getAllDeliveredOrders();
 
@@ -283,13 +297,17 @@ module.exports = {
                     const formattedDate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
                     eachOrder.date = formattedDate;
                 });
+                
             }else{
+
                 filteredOrders = false;
             }
             res.render('admin/adminSalesReport', {admin: true, adminName: req.session.adminName, deliveredOrders:filteredOrders, totalEarnings});
         })
     },
 
+
+    // Admin Coupon Management
     adminCoupon: async (req, res)=> {
        const coupons = await adminHelpers.getCoupon();
        coupons.forEach(coupon=> {
@@ -329,6 +347,48 @@ module.exports = {
             res.redirect('/admin/adminCoupon')
         }).catch(()=> {
             res.redirect('/admin/adminCoupon');
+        })
+    },
+
+
+    // Admin Banner Management
+    adminBanner:(req, res)=> {
+        adminHelpers.getBanner().then((banner)=> {
+            res.render('admin/adminBanner', {admin: true, adminName:req.session.adminName, banner});
+        })
+    },
+
+    adminAddBanner: async (req, res)=> {
+        try{
+            const image = await cloudinary.uploader.upload(req.file.path);
+            req.body.image = image.url;
+
+        }catch (err){
+            console.log(err);
+        }
+        
+        adminHelpers.addBanner(req.body).then(()=> {
+            res.redirect('back')
+        })
+    },
+
+    adminEditBanner: async(req, res)=> {
+        const bannerId = req.params.id;
+        try{
+        const image = await cloudinary.uploader.upload(req.file.path);
+        adminHelpers.adminBannerImageEdit(bannerId, image.url);
+        }catch (err){
+            console.log(err);
+        }
+        adminHelpers.adminEditBanner(bannerId, req.body).then(()=> {
+            res.redirect('/admin/adminBanner');
+        })
+    },
+
+    adminActivateBanner:(req, res)=> {
+        const bannerId = req.params.id;
+        adminHelpers.adminActivateBanner(bannerId).then(()=> {
+            res.redirect('/admin/adminBanner')
         })
     }
 

@@ -119,47 +119,15 @@
         </style>
 
 
-        {{!-- Graph Implementation --}}
-        {{!-- <div class=" tm-col-big mt-5 mx-5 mb-5">
-          <div class="bg-white tm-block h-100">
-            <h2 class="tm-block-title">Sales Performance</h2>
-            <canvas id="myChart"></canvas>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-            <script>
-              const ctx = document.getElementById('myChart');
-
-              new Chart(ctx, {
-                type: 'bar',
-                data: {
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                  datasets: [{
-                    label: 'Number of sales',
-                    data: [{{ jan }}, {{ feb }}, {{ mar }}, {{ apr }}, {{ may }}, {{ jun }}],
-                borderWidth: 1
-                              }]
-                            },
-                options: {
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
-              }
-                          });
-            </script>
-          </div>
-        </div> --}}
-
+      {{!-- Graph Implementation  --}}
+      
         <div class=" tm-col-big mt-5 mx-5 mb-5">
   <div class="bg-white tm-block h-100">
     <h2 class="tm-block-title">Sales Performance</h2>
 
-    <form>
       <label for="year">Select a year:</label>
-      <input type="number" id="year" name="year" min="2022" max="2023" value="2023">
+      <input type="number" id="year" name="year" min="2023" max="2025" value="2023">
       <button type="button" onclick="updateSalesData()" class="btn-dark">Update</button>
-    </form>
 
     <canvas id="myChart"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -4,7 +4,6 @@ const adminControllers = require('../controllers/adminControllers');
 const multer = require('../utils/multer');
 const verifySession = require('../middleware/verifySession');
 
-
 // Admin Login & Logout
 router.get('/', verifySession.ifAdminLoggedIn, adminControllers.adminLogin);
 
@@ -17,7 +16,7 @@ router.get('/adminPanel', verifySession.verifyAdminLoggedIn, adminControllers.ad
 router.post('/adminPanel', adminControllers.adminLoginPost);
 
 
-// Admin Products (Using Multer Here----)
+// Admin Products 
 router.get('/adminProduct', verifySession.verifyAdminLoggedIn, adminControllers.adminProduct);
 
 router.get('/adminAddProduct', verifySession.verifyAdminLoggedIn, adminControllers.adminAddProduct);
@@ -56,6 +55,12 @@ router.get('/adminOrder', verifySession.verifyAdminLoggedIn, adminControllers.ad
 
 router.post('/adminOrderStatus/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminOrderStatus);
 
+router.get('/adminOrdersView/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminOrderView);
+
+router.post('/adminRefund/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminRefund);
+
+
+// Admin Sales Report
 router.get('/adminSalesReport', verifySession.verifyAdminLoggedIn, adminControllers.adminSalesReport);
 
 router.get('/adminSalesReportFilter', verifySession.verifyAdminLoggedIn, adminControllers.adminSalesReportFilter);
@@ -63,6 +68,7 @@ router.get('/adminSalesReportFilter', verifySession.verifyAdminLoggedIn, adminCo
 router.post('/adminSalesReportFilter', verifySession.verifyAdminLoggedIn, adminControllers.adminSalesReportFilterPost);
 
 
+// Admin Coupon
 router.get('/adminCoupon', verifySession.verifyAdminLoggedIn, adminControllers.adminCoupon);
 
 router.post('/adminAddCoupon', verifySession.verifyAdminLoggedIn, adminControllers.adminAddCoupon);
@@ -72,6 +78,16 @@ router.post('/adminEditCoupon/:id', verifySession.verifyAdminLoggedIn, adminCont
 router.get('/adminDeactivate/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminDeactivate);
 
 router.get('/adminActivate/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminActivate);
+
+
+// Admin Banner
+router.get('/adminBanner', verifySession.verifyAdminLoggedIn, adminControllers.adminBanner);
+
+router.post('/adminAddBanner', verifySession.verifyAdminLoggedIn, multer.single("image", 1), adminControllers.adminAddBanner);
+
+router.post('/adminEditBanner/:id', verifySession.verifyAdminLoggedIn, multer.single("image", 1), adminControllers.adminEditBanner);
+
+router.get('/adminActivateBanner/:id', verifySession.verifyAdminLoggedIn, adminControllers.adminActivateBanner);
 
 
 

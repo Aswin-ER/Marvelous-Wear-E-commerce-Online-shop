@@ -1,33 +1,34 @@
 {{!-- <div class="container">
-    <div class="row">
-        <form action="/otpVerify" method="post">
-            <input type="text" name="code">
-            <input type="submit" class="btn btn-primary">
-        </form>
-    </div>
+  <div class="row">
+    <form action="/otpVerify" method="post">
+      <input type="text" name="code">
+      <input type="submit" class="btn btn-primary">
+    </form>
+  </div>
 </div> --}}
 
 <style>
-    .gradient-custom-3 {
-/* fallback for old browsers */
-background: #84fab0;
+  .gradient-custom-3 {
+    /* fallback for old browsers */
+    background: #84fab0;
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
 
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
-}
-.gradient-custom-4 {
-/* fallback for old browsers */
-background: #84fab0;
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+  }
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+  .gradient-custom-4 {
+    /* fallback for old browsers */
+    background: #84fab0;
 
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
-}
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+  }
 </style>
 
 <section class="vh-100 bg-image">
@@ -38,10 +39,11 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
           <div class="card my-5" style="border-radius: 15px;">
             <div class="card-body">
               <h2 class="text-uppercase text-center mb-5">Create an account</h2>
-
+              <h6>Enter the code we just send on your mobile phone <br><b class="text-danger">+91 {{phone}}</b></h6>
+              <br>
               <form action="/otpverification" method="post">
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="otp"/>
+                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="otp" />
                   <label class="form-label" for="form3Example1cg">Enter OTP</label>
                 </div>
 
@@ -50,10 +52,15 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                 {{/if}}
 
                 <div class="d-flex justify-content-center">
-                  <a href="/"><button type="submit"
-                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Submit</button></a>
+                  <button type="submit"
+                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Submit</button>
                 </div>
               </form>
+
+              <div id="resend-container" class="text-center mt-4">
+                <p>Didn't receive OTP? Resend in <span id="timer">30</span> seconds.</p>
+                <button id="resend-btn" class="btn btn-link" onclick="location.reload()" disabled>Resend OTP</button>
+              </div>
 
             </div>
           </div>
@@ -62,3 +69,32 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
     </div>
   </div>
 </section>
+
+<script>
+  // Timer
+  let timerValue = 30;
+  const timerElement = document.getElementById('timer');
+
+  function startTimer() {
+    const timerInterval = setInterval(() => {
+      timerValue--;
+      timerElement.textContent = timerValue;
+
+      if (timerValue <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById('resend-btn').disabled = false;
+      }
+    }, 1000);
+  }
+
+  // Resend Button Click Event
+  const resendButton = document.getElementById('resend-btn');
+  resendButton.addEventListener('click', () => {
+
+    startTimer();
+    resendButton.disabled = true;
+  });
+
+  // Start the timer on page load
+  startTimer();
+</script>

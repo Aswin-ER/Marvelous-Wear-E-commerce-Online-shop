@@ -3,6 +3,7 @@ const collection = require('../configurations/collections');
 const objectId = require('mongodb-legacy').ObjectId;
 
 module.exports = {
+    
     addToCart:  (productId, user, quantity)=> {
         productId = new objectId(productId);
         return new Promise (async (resolve, reject) => {
@@ -161,9 +162,9 @@ module.exports = {
           .then((response)=>{resolve({status:true})})
           }
         })
-      },
+    },
   
-      getCartTotal:(userId)=>{
+    getCartTotal:(userId)=>{
           return new Promise((resolve, reject) => {
             db.get().collection(collection.CART_COLLECTION)
             .aggregate([
@@ -203,7 +204,7 @@ module.exports = {
                 reject(err);
               });
           });      
-      },
+    },
 
       
 }

@@ -120,25 +120,13 @@
 </section>
 <!-- Page Add Section End -->
 
+
 <!-- Cart Total Page Begin -->
 <section class="cart-total-page spad">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-
-        <h3>Your Information</h3>
-        <span id="invalidCoupon" class="text-danger" style="display: flex; justify-content: end;"></span>
-        <br>
-        <div style="display: flex; justify-content: end; ">
-          <form>
-            <input type="text" id="couponCode" placeholder="Promo code" style="width: 9.5rem;">
-            <span onclick="submitCoupon()" class="btn btn-secondary">Redeem</span>
-          </form>
-
-        </div>
-
-
-
+        <h3 class="mb-5">Your Information</h3>
         <form id="checkoutForm" class="checkout-form">
           <div class="row">
             <div class="col-lg-9">
@@ -160,7 +148,7 @@
                           </div>
                           <div class="ml-5 pr-3 d-flex">
                             <div>
-                              <a class="btn btn-primary pl-3 pr-3 text-light"
+                              <a class="btn btn-dark pl-3 pr-3 text-light"
                                 style="letter-spacing: 0.1rem;cursor: pointer;" data-toggle="modal"
                                 data-target="#edit{{this._id}}">Edit</a>
                             </div>
@@ -175,7 +163,7 @@
                       </div>
                       {{/each}}
                       <div class="custom-control">
-                        <a class="text-primary" data-toggle="modal" data-target=".bd-example-modal-lg"
+                        <a class="text-dark" data-toggle="modal" data-target=".bd-example-modal-lg"
                           style="cursor: pointer;">Add a new Address</a>
                       </div>
                     </div>
@@ -213,24 +201,72 @@
 
           </div>
       </div>
+
+      
+      <div class="header-info">
+        <div class="row">
+          {{#each coupons}}
+           {{#if this.deactivate}}
+            {{!-- <div class="col-md-6 text-left text-lg-center">
+                <div class="header-item">
+                    <img src="img/icons/voucher.png" alt="">
+                    <p>Coupon Code: {{code}} ({{discount}} Discount)</p>
+                </div>
+            </div> --}}
+            {{else if this.expired}}
+            {{!-- <div class="col-md-6 text-left text-lg-center">
+                <div class="header-item">
+                    <img src="img/icons/voucher.png" alt="">
+                    <p>Coupon Code: {{code}} ({{discount}} Discount)</p>
+                </div>
+            </div> --}}
+            {{else}}
+            <div class="col-md-4 text-left text-lg-center">
+                <div class="header-item">
+                    <img src="img/icons/voucher.png" alt="">
+                    <p>Coupon Code: {{code}} ({{discount}} Discount)</p>
+                </div>
+            </div>
+            {{/if}}
+            {{/each}}
+        </div>
+        </div>
+        
+
+      <div class="cart-btn">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="coupon-input">
+                        <input type="text" id="couponCode" placeholder="Enter cupone code">
+                        <span id="invalidCoupon" class="text-danger" style="display: flex; justify-content: end;"></span>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1 text-left text-lg-right">
+                  <div onclick="submitCoupon()" class="site-btn update-btn" id="redeem">Redeem</div>
+                </div>
+            </div>
+        </div>
+
+
+
       <div class="row">
         <div class="col-lg-12">
           <div class="payment-method">
             <h3>Payment</h3>
             <div class="custom custom-radio">
-              <label for="paypal">Paypal<img class="ml-4 mr-4" src="img/paypal.jpg" alt=""></label>
-              <input type="radio" id="paypal" name="paymentMethod" onclick="validateSubmit()"
+              <label for="paypal">Paypal<img class="ml-4 mr-3" src="img/paypal.jpg" alt=""></label>
+              <input class="mt-3" type="radio" id="paypal" name="paymentMethod" onclick="validateSubmit()"
                 class="custom-control-label" value="paypal" required>
             </div>
 
-            <div class="custom custom-radio"><label for="card">Credit / Debit card <img class="ml-4 mr-4" src=""
+            <div class="custom custom-radio"><label for="card">Credit / Debit card <img class="ml-4 mr-3" src="img/mastercard.jpg"
                   alt=""></label>
-              <input type="radio" id="card" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
+              <input class="mt-3" type="radio" id="card" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
                 value="card" required>
             </div>
             <div class="custom custom-radio">
               <label for="COD">Pay when you get the package</label>
-              <input type="radio" id="COD" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
+              <input class="mt-3 ml-2" type="radio" id="COD" name="paymentMethod" class="custom-control-label" onclick="validateSubmit()"
                 value="COD" required>
             </div>
             <button id="checkoutBtn" disabled class="btn btn-dark btn-lg btn-block mt-3" type="submit">Place your
@@ -245,20 +281,23 @@
 
 
 <!-- Success HTML -->
-<div id="demoModal" class="modal fade">
-  <div class="modal-dialog modal-confirm">
+<div class="modal fade auto-off" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModal"
+  aria-hidden="true">
+  <div class="modal-dialog animated zoomInDown modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <div class="icon-box">
-          <i class="material-icons">&#xE876;</i>
+      <div class="container-fluid">
+        <div class="row py-5">
+          <div class="col-md-12 m-h-20 bg-img rounded-left text-center">
+            <img style="max-width: 20%;"
+              src="https://lirp.cdn-website.com/bbca9e7c/dms3rep/multi/opt/green-tick-icon-0-1000x1000-640w.png" alt="">
+          </div>
+          <div class="col-md-12 text-center pt-4 px-sm-5 ">
+
+            <h2>Order Placed Successfuly</h2>
+            <p class="text-muted"></p>
+            <a href="/orders"><button class="btn btn-dark w-50">Go to Orders</button></a>
+          </div>
         </div>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      </div>
-      <div class="modal-body text-center">
-        <h4>Great!</h4>
-        <p>Your order has been created successfully.</p>
-        <a href="/orders" class="btn btn-success" data-dismiss="modal"><span>Orders</span> <i
-            class="material-icons">&#xE5C8;</i></a>
       </div>
     </div>
   </div>
@@ -275,7 +314,7 @@
 
         <div class="row py-5">
           <div class="col-md-12 m-h-20 bg-img rounded-left text-center">
-            <img style="max-width: 40%;"
+            <img style="max-width: 20%;"
               src="https://lirp.cdn-website.com/bbca9e7c/dms3rep/multi/opt/green-tick-icon-0-1000x1000-640w.png" alt="">
           </div>
           <div class="col-md-12 text-center pt-4 px-sm-5 ">
@@ -302,31 +341,31 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputEmail4">Name</label>
-              <input type="name" class="form-control" name="name" id="inputEmail4" placeholder="Name">
+              <input type="name" class="form-control" name="name" id="inputEmail4" placeholder="Name" required pattern="^[a-zA-Z\s'-]{2,50}$">
             </div>
             <div class="form-group col-md-6">
               <label for="inputPassword4">Mobile Number</label>
               <input type="text" maxlength="10" class="form-control" name="phone" id="inputPassword4"
-                placeholder="Mobile Number">
+                placeholder="Mobile Number" required pattern="[0-9]{10}">
             </div>
           </div>
           <label for="">Address</label>
           <div class="form-group">
             <textarea name="address" class="form-control" id="address" cols="50" placeholder="Address (Area and Street)"
-              rows="5"></textarea>
+              rows="5" required ></textarea>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputCity">City</label>
-              <input type="text" name="city" class="form-control" placeholder="city" id="inputCity">
+              <input type="text" name="city" class="form-control" placeholder="city" id="inputCity" required pattern="^[a-zA-Z\s'-]{2,50}$">
             </div>
             <div class="form-group col-md-4">
               <label for="inputState">State</label>
-              <input type="text" class="form-control" placeholder="State" name="state">
+              <input type="text" class="form-control" placeholder="State" name="state" required pattern="^[a-zA-Z\s'-]{2,50}$">
             </div>
             <div class="form-group col-md-2">
               <label for="inputZip">Zip Code</label>
-              <input type="text" class="form-control" name="postCode" placeholder="Zip Code" id="inputZip">
+              <input type="text" class="form-control" name="postCode" placeholder="Zip Code" id="inputZip" required pattern="^\d{6}$">
             </div>
           </div>
           <label for="type">Address Type</label>
@@ -478,7 +517,6 @@
 
 
 
-
   let coupon
   function submitCoupon() {
     let totalCost = parseInt(document.getElementById('total').value)
@@ -505,6 +543,9 @@
           document.getElementById('couponPrice').innerHTML = `Rs.${couponAmt}`;
           document.getElementById('couponCode').value = code;
           console.log(totalCost, couponAmt)
+
+          document.getElementById('redeem').onclick = null;
+          
         }
       } else {
         document.getElementById('invalidCoupon').innerHTML = response.data.status;
@@ -537,10 +578,11 @@
         }, 2000);
 
       } else if (response.data.paymentMethod === 'card') {
-        //console.log(response.data.response + "responseeeeeeeeeeee");
-        //console.log(response.data.userDetails + "User detailes");
+
         razorpayPayment(response.data.response, response.data.userDetails);
+
       } else if (response.data.status === "success") {
+        
         window.location.href = response.data.approval_link;
       }
     }).catch((err) => {

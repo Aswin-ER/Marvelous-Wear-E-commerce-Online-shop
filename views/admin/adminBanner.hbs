@@ -1,0 +1,191 @@
+<div class="container">
+    <div class="row tm-content-row tm-mt-big">
+        <div class="col-xl-12 col-lg-12 tm-md-12 tm-sm-12 tm-block-col">
+            <div class="bg-white tm-block h-100">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12">
+                        <h2 class="tm-block-title d-inline-block">Banner</h2>
+
+                    </div>
+                    <div class="col-md-4 col-sm-12 text-right mb-4">
+                        <a href="#" data-toggle="modal" data-target="#add" class="btn btn-small btn-primary">Add Banner</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped tm-table-striped-even mt-3 text-center"
+                        id="productsTable">
+                        <thead>
+                            <tr class="tm-bg-gray">
+                                <th scope="col" class="text-center">Banner Heading</th>
+                                <th scope="col" class="text-center">Banner Image</th>
+                                <th scope="col" class="text-center">Edit Banner</th>
+                                <th scope="col" class="text-center">Activate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {{#each banner}}
+                            <tr>
+                                <td class="tm-product-name">{{this.heading}}</td>
+                                <td><img src="{{this.image}}" alt="" style="width: 60px; height: 60px;">
+                                <td><a data-toggle="modal" data-target="#edit{{this._id}}"><i
+                                            class="fas fa-edit"></i></a></td>
+
+                                {{#if this.active}}
+                                <td><a class="btn btn-success disabled">Activated</a></td>
+                                {{else}}
+                                <td><a class="btn btn-danger" data-toggle="modal"
+                                        data-target="#activate{{this._id}}">Activate</a></td>
+                                {{/if}}
+
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{!-- Add Banner --}}
+    <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Banner</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="text-dark" action="/admin/adminAddBanner" method="post"
+                        enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="name" class="col-form-label">Banner Heading : </label>
+                            <input type="text" name="heading" value="{{this.heading}}" style="color: black;" class="border"
+                                id="name">
+                        </div>
+
+                        <div class="form-group">
+                             <input id="fileInput" type="file" style="display:none;" name="image" />
+                        <input type="button" class="btn btn-primary d-block mx-auto" value="Upload ..."
+                            onclick="document.getElementById('fileInput').click();" required />
+                        </div> 
+
+
+                         <script>
+                        // Get the input element for the file
+                            var input = document.getElementById('fileInput');
+
+                            // Add an event listener to the input element to detect when a file is selected
+                            input.addEventListener('change', function() {
+                              // Get the selected files
+                              var files = input.files;
+
+                              // Loop through the selected files
+                              for (var i = 0; i < files.length; i++) {
+                                // Show a success notification for each file
+                                Toastify({
+                                  text: 'Image ' + (i+1) + ' uploaded successfully!',
+                                  duration: 3000, // Duration of the notification in ms
+                                  close: true, // Show close button or not
+                                  gravity: 'top',
+                                  position: 'center', // Position of the notification
+                                  style: {
+					                	background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
+					                }, // Background color of the notification
+                                  stopOnFocus: true // Stop timeout when notification is clicked
+                                }).showToast();
+                              }
+                            });
+                    </script>
+                    
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                            <a><button type="submit" class="btn btn-primary">confirm</button></a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   {{!-- Edit Banner --}}
+   {{#each banner}}
+    <div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Banner</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="text-dark" action="/admin/adminEditBanner/{{this._id}}" method="post"
+                        enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="name" class="col-form-label">Banner Heading : </label>
+                            <input type="text" name="heading" value="{{this.heading}}" style="color: black;" class="border"
+                                id="name">
+                        </div>
+
+                        <div class="form-group">
+                             <input id="fileInput" type="file" style="display:none;" name="image" />
+                        <input type="button" class="btn btn-primary d-block mx-auto" value="Upload ..."
+                            onclick="document.getElementById('fileInput').click();" required />
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                            <a><button type="submit" class="btn btn-primary">confirm</button></a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+
+
+{{!-- activate modal --}}
+{{#each banner}}
+<div class="modal fade" id="activate{{this._id}}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to Activate {{this.heading}} ?
+            </div>
+            <div class="modal-footer">
+                <a href=""><button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button></a>
+                <a href="/admin/adminActivateBanner/{{this._id}}"><button type="button"
+                        class="btn btn-danger">Activate</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+
+<script>
+    $(function () {
+        $('#productsTable').DataTable();
+    });
+</script>

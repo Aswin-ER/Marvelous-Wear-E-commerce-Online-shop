@@ -6,9 +6,9 @@
             <div class="col-lg-4">
                 <div class="page-breadcrumb">
                     <h2>Cart<span>.</span></h2>
-                    <a href="#">Home</a>
-                    <a href="#">Products</a>
-                    <a class="active" href="#"></a>
+                    <a href="/">Home</a>
+                    <a href="/shop">Products</a>
+                    <a class="active" href="/cart">Cart</a>
                 </div>
             </div>
             <div class="col-lg-8">
@@ -22,80 +22,76 @@
 <!-- Cart Page Section Begin -->
 <div class="cart-page">
     <div class="container">
-        <div class="cart-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="product-h">Product</th>
-                        <th>Price</th>
-                        <th class="quan">Quantity</th>
-                        <th>Delete</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each userDetailes}}
-                    <tr>
-                        <td class="product-col">
-                            <img src="{{this.product.images.[0]}}" alt="">
-                            <div class="p-title">
-                                <h5>{{this.product.name}}</h5>
-                            </div>
-                        </td>
-                        <td class="price-col">{{this.product.price}}</td>
-                        <td class="quantity-col">
-                            <div class="input-group mb-3">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="cart-table">
+                    <table class=table-responsive>
+                        <thead>
+                            <tr>
+                                <th class="product-h">Product</th>
+                                <th>Price</th>
+                                <th class="quan">Quantity</th>
+                                <th>Delete</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each userDetailes}}
+                            <tr>
+                                <td class="product-col">
+                                    <img src="{{this.product.images.[0]}}" alt="">
+                                    <div class="p-title">
+                                        <h5>{{this.product.name}}</h5>
+                                    </div>
+                                </td>
+                                <td class="price-col col-xs-12 col-sm-12 col-md-12">{{this.product.price}}</td>
+                                <td class="quantity-col col-xs-12 col-sm-12 col-md-12">
+                                    <div class="input-group mb-3">
 
-                                <div class="mb-0">
-                                    <span class="btn bg-transparent mr-2 text-center mt-2" id="minus"
-                                        onclick="changeQuantity('{{this.product._id}}', -1,'{{this.product.price}}')"
-                                        style="color: rgb(0, 0, 0);border-color: rgb(192, 192, 192);">&nbsp;-&nbsp;</span>
-                                </div>
-                                <input type="text" name="quantity" disabled id="{{this.product._id}}"
-                                    class="quantity form-control input-number mt-2" value=" {{this.quantity}}" min="1"
-                                    max="100" style="max-width: 40px;">
-                                <div class="mb-0">
-                                    <span class="btn btn-dark bg-transparent ml-2 text-center mt-2"
-                                        onclick="changeQuantity('{{this.product._id}}', 1,'{{this.product.price}}')"
-                                        style="color: black;border-color: rgb(192, 192, 192);">&nbsp;+&nbsp;</span>
-                                </div>
-                            </div>
+                                        <div class="mb-0">
+                                            <span class="btn bg-transparent mr-2 text-center mt-2" id="minus"
+                                                onclick="changeQuantity('{{this.product._id}}', -1,'{{this.product.price}}')"
+                                                style="color: rgb(0, 0, 0);border-color: rgb(192, 192, 192);">&nbsp;-&nbsp;</span>
+                                        </div>
+                                        <input type="text" name="quantity" disabled id="{{this.product._id}}"
+                                            class="quantity form-control input-number mt-2 mr-2" value=" {{this.quantity}}"
+                                            min="1" max="100" style="max-width: 40px;">
+                                        <div class="mb-0">
+                                            <span class="btn btn-dark bg-transparent text-center mt-2"
+                                                onclick="changeQuantity('{{this.product._id}}', 1,'{{this.product.price}}')"
+                                                style="color: black;border-color: rgb(192, 192, 192);">&nbsp;+&nbsp;</span>
+                                        </div>
+                                    </div>
 
-                            {{!-- <span id="{{this.product._id}}stockOut text-danger" hidden >stock is out</span>  --}}
-								<span id="{{this.product._id}}stocks" style="font-weight: bold;" class="text-danger">{{substract this.product.stock this.quantity}}</span>
+                                    <span id="{{this.product._id}}stocks" class="text-danger">{{substract
+                                        this.product.stock
+                                        this.quantity}}</span>
 
-								<span class="text-danger" style="font-weight: bold;" id="{{this.product._id}}inStock">Product in Stock</span>
+                                    <span class="text-dark" id="{{this.product._id}}inStock">Product in Stock</span>
 
-                                <span class="text-danger" style="font-weight: bold; display: none;"  id="{{this.product._id}}outOfStock">Out of stock</span>
-
-
-
-                        </td>
-                        <td class="product-close"><a class="deleteProduct" onclick="deleteProduct('{{this.product._id}}')"
-                                style="margin-left:35px; color: black;">x</a></td>
-                    </tr>
-
-                </tbody>
-                {{/each}}
+                                    <span class="text-danger" style="font-weight: bold; display: none;"
+                                        id="{{this.product._id}}outOfStock">Out of stock</span>
 
 
-            </table>
 
-        </div>
-        {{!-- <div class="cart-btn">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="coupon-input">
-                        <input type="text" placeholder="Enter cupone code">
-                    </div>
-                </div>
-                <div class="col-lg-5 offset-lg-1 text-left text-lg-right">
-                    <div class="site-btn clear-btn">Clear Cart</div>
-                    <div class="site-btn update-btn">Update Cart</div>
+                                </td>
+                                <td class="product-close"><a class="deleteProduct"
+                                        onclick="deleteProduct('{{this.product._id}}')"
+                                        style="margin-left:35px; color: black;">x</a></td>
+                            </tr>
+
+                        </tbody>
+                        {{/each}}
+
+
+                    </table>
+
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
+
+
     <div class="shopping-method">
         <div class="container">
             <div class="row">
@@ -139,7 +135,6 @@
 
 
 <style>
-
     body {
         background-color: #fff;
     }
@@ -199,8 +194,9 @@
                     <div class="col-sm-12 empty-cart-cls text-center mb-5">
                         <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
                         <h3 class="mb-3"><strong>Your Cart is Empty</strong></h3>
-                        <h4  class="mb-3">Add something to make me happy :)</h4>
-                        <a href="/shop" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+                        <h4 class="mb-3">Add something to make me happy :)</h4>
+                        <a href="/shop" class="btn btn-dark cart-btn-transform m-3" data-abc="true">continue
+                            shopping</a>
                     </div>
                 </div>
             </div>
@@ -215,88 +211,97 @@
 {{!-- Change Quantity Increase and Decrease the quantity of products--}}
 <script>
     function changeQuantity(productId, count, productPrice) {
-        let quantity = parseInt(document.getElementById(productId).value)
-        let Count = parseInt(count)
+
+        // Collected Quantity of Product by using productId value from html field.
+        let quantity = parseInt(document.getElementById(productId).value);
+
+        // -1 / 1
+        let Count = parseInt(count);
         let price = parseFloat(productPrice);
 
         let stocks = document.getElementById(`${productId}stocks`);
 
-        //console.log(stocks+"thendi")
-        //console.log(stocks.innerHTML+"asasasasas")
+        // TOtal number of stocks
+        let stocksValue = Number(stocks.innerHTML);
 
-		let stocksValue = Number(stocks.innerHTML);
-
-        if(stocksValue-(count)>=0){
+        // If stocks is > 0
+        if (stocksValue - (count) >= 0) {
             $.ajax({
-            url: '/change-product-quantity',
-            data: {
-                product: productId,
-                count: Count,
-                quantity: quantity
-            },
-            method: 'post',
-            success: (response) => {
-                if (response.removeProduct) {
-                    alert("Product removed from cart")
-                    location.reload()
-                } else {
-                    document.getElementById(productId).value = quantity + count
-                    document.getElementById('total').innerHTML = response.total
-                    document.getElementById(`${productId}stocks`).innerHTML = stocksValue-(count);
-                    //document.getElementById('total1').innerHTML = response.total + 10
-                    if(stocksValue - count === 0){
-                        document.getElementById(`${productId}outOfStock`).style.display='inline'
-                        document.getElementById(`${productId}stocks`).style.display='none'
-                        document.getElementById(`${productId}inStock`).style.display='none'
+                url: '/change-product-quantity',
+                data: {
+                    product: productId,
+                    count: Count,
+                    quantity: quantity
+                },
+                method: 'post',
+                success: (response) => {
 
-                    }else{
-                        document.getElementById(`${productId}outOfStock`).style.display='none'
-                        document.getElementById(`${productId}stocks`).style.display='inline'
-                        document.getElementById(`${productId}inStock`).style.display='inline'
+                    if (response.removeProduct) {
+                        alert("Product removed from cart")
+                        location.reload()
+                    } else {
+                        //quantity + 1 / -1
+                        document.getElementById(productId).value = quantity + count
 
+                        //Total of Cart
+                        document.getElementById('total').innerHTML = response.total
+
+                        //Reducing the total stock value count
+                        document.getElementById(`${productId}stocks`).innerHTML = stocksValue - (count);
+
+                        if (stocksValue - count === 0) {
+                            document.getElementById(`${productId}outOfStock`).style.display = 'inline'
+                            document.getElementById(`${productId}stocks`).style.display = 'none'
+                            document.getElementById(`${productId}inStock`).style.display = 'none'
+
+                        } else {
+                            document.getElementById(`${productId}outOfStock`).style.display = 'none'
+                            document.getElementById(`${productId}stocks`).style.display = 'inline'
+                            document.getElementById(`${productId}inStock`).style.display = 'inline'
+
+                        }
                     }
                 }
-            }
-        })
+            })
         }
-        
+
     }
 
 
-    async function deleteProduct(productId){
-		const res = await axios({
-			method: 'GET', 
+    async function deleteProduct(productId) {
+        const res = await axios({
+            method: 'GET',
             url: `/deleteCart/${productId}`
-		});
-		try{
-			if(res.data.status === "success"){
-				Toastify({
-					text: res.data.message,
-					duration: 3000,
-					gravity: "bottom",
-					position: "center",
-					style: {
-						background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
-					},
-				}).showToast();
-				setTimeout(()=>{
-					location.reload();
-				}, 850);
-			}else{
-				Toastify({
-					text: res.data.message,
-					duration: 3000,
-					gravity: "bottom",
-					position: "center",
-					style: {
-						background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
-					},
-				}).showToast();
-				location.assign('/login')
-			}
-		}catch(err){
-			console.log(err);
-		}
-	}
-    
+        });
+        try {
+            if (res.data.status === "success") {
+                Toastify({
+                    text: res.data.message,
+                    duration: 3000,
+                    gravity: "bottom",
+                    position: "center",
+                    style: {
+                        background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
+                    },
+                }).showToast();
+                setTimeout(() => {
+                    location.reload();
+                }, 850);
+            } else {
+                Toastify({
+                    text: res.data.message,
+                    duration: 3000,
+                    gravity: "bottom",
+                    position: "center",
+                    style: {
+                        background: "linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)",
+                    },
+                }).showToast();
+                location.assign('/login')
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
 </script>

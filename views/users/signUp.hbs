@@ -1,24 +1,25 @@
 <style>
-    .gradient-custom-3 {
-/* fallback for old browsers */
-background: #84fab0;
+  .gradient-custom-3 {
+    /* fallback for old browsers */
+    background: #84fab0;
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
 
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
-}
-.gradient-custom-4 {
-/* fallback for old browsers */
-background: #84fab0;
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+  }
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+  .gradient-custom-4 {
+    /* fallback for old browsers */
+    background: #84fab0;
 
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
-}
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+  }
 </style>
 
 <section class="vh-100 bg-image">
@@ -33,37 +34,46 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 
               <form action="/signup" method="post">
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="name"/>
+                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="name" />
                   <label class="form-label" for="form3Example1cg">Your Name</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email"/>
+                  <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email" />
                   <label class="form-label" for="form3Example3cg">Your Email</label>
                 </div>
                 {{#if emailExist}}
-                  <label class="text-danger">{{emailExist}}</label>
-                  {{/if}}
+                <label class="text-danger">{{emailExist}}</label>
+                {{/if}}
 
                 <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="password"/>
+                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="password" />
                   <label class="form-label" for="form3Example4cg">Password</label>
                 </div>
-                  {{#if errMsg}}
-                  <label class="text-danger">{{errMsg}}</label>
-                  {{/if}}
+                {{#if errMsg}}
+                <label class="text-danger">{{errMsg}}</label>
+                {{/if}}
 
                 <div class="form-outline mb-4">
-                  <input type="tel" id="form3Example4cdg" class="form-control form-control-lg" maxlength="10" name="phone"/>
+                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="password2" />
+                  <label class="form-label" for="form3Example4cg">Confirm Password</label>
+                </div>
+                {{#if erroreMsg}}
+                <label class="text-danger">{{erroreMsg}}</label>
+                {{/if}}
+
+                <div class="form-outline mb-4">
+                  <input type="tel" id="form3Example4cdg" class="form-control form-control-lg" maxlength="10"
+                    name="phone" />
                   <label class="form-label" for="form3Example4cdg">Enter your phone No</label>
                 </div>
-                  {{#if errmsg}}
-                  <label class="text-danger">{{errmsg}}</label>
-                  {{/if}}
+                {{#if errmsg}}
+                <label class="text-danger">{{errmsg}}</label>
+                {{/if}}
 
                 <div class="d-flex justify-content-center">
                   <a href="/"><button type="submit"
-                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button></a>
+                      class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button></a>
                 </div>
 
                 <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="/login"

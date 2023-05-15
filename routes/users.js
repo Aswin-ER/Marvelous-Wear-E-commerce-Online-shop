@@ -27,9 +27,11 @@ router.post('/setNewPassword', userControllers.setNewPassword);
 
 
 // otp
-router.get('/otpverification',verifySession.ifUserLoggedIn, userControllers.otpPageRender);
+// router.get('/otpverification',verifySession.ifUserLoggedIn, userControllers.otpPageRender);
 
 router.post('/otpverification', userControllers.otpVerification);
+
+// router.post('/resendOtp', userControllers.resendOtp);
 
 
 // User Panel shop page
@@ -40,7 +42,6 @@ router.get('/product/:id', userControllers.productPage);
 
 //Category
 router.get('/category/:name', verifySession.verifyUserLoggedIn, userControllers.categoryFilter);
-
 
 
 // User Cart
@@ -63,9 +64,6 @@ router.post('/editAddressPost/:id', verifySession.verifyUserLoggedIn, userContro
 
 router.get('/deleteAddress/:id' , verifySession.verifyUserLoggedIn, userControllers.deleteAddress);
 
-//Not using this code due to the error
-// router.get('/changeActiveAddress/:id', verifySession.verifyUserLoggedIn, userControllers.changeActiveAddress);
-
 router.post('/placeOrder', verifySession.verifyUserLoggedIn, userControllers.placeOrder);
 
 router.post('/verifyPayment', verifySession.verifyUserLoggedIn, userControllers.verifyPayment);
@@ -78,9 +76,9 @@ router.get('/cancel', verifySession.verifyUserLoggedIn, userControllers.failure)
 // User Orders
 router.get('/orders', verifySession.verifyUserLoggedIn, userControllers.orders);
 
-router.get('/cancelOrder/:id', verifySession.verifyUserLoggedIn, userControllers.cancelOrder);
+router.post('/cancelOrder/:id', verifySession.verifyUserLoggedIn, userControllers.cancelOrder);
 
-router.get('/returnOrder/:id', verifySession.verifyUserLoggedIn, userControllers.retunOrder);
+router.post('/returnOrder/:id', verifySession.verifyUserLoggedIn, userControllers.retunOrder);
 
 router.get('/orders/viewProduct/:id', verifySession.verifyUserLoggedIn, userControllers.viewDet);
 
@@ -91,8 +89,6 @@ router.get('/wishlist', verifySession.verifyUserLoggedIn, userControllers.wishli
 router.get('/addToWishlist/:id', verifySession.verifyUserLoggedIn, userControllers.wishlistPage);
 
 router.get('/deleteWishlist/:id', verifySession.verifyUserLoggedIn, userControllers.deleteWishlist);
-
-
 
 
 // Contact Page
@@ -110,9 +106,10 @@ router.post('/userProfilePost', verifySession.verifyUserLoggedIn, userController
 
 router.get('/userManageAddress', verifySession.verifyUserLoggedIn, userControllers.manageAddress);
 
+router.get('/wallet', verifySession.verifyUserLoggedIn, userControllers.getWallet);
+
 
 //Filter
-
 router.post('/shopPriceFilter', verifySession.verifyUserLoggedIn, userControllers.priceFilter);
 
 router.post('/shopPriceSort', verifySession.verifyUserLoggedIn, userControllers.sortPrice);

@@ -119,6 +119,8 @@ module.exports = {
         })
     },
 
+    
+    // Admin Order
     getUserOrder:() => {
         return new Promise(async(resolve, reject) => {
             const userDet = await db.get().collection(collection.ORDER_COLLECTION).find().toArray();
@@ -133,7 +135,6 @@ module.exports = {
         .updateOne({
 
           _id: new objectId(orderId),
-        //   order:{$elemMatch:{id: new objectId(orderId)}}
 
         },
         {
@@ -141,35 +142,76 @@ module.exports = {
             "status": status,
             }
         }).then((response)=>{
-            // console.log(response+"111111111111111111111122222222222222211111111");
             resolve(response)
         })
       })
       },
 
-    //   adminSearchProduct:(serach)=> {
-    //     return new Promise ( async (resolve, reject) => {
-    //         await db.get().collection(collection.PRODUCT_COLLECTION).find(
-    //             {
-    //                 name:{$regex: new RegExp(serach), $options:"i"}
-    //             }
-    //         ).toArray()
-    //         .then((productData) => {
-    //             resolve(productData);
-    //         }).catch((err) => {
-    //             reject(err);
-    //         })
-    //     })
-    //   },
+    getSingleOrder:(orderId)=> {
+        return new Promise(async (resolve, reject)=> {
+            const orderDet = await db.get().collection(collection.ORDER_COLLECTION).findOne(
+                {
+                    _id: new objectId(orderId)
+                }
+            )
+            resolve(orderDet)
+        })
+    },
 
-      getUsersCount:() => {
+    adminRefund: (orderId) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const order = await db.get().collection(collection.ORDER_COLLECTION).findOne({ _id: new objectId(orderId) });
+      
+            if (order) {
+              const balance = order.total;
+              const date = order.date;
+      
+              const walletCollection = db.get().collection(collection.WALLET_COLLECTION);
+      
+              const existingWallet = await walletCollection.findOne({});
+      
+              if (existingWallet) {
+                const existingBalance = existingWallet.balance;
+                const updatedBalance = existingBalance + balance;
+      
+                await walletCollection.updateOne(
+                  {},
+                  { $set: { orderId: new objectId(orderId), date: date, balance: updatedBalance } }
+                );
+              } else {
+                await walletCollection.insertOne({
+                  orderId: new objectId(orderId),
+                  date: date,
+                  balance: balance,
+                });
+              }
+
+              await db.get().collection(collection.ORDER_COLLECTION).updateOne(
+                { _id: new objectId(orderId) },
+                { $set: { refunded: true } }
+              );
+              
+      
+              resolve();
+            }
+          } catch (error) {
+            reject(error);
+          }
+        });
+      },
+      
+
+
+    // Admin Panel
+    getUsersCount:() => {
         return new Promise((resolve, reject)=> {
             const users = db.get().collection(collection.USER_COLLECTION).countDocuments({})
             resolve(users);
         })
       },
 
-      getLastMonthTotal:()=> {
+    getLastMonthTotal:()=> {
         return new Promise( async (resolve, reject) => {
 
             try{
@@ -201,8 +243,7 @@ module.exports = {
         })
       },
 
-
-      getOrderTotalPrice:() => {
+    getOrderTotalPrice:() => {
         return new Promise( async (resolve, reject) => {
             const totalOrderPrice = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
@@ -226,7 +267,7 @@ module.exports = {
         })
       },
 
-      getMonthCount: (month, year) => {
+    getMonthCount: (month, year) => {
         return new Promise(async (resolve, reject) => {
           try {
             const startDate = new Date(year, month - 1, 1); //Month Index starts from 0
@@ -259,7 +300,7 @@ module.exports = {
         });
       },
 
-      getAllDeliveredOrders: ()=> {
+    getAllDeliveredOrders: ()=> {
         return new Promise(async (resolve, reject) => {
             const deliveredOrders = await db.get().collection(collection.ORDER_COLLECTION).find(
                 {
@@ -270,7 +311,7 @@ module.exports = {
         })
       },
 
-      filterDate:(dates)=> {
+    filterDate:(dates)=> {
         return new Promise(async(resolve, reject) => {
 
             let newDate = [];
@@ -298,7 +339,7 @@ module.exports = {
         })
       },
 
-      getAllDeliveredOrdersCount:()=> {
+    getAllDeliveredOrdersCount:()=> {
         return new Promise((resolve, reject)=> {
 
             db.get().collection(collection.ORDER_COLLECTION).find(
@@ -313,7 +354,7 @@ module.exports = {
         });
       },
 
-      getAllPlacedOrdersCount:()=> {
+    getAllPlacedOrdersCount:()=> {
         return new Promise((resolve, reject) => {
 
             db.get().collection(collection.ORDER_COLLECTION).find(
@@ -328,7 +369,7 @@ module.exports = {
         })
       },
 
-      getAllCanceldOrdersCount:()=> {
+    getAllCanceldOrdersCount:()=> {
         return new Promise((resolve, reject) => {
 
             db.get().collection(collection.ORDER_COLLECTION).find(
@@ -343,7 +384,7 @@ module.exports = {
         })
       },
 
-      getAllReturnOrdersCount:()=> {
+    getAllReturnOrdersCount:()=> {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.ORDER_COLLECTION).find(
                 {
@@ -357,7 +398,9 @@ module.exports = {
         })
       },
 
-      getCoupon:()=> {
+
+    // Admin Coupon
+    getCoupon:()=> {
         return new Promise(async(resolve, reject)=> {
             const coupons = await db.get().collection(collection.COUPON_COLLECTION).find().toArray();
             const newDate = new Date();
@@ -377,12 +420,13 @@ module.exports = {
         })
       },
 
-      adminAddCoupon:(coupon)=> {
+    adminAddCoupon:(coupon)=> {
         return new Promise(async (resolve, reject)=> {
 
             coupon.discount = Number(coupon.discount);
             coupon.date = new Date(coupon.date);
             coupon.status = true;
+            
             const newDate = new Date();
 
             if(coupon.data < newDate){
@@ -405,7 +449,7 @@ module.exports = {
         })
       },
 
-      adminEditCoupon:(couponId, coupon)=> {
+    adminEditCoupon:(couponId, coupon)=> {
         return new Promise((resolve, reject)=> {
 
             coupon.data = new Date(coupon.data);
@@ -416,7 +460,7 @@ module.exports = {
             }
             db.get().collection(collection.COUPON_COLLECTION).updateOne(
                 {
-                    _id: objectId(couponId)
+                    _id: new objectId(couponId)
                 },
 
                 {
@@ -437,7 +481,7 @@ module.exports = {
         })
       },
 
-      deactivateoCupon:(couponId)=> {
+    deactivateoCupon:(couponId)=> {
         return new Promise((resolve, reject)=> {
 
             db.get().collection(collection.COUPON_COLLECTION).updateOne(
@@ -457,10 +501,8 @@ module.exports = {
         })
       },
 
-      activateCoupon:(couponId)=> {
-
+    activateCoupon:(couponId)=> {
         return new Promise((resolve, reject)=> {
-
             db.get().collection(collection.COUPON_COLLECTION).updateOne(
                 {
                     _id: new objectId(couponId)
@@ -474,6 +516,89 @@ module.exports = {
                 resolve();
             }).catch(()=> {
                 reject();
+            })
+        })
+      },
+
+
+    // Admin Banner
+    getBanner:()=> {
+        return new Promise(async (resolve, reject)=> {
+            const banner = await db.get().collection(collection.BANNER_COLLECTION).find().toArray();
+            resolve(banner);
+        });
+      },
+
+    addBanner:(banner)=> {
+        return new Promise((resolve, reject)=> {
+            db.get().collection(collection.BANNER_COLLECTION).insertOne(banner).then((response)=> {
+                resolve(response);
+            })
+
+        })
+      },
+
+    adminBannerImageEdit:(bannerId, imageUrl)=> {
+        return new Promise((resolve, reject)=> {
+
+            db.get().collection(collection.BANNER_COLLECTION).updateOne(
+                {
+                    _id: new objectId(bannerId)
+                },
+                {
+                    $set: {
+                        image: imageUrl
+                    }
+                }
+            ).then((response)=> {
+                resolve(response);
+            })
+        })
+      },
+
+    adminEditBanner:(bannerId, banner)=> {
+        return new Promise((resolve, reject)=> {
+
+            db.get().collection(collection.BANNER_COLLECTION).updateOne(
+                {
+                    _id: new objectId(bannerId)
+                },
+
+                {
+                    $set: {
+                        heading: banner.heading
+                    }
+                }
+            ).then((response)=> {
+                resolve(response)
+            })
+        })
+      },
+
+    adminActivateBanner:(bannerId)=> {
+        return new Promise((resolve, reject)=> {
+
+            db.get().collection(collection.BANNER_COLLECTION).updateMany(
+                {},
+                {
+                    $set: {
+                        active: false
+                    }
+                }
+            )
+
+            db.get().collection(collection.BANNER_COLLECTION).updateOne(
+                {
+                    _id: new objectId(bannerId)
+                },
+
+                {
+                    $set: {
+                        active: true
+                    }
+                }
+            ).then((response)=> {
+                resolve(response);
             })
         })
       }

@@ -1,0 +1,69 @@
+   <section class="page-add cart-page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="page-breadcrumb">
+                    <h2>Wallet<span>.</span></h2>
+                    <a href="/">Home</a>
+                    <a href="/shop">Products</a>
+                    <a class="active" href="/wallet">Wallet</a>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<div class="cart-page" style="margin-bottom: 13rem; overflow-x: auto;">
+    <div class="container">
+        <div class="cart-table">
+            <table class="table-hover table-striped tm-table-striped-even mb-5 text-center" id="productsTable">
+                <thead>
+                    <tr class="tm-bg-gray">
+                        <th>Balance</th>
+                        <th>Morer Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    <tr>
+                        {{#each wallet}}
+                        <td class="tm-product-name" style="font-weight: bold;">{{balance}}</td>
+                        <td class="btn btn-dark" data-toggle="modal" data-target="#moreDetailes{{_id}}" style="padding-top: 0.5rem;">Last Transaction</td>
+                        {{/each}}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    {{#each wallet}}
+     <div class="modal fade" id="moreDetailes{{this._id}}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">More Info</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name" class="col-form-label">Date : {{date}}</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="col-form-label">Transaction Id : {{orderId}}</label>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+

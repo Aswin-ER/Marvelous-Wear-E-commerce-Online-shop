@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <section class="page-add">
     <div class="container">
         <div class="row">
@@ -25,44 +19,15 @@
 <!-- Product Page Section Beign -->
 <section class="product-page">
     <div class="container">
-        <div class="product-control">
-            <a href="#">Previous</a>
-            <a href="#">Next</a>
-        </div>
         <div class="row">
-            {{!-- <div class="col-lg-6">
-                <div class="product-slider owl-carousel">
-                    <div class="product-img">
-                        <figure>
-                            <img src="{{product.images.[0]}}" id="main_product_image"
-                                data-zoom-image='{{product.images.[0]}}' class="img-fluid" alt="image of product">
-                            <div class="p-status">new</div>
-                        </figure>
-                    </div>
-                </div>
-
-                <div style="width: 30vh;" class="mt-4">
-                    <ul style="list-style-type: none; display: flex; flex-direction: row;" class="col-sm-12">
-                        {{#each product.images}}
-                        {{#unless @first}}
-                        <li class="col-sm-12">
-                            <img src="{{this}}" id="main_product_image" data-zoom-image='{{this}}' class="img-fluid"
-                                alt="image of product">
-                        </li>
-                        {{/unless}}
-                        {{/each}}
-
-                    </ul>
-                </div>
-            </div> --}}
             <div class="col-lg-6">
                 <div class="product-slider owl-carousel">
                     <div class="product-img">
                         <figure>
                             <a href="{{product.images.[0]}}" data-fancybox="product-gallery">
-                            <img src="{{product.images.[0]}}" id="main_product_image"
-                                data-zoom-image='{{product.images.[0]}}' class="img-fluid" alt="image of product">
-                                </a>
+                                <img src="{{product.images.[0]}}" id="main_product_image"
+                                    data-zoom-image='{{product.images.[0]}}' class="img-fluid" alt="image of product">
+                            </a>
                             <div class="p-status">new</div>
                         </figure>
                     </div>
@@ -74,7 +39,8 @@
                         {{#unless @first}}
                         <li class="col-sm-12">
                             <a href="{{this}}" data-fancybox="product-gallery">
-                            <img src="{{this}}" data-zoom-image="{{this}}" class="img-fluid " alt="image of product">
+                                <img src="{{this}}" data-zoom-image="{{this}}" class="img-fluid "
+                                    alt="image of product">
                             </a>
                         </li>
                         {{/unless}}
@@ -103,30 +69,34 @@
                         {{#if (gte product.stock 1)}}
                         <li><span>Product in Stock :</span> {{product.stock}}</li>
                         {{else}}
-                         <li><span class="text-danger mt-5" style="font-weight: bold;">Product out of stock</span></li>
-                         {{/if}}
+                        <li><span class="text-danger mt-5" style="font-weight: bold;">Product out of stock</span></li>
+                        {{/if}}
                     </ul>
+                    
                     {{!-- <div class="product-quantity">
                         <div class="pro-qty">
                             <input type="text" value="1">
                         </div>
                     </div> --}}
+
                     <div class="input-group mb-3">
                         {{#if userName}}
                         {{#if (eq product.stock 0) }}
-                        <a class="primary-btn pc-btn mx-4 text-danger" onclick="this.blur(); Toastify({text: 'This product is currently out of stock', duration: 2000, close: true, gravity: 'top', style: {background: 'linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)'}, position: 'center'}).showToast();">Out of Stock</a>
+                        <a class="primary-btn pc-btn mx-4 text-danger mb-4"
+                            onclick="this.blur(); Toastify({text: 'This product is currently out of stock', duration: 2000, close: true, gravity: 'top', style: {background: 'linear-gradient(109.6deg, rgba(0, 0, 0, 0.93) 11.2%, rgb(63, 61, 61) 78.9%)'}, position: 'center'}).showToast();">Out
+                            of Stock</a>
                         {{else}}
-                        <a onclick="addToCart('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to cart</a>
+                        <a onclick="addToCart('{{product._id}}')" class="primary-btn pc-btn mx-4 mb-4">Add to cart</a>
                         {{/if}}
 
                         {{else}}
-                        <a href="/login" class="primary-btn pc-btn mx-4">Add to cart</a>
+                        <a href="/login" class="primary-btn pc-btn mx-4 mb-4">Add to cart</a>
                         {{/if}}
 
                         {{#if userName}}
-                        <a onclick="addWishlist('{{product._id}}')" class="primary-btn pc-btn mx-4">Add to Wishlist</a>
+                        <a onclick="addWishlist('{{product._id}}')" class="primary-btn pc-btn mx-4 mb-4">Add to Wishlist</a>
                         {{else}}
-                        <a href="/login" class="primary-btn pc-btn mx-4">Add to Wishlist</a>
+                        <a href="/login" class="primary-btn pc-btn mx-4 mb-4">Add to Wishlist</a>
                         {{/if}}
                         <ul class="p-info">
                             <li>Product Information</li>
@@ -172,7 +142,7 @@
             </div>
             {{/each}}
         </div>
-        
+
         {{/if}}
     </div>
 </section>
@@ -246,8 +216,6 @@
 <script>
 
     let main_prodcut_image = document.getElementById('main_product_image');
-    //console.log(main_prodcut_image+"imgggggggggggggggggggggggggggggggggg")
-    //console.log(main_prodcut_image.src+"aaaaaaaasssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaa")
     $("#main_product_image").data('zoom-image', main_prodcut_image.src).elevateZoom({
         responsive: true,
         zoomWindowWidth: 300,
@@ -261,24 +229,24 @@
     });
 
 
-    $(document).ready(function() {
-    $("[data-fancybox='product-gallery']").fancybox({
-      buttons: [
-        "zoom",
-        "share",
-        "slideShow",
-        "fullScreen",
-        "thumbs",
-        "close"
-      ],
-      thumbs: {
-        autoStart: true
-      }
+    $(document).ready(function () {
+        $("[data-fancybox='product-gallery']").fancybox({
+            buttons: [
+                "zoom",
+                "share",
+                "slideShow",
+                "fullScreen",
+                "thumbs",
+                "close"
+            ],
+            thumbs: {
+                autoStart: true
+            }
+        });
     });
-  });
 
 
-    
+
 
 
 </script>

@@ -105,8 +105,8 @@
 </div>
 
 
-{{#each coupons}}
 {{!-- Edit Coupon --}}
+{{#each coupons}}
 <div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -120,20 +120,20 @@
             <div class="modal-body">
                 <form class="text-dark" action="/admin/adminEditCoupon/{{this._id}}" method="post">
                     <div class="form-group">
-                        <label for="name" class="col-form-label">Coupon Code : </label>
-                        <input type="text" name="code" style="color: black;" class="border" id="name">
+                        <label for="code" class="col-form-label">Coupon Code : </label>
+                        <input type="text" name="code" style="color: black;" class="border" id="code">
                     </div>
                     <div class="form-group">
-                        <label for="category" class="col-form-label">Discount : </label>
-                        <input type="text" name="discount" class="border" id="email">
+                        <label for="discount" class="col-form-label">Discount : </label>
+                        <input type="text" name="discount" class="border" id="discount">
                     </div>
                     <div class="form-group">
                         <label for="description" class="col-form-label">Discription : </label>
-                        <input type="text" name="discription" class="border" id="phone">
+                        <input type="text" name="description" class="border" id="description">
                     </div>
                     <div class="form-group">
-                        <label for="description" class="col-form-label">Expiry Date : </label>
-                        <input type="date" name="date" class="border" id="phone">
+                        <label for="date" class="col-form-label">Expiry Date : </label>
+                        <input type="date" name="date" class="border" id="date">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>

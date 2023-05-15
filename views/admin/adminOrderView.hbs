@@ -1,0 +1,83 @@
+
+<div class="container">
+    <div class="row tm-content-row tm-mt-big">
+        <div class="col-xl-12 col-lg-12 tm-md-12 tm-sm-12 tm-block-col">
+            <div class="bg-white tm-block h-100">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12">
+                        <h2 class="tm-block-title d-inline-block">Order</h2>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped tm-table-striped-even mt-3 mb-4" id="productsTable">
+                        <thead>
+                            <tr class="tm-bg-gray">
+                                <th scope="col" class="text-center">User Name</th>
+                                <th scope="col" class="text-center">Mobile</th>
+                                <th scope="col" class="text-center">Price</th>
+                                <th scope="col" class="text-center">Status</th>
+                                {{#if order.cancel}}
+                                <th scope="col" class="text-center">Reason for cancellation</th>
+                                {{else if order.return}}
+                                <th scope="col" class="text-center">Reason for Return</th>
+                                {{/if}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            
+                            <tr>
+                                <td class="text-center">{{order.userName}}</td>
+                                <td class="text-center">{{order.shippingAddress.phone}}</td>
+                                <td class="text-center">{{order.total}}</td>
+                                <td class="text-center">{{order.status}}</td>
+                                {{#if order.cancel}}
+                                <td class="text-center">{{order.cancel}}</td>
+                                {{else if order.return}}
+                                <td class="text-center">{{order.return}} <a class="btn btn-dark text-white ml-3"  data-toggle="modal" data-target="#refund{{_id}}" {{#if order.refunded}}disabled{{/if}}>Refund</a></td>
+                                {{/if}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="refund{{_id}}" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Return Money</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="text-dark" action="/admin/adminRefund/{{order._id}}"
+                                                method="post">
+                                                <div class="form-group">
+                                                    <p>Are you sure</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">cancel</button>
+                                                    <a><button type="submit"
+                                                            class="btn btn-primary">confirm</button></a>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+<script>
+    
+  $(function () {
+    $('#productsTable').DataTable();
+  });
+
+</script>

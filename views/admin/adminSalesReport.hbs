@@ -33,12 +33,12 @@
                         <table class="table table-hover table-striped tm-table-striped-even mt-3" id="productsTable">
                             <thead>
                                 <tr class="tm-bg-gray">
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Order Id</th>
+                                    <th scope="col" class="text-center">Date</th>
+                                    <th scope="col" class="text-center">Order Id</th>
                                     <th scope="col" class="text-center">User Name</th>
-                                    <th scope="col">Item</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Payment Method</th>
+                                    <th scope="col" class="text-center">Items</th>
+                                    <th scope="col" class="text-center">Price</th>
+                                    <th scope="col" class="text-center">Payment Method</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,7 +67,7 @@
     $('#productsTable').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            'copy', 'csv', 'excel','print'
         ]
     });
   });

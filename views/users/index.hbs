@@ -5,19 +5,19 @@
             <div class="col-md-4">
                 <div class="header-item">
                     <img src="img/icons/delivery.png" alt="">
-                    <p>Free shipping on orders over ₹1000 in India</p>
+                    <p>Free shipping in all over India</p>
                 </div>
             </div>
             <div class="col-md-4 text-left text-lg-center">
                 <div class="header-item">
                     <img src="img/icons/voucher.png" alt="">
-                    <p>20% Student Discount</p>
+                    <p>Coupon Code: FISRT100 (100rs Discount)</p>
                 </div>
             </div>
             <div class="col-md-4 text-left text-xl-right">
                 <div class="header-item">
-                    <img src="img/icons/sales.png" alt="">
-                    <p>30% off on dresses. Use code: 30OFF</p>
+                    <img src="img/icons/voucher.png" alt="">
+                    <p>50rs off on dresses. Use code: 50OFF</p>
                 </div>
             </div>
         </div>
@@ -29,18 +29,19 @@
 <!-- Hero Slider Begin -->
 <section class="hero-slider">
     <div class="hero-items owl-carousel">
-        <div class="single-slider-item set-bg" data-setbg="img/pexels-photo-996329.jpeg">
+        <div class="single-slider-item set-bg" data-setbg="{{banner.image}}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
+
                         <h1>2023</h1>
-                        <h2>Lookbook.</h2>
+                        <h2>{{banner.heading}}.</h2>
                         <a href="/shop" class="primary-btn">See Products</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="single-slider-item set-bg" data-setbg="img/slider-2.jpg">
+        {{!-- <div class="single-slider-item set-bg" data-setbg="img/slider-2.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -50,8 +51,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="single-slider-item set-bg" data-setbg="img/photo-1489987707025-afc232f7ea0f.avif">
+        </div> --}}
+        {{!-- <div class="single-slider-item set-bg" data-setbg="img/photo-1489987707025-afc232f7ea0f.avif">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -61,7 +62,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </section>
 <!-- Hero Slider End -->
@@ -150,13 +151,6 @@
                     <div class="section-title">
                         <h2>Latest Products</h2>
                     </div>
-                    <ul class="product-controls">
-                        <li data-filter="*">All</li>
-                        <li data-filter=".dresses">Dresses</li>
-                        <li data-filter=".bags">Bags</li>
-                        <li data-filter=".shoes">Shoes</li>
-                        <li data-filter=".accesories">Accesories</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -203,13 +197,13 @@
                         Aenean non felis dapibus, placerat libero auctor, ornare ante. Morbi quis ex eleifend,
                         sodales nulla vitae, scelerisque ante. Nunc id vulputate dui. Suspendisse consectetur rutrum
                         metus nec scelerisque. s</p>
-                    <a href="#" class="primary-btn look-btn">See More</a>
+                    <a href="/shop" class="primary-btn look-btn">See More</a>
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
                 <div class="lookbok-pic">
-                    <img style="height: 637px;" src="img/Astro-Kathakali-tshirt-duo-image.jpg" alt="">
-                    <div class="pic-text ">fashion</div>
+                    <img src="img/Astro-Kathakali-tshirt-duo-image.jpg" alt="">
+                    <div class="pic-text text-white">fashion</div>
                 </div>
             </div>
         </div>

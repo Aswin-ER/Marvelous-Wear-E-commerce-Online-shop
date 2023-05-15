@@ -9,48 +9,11 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    {{!-- <table class="table table-hover table-striped tm-table-striped-even mt-3">
-                        <thead>
-                            <tr class="tm-bg-gray">
-                                <th scope="col">Product Name</th>
-                                <th scope="col">customer</th>
-                                <th scope="col" class="text-center">Mobile</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Status</th>
-                                <th scope="col" class="text-center">Image</th>
-                                <th scope="col">Edit Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#if adminOrder}}
-                            {{#each adminOrder}}
-                            {{#each adminOrder.order as |order|}}
-                            {{#each order.item as |item|}}
-                            <tr>
-                                <td class="tm-product-name">{{item.product.name}}</td>
-                                <td class="text-center">{{order.shippingAddress.name}}</td>
-                                <td class="text-center">{{order.shippingAddress.phone}}</td>
-                                <td>{{order.total}}</td>
-                                <td>{{order.status}}</td>
-                                <td><img src="{{item.product.images.[0]}}" alt="" style="width: 60px; height: 60px;">
-                                </td>
-                                <td><a data-toggle="modal" data-target="#edit{{this._id}}"><i
-                                            class="fas fa-edit"></i></a></td>
-                                <td><a class=" btn btn-primary" data-toggle="modal" data-target="#delete{{this._id}}"><i
-                                            class="fas fa-trash-alt tm-trash-icon"></i></a></td>
-                            </tr>
-
-                            {{/each}}
-                            {{/each}}
-                            {{/each}}
-                            {{/if}}
-                        </tbody>
-                    </table> --}}
-                    <!-- orders.hbs -->
                     <table class="table table-hover table-striped tm-table-striped-even mt-3 mb-4" id="productsTable">
                         <thead>
                             <tr class="tm-bg-gray">
                                 <th scope="col">Product Name</th>
+                                <th scope="col">Date</th>
                                 <th scope="col">customer</th>
                                 <th scope="col" class="text-center">Mobile</th>
                                 <th scope="col">Price</th>
@@ -64,7 +27,9 @@
                             
                             {{#each adminOrder}}
                             <tr>
-                                <td class="tm-product-name"> {{#each products}}{{product.name}} <br> {{/each}}</td>
+                                
+                                <td class="tm-product-name"> <a href="/admin/adminOrdersView/{{this._id}}">{{#each products}}{{product.name}} <br> {{/each}} </a> </td>
+                                <td class="text-center">{{date}}</td>
                                 <td class="text-center">{{userName}}</td>
                                 <td class="text-center">{{shippingAddress.phone}}</td>
                                 
@@ -92,13 +57,6 @@
                                             <form class="text-dark" action="/admin/adminOrderStatus/{{_id}}"
                                                 method="post">
                                                 <div class="form-group">
-                                                   {{!-- <select name="" id=""><label for="name" class="col-form-label">Status: 
-                                                        <option value="{{this.name}}">{{status}}</option> --}}
-                                                        
-                                                        {{!-- <input type="text" name="status" value="{{status}}"
-                                                        style="color: black;" class="border" id="name"> --}}
-                                                    {{!-- </label>
-                                                    </select> --}}
 
                                                 <select class="custom-select tm-select-accounts" id="name" name="status">
                                                   <option value="placed">placed</option>
@@ -120,6 +78,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             {{/each}} 
                             {{else}}
                             <tr>
