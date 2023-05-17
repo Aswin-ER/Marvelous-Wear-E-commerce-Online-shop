@@ -113,7 +113,11 @@
 
                             <div class="d-flex justify-content-between pt-2">
                                 <p class="fw-bold mb-0">Order Details</p>
-                                <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> ₹{{substract total coupon.discount}}</p>
+                                {{#if coupon}}
+                                <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> ₹{{total}}</p>
+                                {{else}}
+                                <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> ₹{{total}}</p>
+                                {{/if}}
                             </div>
 
                             <div class="d-flex justify-content-between pt-2">
@@ -139,8 +143,13 @@
                     </div>
                     <div class="card-footer border-0 px-4 py-5"
                         style="background-color: #000000; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                        {{#if coupon}}
                         <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
-                            Amount: <span class="h2 mb-0 ms-2"> ₹ {{substract total coupon.discount}}</span></h5>
+                            Amount: <span class="h2 mb-0 ms-2"> ₹ {{total}}</span></h5>
+                            {{else}}
+                        <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+                            Amount: <span class="h2 mb-0 ms-2"> ₹ {{total}}</span></h5>
+                            {{/if}}
                     </div>
                 </div>
             </div>

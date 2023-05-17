@@ -14,6 +14,19 @@ module.exports = {
                 resolve();
             }else{
                 db.get().collection(collection.PRODUCT_COLLECTION).insertOne(product).then((data) => {
+
+                     db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
+                        {
+                            _id: new objectId(data.insertedId)
+                        },
+                        {
+                            $set: {
+                                listed: true
+                            }
+                        }
+                    )
+
+
                     resolve(data.insertedId);
                 })
             }

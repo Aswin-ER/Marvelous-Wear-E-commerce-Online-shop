@@ -102,9 +102,9 @@ module.exports = {
 
     getUser:(userId)=> {
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
 
-            const user = db.get().collection(collection.USER_COLLECTION).findOne(
+            const user = await db.get().collection(collection.USER_COLLECTION).findOne(
                 {
                     _id: new objectId(userId)
                 }
@@ -171,6 +171,24 @@ module.exports = {
             resolve(wallet);
         })
     },
+
+    profileImage: (userId, imageUrl) => {
+        return new Promise((resolve, reject) => {
+          db.get()
+            .collection(collection.USER_COLLECTION)
+            .updateOne(
+              { _id: new objectId(userId) },
+              { $set: { image: imageUrl } }
+            )
+            .then(() => {
+              resolve();
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+    },
+      
 
 
 
@@ -327,7 +345,7 @@ module.exports = {
                 }catch(err){
                     console.log(err)
                 }finally{
-
+                    order.date = new Date();
                     db.get().collection(collection.ORDER_COLLECTION).insertOne(order)
                     .then(async (response)=>{
                       resolve(response);
@@ -352,6 +370,8 @@ module.exports = {
             }else{
                 delete order.coupon
 
+                order.date = new Date();
+                
                 db.get().collection(collection.ORDER_COLLECTION).insertOne(order)
                     .then(async (response)=>{
                       resolve(response);

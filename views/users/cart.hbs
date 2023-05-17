@@ -23,15 +23,15 @@
 <div class="cart-page">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="">
                 <div class="cart-table">
-                    <table class=table-responsive>
+                    <table class="">
                         <thead>
                             <tr>
                                 <th class="product-h">Product</th>
-                                <th>Price</th>
-                                <th class="quan">Quantity</th>
-                                <th>Delete</th>
+                                <th class="text-center">Price</th>
+                                <th class="quan text-center">Quantity</th>
+                                <th class="text-center">Delete</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -44,20 +44,20 @@
                                         <h5>{{this.product.name}}</h5>
                                     </div>
                                 </td>
-                                <td class="price-col col-xs-12 col-sm-12 col-md-12">{{this.product.price}}</td>
-                                <td class="quantity-col col-xs-12 col-sm-12 col-md-12">
-                                    <div class="input-group mb-3">
+                                <td class="price-col col-xs-12 col-sm-12 col-md-12 text-center">{{this.product.price}}</td>
+                                <td class="quantity-col col-xs-12 col-sm-12 col-md-12 text-center">
+                                    <div class="input-group mb-3" style="display: flex; justify-content: center;">
 
                                         <div class="mb-0">
-                                            <span class="btn bg-transparent mr-2 text-center mt-2" id="minus"
+                                            <span class="btn bg-transparent mr-2 text-center mt-2" id="minus "
                                                 onclick="changeQuantity('{{this.product._id}}', -1,'{{this.product.price}}')"
                                                 style="color: rgb(0, 0, 0);border-color: rgb(192, 192, 192);">&nbsp;-&nbsp;</span>
                                         </div>
                                         <input type="text" name="quantity" disabled id="{{this.product._id}}"
-                                            class="quantity form-control input-number mt-2 mr-2" value=" {{this.quantity}}"
+                                            class="quantity form-control input-number mt-2 mr-2 " value=" {{this.quantity}}"
                                             min="1" max="100" style="max-width: 40px;">
                                         <div class="mb-0">
-                                            <span class="btn btn-dark bg-transparent text-center mt-2"
+                                            <span class="btn btn-dark bg-transparent text-center mt-2  mr-2"
                                                 onclick="changeQuantity('{{this.product._id}}', 1,'{{this.product.price}}')"
                                                 style="color: black;border-color: rgb(192, 192, 192);">&nbsp;+&nbsp;</span>
                                         </div>
@@ -69,13 +69,13 @@
 
                                     <span class="text-dark" id="{{this.product._id}}inStock">Product in Stock</span>
 
-                                    <span class="text-danger" style="font-weight: bold; display: none;"
+                                    <span class="text-danger text-center" style="font-weight: bold; display: none;"
                                         id="{{this.product._id}}outOfStock">Out of stock</span>
 
 
 
                                 </td>
-                                <td class="product-close"><a class="deleteProduct"
+                                <td class="product-close text-center"><a class="deleteProduct"
                                         onclick="deleteProduct('{{this.product._id}}')"
                                         style="margin-left:35px; color: black;">x</a></td>
                             </tr>

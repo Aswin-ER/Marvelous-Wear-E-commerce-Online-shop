@@ -69,11 +69,9 @@ module.exports = {
     adminProduct: async (req, res) => {
         const adminName = req.session.adminName;
         const productData = await productHelpers.getAdminProducts();
-        categoryHelpers.getCategory().then((category) => {
-            // console.log(category+"Category vannuu moneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-            res.render('admin/adminProduct', {admin: true, adminName, productData, category});
-        })
-        
+        const cate = await categoryHelpers.getCategory();
+        // console.log(JSON.stringify(cate)+"cate Vannnuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+        res.render('admin/adminProduct', {admin: true, adminName, productData, cate});
     },
 
     adminAddProduct: (req, res) => {
@@ -255,7 +253,7 @@ module.exports = {
     },
 
     
-    // Admin SalesReport
+// Admin SalesReport
     adminSalesReport: async (req, res) => {
         const deliveredOrders = await adminHelpers.getAllDeliveredOrders();
 
@@ -307,7 +305,7 @@ module.exports = {
     },
 
 
-    // Admin Coupon Management
+// Admin Coupon Management
     adminCoupon: async (req, res)=> {
        const coupons = await adminHelpers.getCoupon();
        coupons.forEach(coupon=> {
@@ -351,7 +349,7 @@ module.exports = {
     },
 
 
-    // Admin Banner Management
+// Admin Banner Management
     adminBanner:(req, res)=> {
         adminHelpers.getBanner().then((banner)=> {
             res.render('admin/adminBanner', {admin: true, adminName:req.session.adminName, banner});

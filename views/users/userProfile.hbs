@@ -1,3 +1,4 @@
+
 <style>
     body {
         background: -webkit-linear-gradient(left, #ffffff);
@@ -130,14 +131,16 @@
     <form action="/userProfilePost" method="post" id="postForm">
         <div class="row">
             <div class="col-md-4">
+                {{!-- {{#if userProfile}} --}}
                 <div class="profile-img">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
-                        alt="" />
+                    <img id="profile-image" src="{{userProfile.image}}"
+                        alt=""/>
                     <div class="file btn btn-lg btn-primary">
                         Change Photo
-                        <input type="file" name="file" />
+                        <input id="file-input" type="file" name="file" onchange="uploadProfileImage(event)"/>
                     </div>
                 </div>
+                {{!-- {{/if}} --}}
             </div>
             <div class="col-md-6">
                 <div class="profile-head">
@@ -170,6 +173,7 @@
                     <a href="/cart" class="text-white">Cart</a><br />
                 </div>
             </div>
+
             {{#if userProfile}}
             <div class="col-md-8">
                 <div class="tab-content profile-tab" id="myTabContent">
@@ -244,6 +248,7 @@
                 </div>
             </div>
             {{/if}}
+
         </div>
 </div>
 </form>
@@ -298,5 +303,39 @@
 
         document.getElementById('postForm').submit();
     }
+
+</script>
+
+<script>
+
+  function uploadProfileImage(event) {
+  var file = event.target.files[0];
+  var formData = new FormData();
+  formData.append('file', file);
+
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: '/uploadProfileImage',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        if (response.status === true) {
+          var imageUrl = response.data;
+          document.getElementById('profile-image').src = imageUrl;
+          resolve(imageUrl);
+        } else {
+          reject(new Error('Error: no image found'));
+        }
+      },
+      error: function(err) {
+        reject(err);
+      }
+    });
+  });
+}
+
+
 
 </script>

@@ -1,9 +1,11 @@
 
+const { forEach } = require("jszip");
 const cartHelpers = require("../helpers/cartHelpers");
 const categoryHelpers = require("../helpers/categoryHelpers");
 const productHelpers = require("../helpers/productHelpers");
 const userHelpers = require("../helpers/userHelpers");
 const paypal = require('paypal-rest-sdk');
+const cloudinary =  require('../utils/cloudinary');
 const objectId = require('mongodb-legacy').ObjectId;
 
 // Twilio-configuration
@@ -25,15 +27,22 @@ paypal.configure({
 
 module.exports = {
 
+
   //User Home
   userHome: (req, res) => {
     productHelpers.getSomeProducts().then(async (products) => {
+      const coupons = await userHelpers.getCoupon()
+      coupons.forEach(coupon=> {
+        coupon.deactivate = coupon.status === 'Deactivated' ? true:false;
+        coupon.expired = coupon.status === 'Expired' ? true:false;
+      })
       const banner = await userHelpers.getActiveBanner()
       res.render("users/index", {
         user: true,
         userName: req.session.userName,
         products,
-        banner
+        banner,
+        coupons
       });
     });
   },
@@ -75,12 +84,18 @@ module.exports = {
             req.session.userName = req.session.user.name;
             req.session.userLoggedIn = true;
             productHelpers.getSomeProducts().then(async (products) => {
+              const coupons = await userHelpers.getCoupon()
+              coupons.forEach(coupon=> {
+                coupon.deactivate = coupon.status === 'Deactivated' ? true:false;
+                coupon.expired = coupon.status === 'Expired' ? true:false;
+              })
               const banner = await userHelpers.getActiveBanner();
               res.render("users/index", {
                 user: true,
                 userName: req.session.userName,
                 products,
                 banner,
+                coupons
               });
             });
           }
@@ -147,12 +162,6 @@ module.exports = {
     }
   },
 
-
-  //Otp Page Render and Verfication
-  // otpPageRender: (req, res) => {
-  //   res.render("users/otpVerify", { user: true});
-  // },
-
   otpVerification: (req, res) => {
     try {
       const otp = req.body.otp;
@@ -200,18 +209,6 @@ module.exports = {
       console.log(err);
     }
   },
-
-  // resendOtp:(req, res)=> {
-  //   console.log(req.body.phone+"vanuuuuuuuuuuuuuuuuuuuuuuuuu");
-  //   const phone = req.body.phone;
-  //     client.verify.v2.services("VA7ef1b38c123d6d8de4e63d54b6e2b4e6")
-  //       .verifications.create({ to: "+91" + phone, channel: "sms" }).then(() => {
-  //         req.session.userDetailes = req.body;
-  //         res.json({
-  //           status: true,
-  //         })
-  //       }).catch((err) => console.log(err));
-  // },
 
   forgotPassword: (req, res) => {
     res.render('users/forgot', {user: true, loginError: req.session.loginError})
@@ -376,11 +373,10 @@ module.exports = {
   },
 
   placeOrder: async (req, res) => {
-    // console.log(req.body+"asasasasasasasasasasasas")
     try {
       const addressId = req.body.address;
       const userDetails = req.session.user;
-      const total = await cartHelpers.getCartTotal(req.session.user._id);
+      const total = Number(req.body.total);
       const paymentMethod = req.body.paymentMethod;
       const shippingAddress = await userHelpers.findAddress(addressId,req.session.user._id);
       const cartItems = await cartHelpers.getCart(req.session.user._id);
@@ -574,9 +570,7 @@ module.exports = {
   // User Profile
   userProfile: async (req, res) => {
     const userName = req.session.userName;
-    // const address = await userHelpers.getAddress(req.session.user._id);
     const userProfile = await userHelpers.getUser(req.session.user._id);
-    // console.log(address+"wooooooooooooooooooooooooooooooow");
     res.render("users/userProfile", {user: true,userName,userDetailes: req.session.user,userProfile});
   },
 
@@ -585,14 +579,11 @@ module.exports = {
       const userId = req.session.user._id;
       userHelpers.editProfile(userId, req.body).then(() => {
         if (req.body.oldPassword != req.body.newPassword) {
-          console.log(req.body.oldPassword,  req.body.newPassword+"hbdhsdghsgdhgsghd");
            userHelpers.editPassword(userId, req.body).then((response) => {
             if (response) {
-              console.log(JSON.stringify(response))+"response adooooooooooooooooooooo";
               req.session.changePassword = "";
               res.redirect("/userProfile");
             } else {
-              console.log("Invalid passsssssssssssssssssssssssssssss");
               req.session.changePassword = "Invalid old password";
               res.redirect("/userProfile");
             }
@@ -611,6 +602,29 @@ module.exports = {
     const userName = req.session.userName;
     const addresses = await userHelpers.getAddress(req.session.user._id);
     res.render("users/manageAddress", { user: true, userName, addresses });
+  },
+
+  profileImage:async (req, res)=> {
+    const imageUrl = req.file;
+    const userId = req.session.user._id;
+    try {
+    const result = await cloudinary.uploader.upload(imageUrl.path);
+
+    if(result){
+      res.json({
+        status: true,
+        data: result.url,
+      })
+      
+      await userHelpers.profileImage(userId, result.url);
+    }else{
+      console.log("Image Not Found")
+    }
+
+    } catch (error) {
+      console.log(error);
+    }
+    
   },
 
 

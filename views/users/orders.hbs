@@ -45,7 +45,12 @@
                         {{else if isDelivered}}
                         <td><a class=" btn btn-danger text-light" data-toggle="modal" data-target="#return{{_id}}">Return Order</a></td>
                         {{else if isReturned}}
-                        <td><a href="" class="btn btn-danger disabled">order returned</a> &nbsp;</td>
+                        {{#if (isReturnedWithin7Days date)}}
+                        <td><a class="btn btn-danger text-light" data-toggle="modal" data-target="#return{{_id}}">Return Order</a></td>
+                        {{else}}
+                        <td><a href="" class="btn btn-danger disabled">Return Order</a></td>
+                        {{/if}}
+                        {{!-- <td><a href="" class="btn btn-danger disabled">order returned</a> &nbsp;</td> --}}
                         {{else if isFailed}}
                         <td><a href="" class="btn btn-danger disabled">Cancel Order</a> &nbsp;</td>
                         {{else}}

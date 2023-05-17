@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userControllers = require('../controllers/userControllers');
 const verifySession = require('../middleware/verifySession');
+const multer = require('../utils/multer');
 
 
 // User Home, Login, Signup
@@ -27,11 +28,7 @@ router.post('/setNewPassword', userControllers.setNewPassword);
 
 
 // otp
-// router.get('/otpverification',verifySession.ifUserLoggedIn, userControllers.otpPageRender);
-
 router.post('/otpverification', userControllers.otpVerification);
-
-// router.post('/resendOtp', userControllers.resendOtp);
 
 
 // User Panel shop page
@@ -107,6 +104,8 @@ router.post('/userProfilePost', verifySession.verifyUserLoggedIn, userController
 router.get('/userManageAddress', verifySession.verifyUserLoggedIn, userControllers.manageAddress);
 
 router.get('/wallet', verifySession.verifyUserLoggedIn, userControllers.getWallet);
+
+router.post('/uploadProfileImage', multer.single('file'), userControllers.profileImage);
 
 
 //Filter
