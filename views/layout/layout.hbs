@@ -3,6 +3,7 @@
 
 <head>
   <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel='stylesheet' href='/stylesheets/style.css' />
 
   {{!-- toastify --}}
@@ -81,9 +82,6 @@
   {{/if}}
 
   {{#if user}}
-  <!-- Js Plugins -->
-  {{!-- <script src="/javascripts/jquery-3.3.1.min.js"></script> --}}
-
 
   <script src="/javascripts/bootstrap.min.js"></script>
   <script src="/javascripts/jquery.magnific-popup.min.js"></script>
@@ -142,11 +140,6 @@
 
 
 
-
-
-<!-- DataTables CSS -->
-{{!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"> --}}
-
 <!-- DataTables JS -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
@@ -168,35 +161,6 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 
 
-    
-    {{!-- <script>
-        let ctxLine,
-            ctxBar,
-            ctxPie,
-            optionsLine,
-            optionsBar,
-            optionsPie,
-            configLine,
-            configBar,
-            configPie,
-            lineChart;
-        barChart, pieChart;
-        // DOM is ready
-        $(function () {
-            updateChartOptions();
-            drawLineChart(); // Line Chart
-            drawBarChart(); // Bar Chart
-            drawPieChart(); // Pie Chart
-            drawCalendar(); // Calendar
-
-            $(window).resize(function () {
-                updateChartOptions();
-                updateLineChart();
-                updateBarChart();
-                reloadPage();
-            }); --}}
-        })
-    </script>
   {{/if}}
 
   {{!-- toastify --}}
