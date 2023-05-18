@@ -117,7 +117,7 @@ module.exports = {
 
   //User Signup
   signUp: (req, res) => {
-    res.render("users/signup", { user: true });
+    res.render("users/signUp", { user: true });
     req.session.emailExist = false;
   },
 
