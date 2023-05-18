@@ -745,7 +745,8 @@ ol {
 }
 
 .product-filter {
-	margin-bottom: 100px;
+	margin-bottom: 15px;
+	margin-top: 45px;
 }
 
 .product-filter .section-title {

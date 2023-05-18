@@ -16,10 +16,11 @@
         </div>
     </div>
 </section>
+
 <div class="cart-page" style="margin-bottom: 13rem; overflow-x: auto;">
     <div class="container">
         <div class="cart-table">
-            <table class="table-hover table-striped tm-table-striped-even mb-5 text-center" id="productsTable">
+            <table class="table-hover table-striped tm-table-striped-even mb-5" id="productsTable">
                 <thead>
                     <tr class="tm-bg-gray">
                         <th>Date</th>
@@ -43,14 +44,13 @@
                         {{#if isCancelled}}
                         <td><a href="" class="btn btn-danger disabled">order cancelled</a> &nbsp;</td>
                         {{else if isDelivered}}
-                        <td><a class=" btn btn-danger text-light" data-toggle="modal" data-target="#return{{_id}}">Return Order</a></td>
-                        {{else if isReturned}}
-                        {{#if (isReturnedWithin7Days date)}}
-                        <td><a class="btn btn-danger text-light" data-toggle="modal" data-target="#return{{_id}}">Return Order</a></td>
+                        {{#if isReturn}}
+                        <td><a class="btn btn-danger text-white disabled">Return Order</a></td>
                         {{else}}
-                        <td><a href="" class="btn btn-danger disabled">Return Order</a></td>
+                        <td><a class=" btn btn-danger text-light" data-toggle="modal" data-target="#return{{_id}}">Return Order</a></td>
                         {{/if}}
-                        {{!-- <td><a href="" class="btn btn-danger disabled">order returned</a> &nbsp;</td> --}}
+                        {{else if isReturned}}
+                        <td><a class="btn btn-danger text-white disabled">Return Order</a></td>
                         {{else if isFailed}}
                         <td><a href="" class="btn btn-danger disabled">Cancel Order</a> &nbsp;</td>
                         {{else}}
@@ -192,3 +192,10 @@
         $('#productsTable').DataTable();
     });
 </script>
+
+
+
+
+
+
+

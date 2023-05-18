@@ -131,7 +131,6 @@
     <form action="/userProfilePost" method="post" id="postForm">
         <div class="row">
             <div class="col-md-4">
-                {{!-- {{#if userProfile}} --}}
                 <div class="profile-img">
                     <img id="profile-image" src="{{userProfile.image}}"
                         alt=""/>
@@ -140,7 +139,6 @@
                         <input id="file-input" type="file" name="file" onchange="uploadProfileImage(event)"/>
                     </div>
                 </div>
-                {{!-- {{/if}} --}}
             </div>
             <div class="col-md-6">
                 <div class="profile-head">
@@ -152,12 +150,11 @@
                                 aria-controls="home" aria-selected="true">Profile</a>
                         </li>
                     </ul>
-                </div>
+                    <div class="col-md-12 mb-3">
+                <span class="btn btn primary text-danger" onclick="editProfile()">Edit Profile</span>
+                <span class="btn btn primary text-danger" onclick=" return validateForm()">Save Changes</span>
             </div>
-            <div class="col-md-2">
-                <span class="btn btn primary text-white" onclick="editProfile()">Edit Profile</span>
-
-                <span class="btn btn primary text-white" onclick=" return validateForm()">Save Changes</span>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -184,7 +181,7 @@
 
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="text-white" id="user-id" value="{{userProfile._id}}" disabled>
+                                <input type="text" class="text-dark" id="user-id" value="{{userProfile._id}}" disabled>
                             </div>
                         </div>
                         <div class="row">
@@ -192,7 +189,7 @@
                                 <label for="name" class="text-white">Name</label>
                             </div>
                             <div class="col-md-6 pt-3">
-                                <input type="text" id="name" class="edit-field text-white" name="name" maxlength="10"
+                                <input type="text" id="name" class="edit-field text-dark" name="name" maxlength="10"
                                     value="{{userProfile.name}}" disabled>
                             </div>
                         </div>
@@ -201,7 +198,7 @@
                                 <label for="email" class="text-white">Email</label>
                             </div>
                             <div class="col-md-6 pt-3">
-                                <input type="email" id="email" class="edit-field text-white" name="email"
+                                <input type="email" id="email" class="edit-field text-dark" name="email"
                                     value="{{userProfile.email}}" disabled>
                             </div>
                         </div>
@@ -210,7 +207,7 @@
                                 <label for="phone" class="text-white">Phone</label>
                             </div>
                             <div class="col-md-6 pt-3">
-                                <input type="tel" id="phone" class="edit-field text-white" name="phone" maxlength="10"
+                                <input type="tel" id="phone" class="edit-field text-dark" name="phone" maxlength="10"
                                     value="{{userProfile.phone}}" disabled>
                             </div>
                         </div>
@@ -223,7 +220,7 @@
                                 <label for="phone" class="text-white text-white">Old Password</label>
                             </div>
                             <div class="col-md-6 pt-3">
-                                <input type="text" class="edit-field text-white" id="phone" name="oldPassword"
+                                <input type="text" class="edit-field text-dark" id="phone" name="oldPassword"
                                     placeholder="Old Password" disabled>
                             </div>
                         </div>
@@ -233,7 +230,7 @@
                                 <label for="phone" class="text-white">New Password</label>
                             </div>
                             <div class="col-md-6 pt-3">
-                                <input type="text" class="edit-field text-white" id="newPassword" name="newPassword"
+                                <input type="text" class="edit-field text-dark" id="newPassword" name="newPassword"
                                     placeholder="New Password" onkeyup="validatePassword()" disabled>
                                 <label class="text-danger" id="newPassErr"></label>
                             </div>

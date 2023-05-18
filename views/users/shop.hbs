@@ -84,7 +84,7 @@
         <div class="row">
             {{#if products}}
             {{#each products}}
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-3 col-md-6 mb-5">
                 <div class="single-product-item">
                    <figure>
                       <img src="{{this.images.[0]}}" alt="">
@@ -106,7 +106,7 @@
             {{else if filteredProducts}}
             {{#each filteredProducts}}
 
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-3 col-md-6 mb-5">
                 <div class="single-product-item">
                     <figure>
                         <img src="{{this.images.[0]}}" alt="">
@@ -128,7 +128,7 @@
             {{else if sortedProducts}}
             {{#each sortedProducts}}
 
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-3 col-md-6 mb-5">
                 <div class="single-product-item">
                     <figure>
                         <img src="{{this.images.[0]}}" alt="">
@@ -149,7 +149,7 @@
             {{/each}}
             {{else}}
 
-            <div id="notfound">
+            {{!-- <div id="notfound">
                 <div class="notfound">
                     <div class="notfound-404">
                         <h1>Oops!</h1>
@@ -157,8 +157,23 @@
                     </div>
                     <a href="/shop">Go TO Shop</a>
                 </div>
+            </div> --}}
+
+            <div class="col-12">
+                <div class="single-product-item">
+                     <div id="notfound">
+                     <div class="notfound">
+                         <div class="notfound-404">
+                             <h1>Oops!</h1>
+                             <h2>No Products to show</h2>
+                         </div>
+                         <a href="/shop">Go to Shop</a>
+                     </div>
+                 </div>
+                </div>
             </div>
             {{/if}}
+
         </div>
         {{!-- Pagination --}}
         <div class="col d-flex justify-content-center pagination text-dark">

@@ -5,7 +5,7 @@ const categoryHelpers = require("../helpers/categoryHelpers");
 const productHelpers = require("../helpers/productHelpers");
 const userHelpers = require("../helpers/userHelpers");
 const paypal = require('paypal-rest-sdk');
-const cloudinary =  require('../utils/cloudinary');
+const cloudinary = require('../utils/cloudinary');
 const objectId = require('mongodb-legacy').ObjectId;
 
 // Twilio-configuration
@@ -32,9 +32,9 @@ module.exports = {
   userHome: (req, res) => {
     productHelpers.getSomeProducts().then(async (products) => {
       const coupons = await userHelpers.getCoupon()
-      coupons.forEach(coupon=> {
-        coupon.deactivate = coupon.status === 'Deactivated' ? true:false;
-        coupon.expired = coupon.status === 'Expired' ? true:false;
+      coupons.forEach(coupon => {
+        coupon.deactivate = coupon.status === 'Deactivated' ? true : false;
+        coupon.expired = coupon.status === 'Expired' ? true : false;
       })
       const banner = await userHelpers.getActiveBanner()
       res.render("users/index", {
@@ -85,9 +85,9 @@ module.exports = {
             req.session.userLoggedIn = true;
             productHelpers.getSomeProducts().then(async (products) => {
               const coupons = await userHelpers.getCoupon()
-              coupons.forEach(coupon=> {
-                coupon.deactivate = coupon.status === 'Deactivated' ? true:false;
-                coupon.expired = coupon.status === 'Expired' ? true:false;
+              coupons.forEach(coupon => {
+                coupon.deactivate = coupon.status === 'Deactivated' ? true : false;
+                coupon.expired = coupon.status === 'Expired' ? true : false;
               })
               const banner = await userHelpers.getActiveBanner();
               res.render("users/index", {
@@ -133,7 +133,7 @@ module.exports = {
         return;
       }
 
-      if(req.body.password !== req.body.password2){
+      if (req.body.password !== req.body.password2) {
         res.render("users/signUp", {
           user: true,
           erroreMsg: "Password doesn't match entered above!!!",
@@ -155,7 +155,7 @@ module.exports = {
       client.verify.v2.services("VA7ef1b38c123d6d8de4e63d54b6e2b4e6")
         .verifications.create({ to: "+91" + phone, channel: "sms" }).then(() => {
           req.session.userDetailes = req.body;
-          res.render("users/otpVerify", {user: true, phone});
+          res.render("users/otpVerify", { user: true, phone });
         }).catch((err) => console.log(err));
     } catch (err) {
       console.log(err);
@@ -211,56 +211,56 @@ module.exports = {
   },
 
   forgotPassword: (req, res) => {
-    res.render('users/forgot', {user: true, loginError: req.session.loginError})
+    res.render('users/forgot', { user: true, loginError: req.session.loginError })
     req.session.loginError = false;
   },
 
-  forgotPasswordPost:(req, res) => {
+  forgotPasswordPost: (req, res) => {
     let mobile = req.body.phone;
     userHelpers.doLoginWithMobile(mobile).then((response) => {
-      if(response.status){
+      if (response.status) {
         req.session.user = response.user;
         req.session.userName = req.session.user.name;
         client.verify.v2.services('VA7ef1b38c123d6d8de4e63d54b6e2b4e6')
-            .verifications
-            .create({to:`+91${mobile}`, channel: 'sms'})
-            .then(verification => {
-              console.log(verification.status);
-              res.render('users/forgotPasswordVerify', {user:true, mobile});
-            })
-            .catch(error => console.error(error));
-      }else{
+          .verifications
+          .create({ to: `+91${mobile}`, channel: 'sms' })
+          .then(verification => {
+            console.log(verification.status);
+            res.render('users/forgotPasswordVerify', { user: true, mobile });
+          })
+          .catch(error => console.error(error));
+      } else {
         req.session.loginError = "Mobile Number is not registered"
         res.redirect('/forgotPassword')
       }
     })
   },
 
-  forgotPasswordVerify: (req, res) =>{
+  forgotPasswordVerify: (req, res) => {
     let otp = req.body.otp;
     let mobile = req.body.phone;
 
-    try{
+    try {
       client.verify.v2.services('VA7ef1b38c123d6d8de4e63d54b6e2b4e6')
         .verificationChecks
-        .create({to: `+91${mobile}`,code: otp})
+        .create({ to: `+91${mobile}`, code: otp })
         .then(verification_check => {
           console.log(verification_check.status);
-          if(verification_check.valid){
-             req.session.userLoggedIn = true;
-            res.render('users/setNewPassword', {user:true, mobile});
-          }else{
-            res.render('users/forgotPasswordVerify', {user:true, mobile, status:true});
+          if (verification_check.valid) {
+            req.session.userLoggedIn = true;
+            res.render('users/setNewPassword', { user: true, mobile });
+          } else {
+            res.render('users/forgotPasswordVerify', { user: true, mobile, status: true });
           }
         })
-    }catch(err){
+    } catch (err) {
       console.log(err);
-      res.render('users/forgotPasswordVerify', {user:true, mobile, status:true});
+      res.render('users/forgotPasswordVerify', { user: true, mobile, status: true });
     }
   },
 
-  setNewPassword: (req, res) =>{
-      userHelpers.setNewPassword(req.body).then(() => {
+  setNewPassword: (req, res) => {
+    userHelpers.setNewPassword(req.body).then(() => {
       res.redirect('/');
     });
   },
@@ -344,10 +344,10 @@ module.exports = {
     const userName = req.session.user.name;
     const addresses = await userHelpers.getAddress(req.session.user._id);
     const coupons = await userHelpers.getCoupon();
-    coupons.forEach(coupon=> {
-      coupon.deactivate = coupon.status === 'Deactivated'? true:false;
-      coupon.expired = coupon.status === 'Expired'?true:false;
-     });
+    coupons.forEach(coupon => {
+      coupon.deactivate = coupon.status === 'Deactivated' ? true : false;
+      coupon.expired = coupon.status === 'Expired' ? true : false;
+    });
     await cartHelpers.getCartTotal(req.session.user._id)
       .then((total) => {
         res.render("users/checkOut", {
@@ -378,11 +378,11 @@ module.exports = {
       const userDetails = req.session.user;
       const total = Number(req.body.total);
       const paymentMethod = req.body.paymentMethod;
-      const shippingAddress = await userHelpers.findAddress(addressId,req.session.user._id);
+      const shippingAddress = await userHelpers.findAddress(addressId, req.session.user._id);
       const cartItems = await cartHelpers.getCart(req.session.user._id);
       const now = new Date();
-      const status = req.body.paymentMethod === "COD" ? "placed": "pending";
-      
+      const status = req.body.paymentMethod === "COD" ? "placed" : "pending";
+
       //Order collection
       const order = {
         userId: new objectId(req.session.user._id),
@@ -396,7 +396,7 @@ module.exports = {
         status,
         coupon: req.body.coupon,
       };
-      
+
       const userId = req.session.user._id;
       userHelpers.addOrderDetails(order, userId)
         .then((order) => {
@@ -411,7 +411,7 @@ module.exports = {
           } else if (req.body.paymentMethod === "card") {
 
             const orderId = order.insertedId;
-            
+
             userHelpers.generateRazorpay(orderId, total).then((response) => {
               res.json({
                 response: response,
@@ -421,52 +421,52 @@ module.exports = {
             });
           } else {
 
-          const exchangeRate = 0.013;
-          const totalCost = (Number(req.body.total)*exchangeRate).toFixed(0);
-          const create_payment_json = {
-            intent: "sale",
-            payer: {
-              payment_method: "paypal",
-            },
-            redirect_urls: {
-              return_url: "http://localhost:3000/success",
-              cancel_url: "http://localhost:3000/cancel",
-            },
-            transactions: [
-              {
-                amount: {
-                  currency: "USD",
-                  total: `${totalCost}`,
-                },
-                description: "Marvelous Ware SHOPPING PLATFORM PAYPAL PAYMENT",
+            const exchangeRate = 0.013;
+            const totalCost = (Number(req.body.total) * exchangeRate).toFixed(0);
+            const create_payment_json = {
+              intent: "sale",
+              payer: {
+                payment_method: "paypal",
               },
-            ],
-          };
+              redirect_urls: {
+                return_url: "http://localhost:3000/success",
+                cancel_url: "http://localhost:3000/cancel",
+              },
+              transactions: [
+                {
+                  amount: {
+                    currency: "USD",
+                    total: `${totalCost}`,
+                  },
+                  description: "Marvelous Ware SHOPPING PLATFORM PAYPAL PAYMENT",
+                },
+              ],
+            };
 
-          paypal.payment.create(create_payment_json, function (error, payment) {
-            if (error) {
-              console.log(error+"asasasasas");
-              res.render('users/failure', {user:true, userName: req.session.userName});
+            paypal.payment.create(create_payment_json, function (error, payment) {
+              if (error) {
+                console.log(error + "asasasasas");
+                res.render('users/failure', { user: true, userName: req.session.userName });
 
-            } else if(payment){
-              try{
-                req.session.orderId = order.insertedId;
-                userHelpers.changeOrderStatus(order.insertedId).then(()=>{console.log("changed")}).catch(()=>{});
-                // productHelpers.reduceStock(cartList).then(()=>{}).catch((err)=>console.log(err));
-              }catch(err){
-                console.log(err);
-              }finally{
-                for (let i = 0; i < payment.links.length; i++) {
-                  if (payment.links[i].rel === "approval_url") {
-                    res.json({
-                      approval_link: payment.links[i].href,
-                      status: "success"
-                    })
+              } else if (payment) {
+                try {
+                  req.session.orderId = order.insertedId;
+                  userHelpers.changeOrderStatus(order.insertedId).then(() => { console.log("changed") }).catch(() => { });
+                  // productHelpers.reduceStock(cartList).then(()=>{}).catch((err)=>console.log(err));
+                } catch (err) {
+                  console.log(err);
+                } finally {
+                  for (let i = 0; i < payment.links.length; i++) {
+                    if (payment.links[i].rel === "approval_url") {
+                      res.json({
+                        approval_link: payment.links[i].href,
+                        status: "success"
+                      })
+                    }
                   }
                 }
               }
-            }
-          });
+            });
           }
         });
     } catch (err) {
@@ -505,12 +505,12 @@ module.exports = {
     const currentPage = req.query.page || 1;
 
     if (filteredProducts) {
-      res.render("users/shop", {user: true,categories,userName,filteredProducts,minPrice,maxPrice});
+      res.render("users/shop", { user: true, categories, userName, filteredProducts, minPrice, maxPrice });
       req.session.filteredProduct = false;
       req.session.maxPrice = false;
       req.session.minPrice = false;
     } else if (sortedProducts) {
-      res.render("users/shop", {user: true,categories,userName,sortedProducts,minPrice,maxPrice});
+      res.render("users/shop", { user: true, categories, userName, sortedProducts, minPrice, maxPrice });
       req.session.sortedProduct = false;
       req.session.maxPrice = false;
       req.session.minPrice = false;
@@ -521,8 +521,8 @@ module.exports = {
       req.session.maxPrice = false;
       req.session.minPrice = false;
       productHelpers.getProducts(currentPage).then((products) => {
-          res.render("users/shop", {user: true,categories,userName,products,currentPage,totalPages});
-        })
+        res.render("users/shop", { user: true, categories, userName, products, currentPage, totalPages });
+      })
         .catch((err) => {
           console.log(err);
         });
@@ -571,7 +571,7 @@ module.exports = {
   userProfile: async (req, res) => {
     const userName = req.session.userName;
     const userProfile = await userHelpers.getUser(req.session.user._id);
-    res.render("users/userProfile", {user: true,userName,userDetailes: req.session.user,userProfile});
+    res.render("users/userProfile", { user: true, userName, userDetailes: req.session.user, userProfile });
   },
 
   userProfilePost: (req, res) => {
@@ -579,7 +579,7 @@ module.exports = {
       const userId = req.session.user._id;
       userHelpers.editProfile(userId, req.body).then(() => {
         if (req.body.oldPassword != req.body.newPassword) {
-           userHelpers.editPassword(userId, req.body).then((response) => {
+          userHelpers.editPassword(userId, req.body).then((response) => {
             if (response) {
               req.session.changePassword = "";
               res.redirect("/userProfile");
@@ -604,27 +604,27 @@ module.exports = {
     res.render("users/manageAddress", { user: true, userName, addresses });
   },
 
-  profileImage:async (req, res)=> {
+  profileImage: async (req, res) => {
     const imageUrl = req.file;
     const userId = req.session.user._id;
     try {
-    const result = await cloudinary.uploader.upload(imageUrl.path);
+      const result = await cloudinary.uploader.upload(imageUrl.path);
 
-    if(result){
-      res.json({
-        status: true,
-        data: result.url,
-      })
-      
-      await userHelpers.profileImage(userId, result.url);
-    }else{
-      console.log("Image Not Found")
-    }
+      if (result) {
+        res.json({
+          status: true,
+          data: result.url,
+        })
+
+        await userHelpers.profileImage(userId, result.url);
+      } else {
+        console.log("Image Not Found")
+      }
 
     } catch (error) {
       console.log(error);
     }
-    
+
   },
 
 
@@ -654,10 +654,21 @@ module.exports = {
     const orders = await userHelpers.getOrders(userId);
 
     orders.forEach(order => {
-      order.isCancelled = order.status==="Cancelled"?true:false;
-      order.isDelivered = order.status==="Delivered"?true:false;
-      order.isReturned = order.status==="Return"?true:false;
-      order.isFailed = order.status ==="failed"?true:false;
+      order.isCancelled = order.status === "Cancelled" ? true : false;
+      order.isDelivered = order.status === "Delivered" ? true : false;
+      order.isReturned = order.status === "Return" ? true : false;
+      order.isFailed = order.status === "failed" ? true : false;
+
+      const orderDate = new Date(order.date);
+      const currentDate = new Date();
+
+      const timeDifference = currentDate - orderDate;
+      const millisecondsInADay = 24 * 60 * 60 * 1000;
+      let daysDifference = timeDifference / millisecondsInADay;
+
+      daysDifference =  daysDifference.toFixed(0);
+      order.isReturn = daysDifference>7
+      console.log(order.isReturned, order.status, order.isReturn);
 
       const newDate = new Date(order.date);
       const year = newDate.getFullYear();
@@ -667,7 +678,7 @@ module.exports = {
       order.date = formattedDate;
 
     });
-    res.render("users/orders", { user: true, userName, orders});
+    res.render("users/orders", { user: true, userName, orders });
   },
 
   cancelOrder: (req, res) => {
@@ -678,10 +689,10 @@ module.exports = {
     });
   },
 
-  retunOrder:(req, res) => {
+  retunOrder: (req, res) => {
     const orderId = req.params.id;
     const reason = req.body.reason;
-    console.log(reason+"vannnnnnnnnnnnnnnnuuuuuuuuuuuuuuuuuuuuuuuuuu");
+    console.log(reason + "vannnnnnnnnnnnnnnnuuuuuuuuuuuuuuuuuuuuuuuuuu");
     userHelpers.returnProduct(orderId, reason).then(() => {
       res.redirect('back');
     })
@@ -728,7 +739,7 @@ module.exports = {
       req.session.minPrice = req.body.minPrice;
       req.session.maxPrice = req.body.maxPrice;
       const category = req.session.category;
-      req.session.filteredProduct = await productHelpers.filterPrice(req.session.minPrice,req.session.maxPrice,category);
+      req.session.filteredProduct = await productHelpers.filterPrice(req.session.minPrice, req.session.maxPrice, category);
       res.json({
         status: "success",
       });
@@ -742,7 +753,7 @@ module.exports = {
       req.session.minPrice = req.body.minPrice;
       req.session.maxPrice = req.body.maxPrice;
       const category = req.session.category;
-      req.session.sortedProduct = await productHelpers.sortPrice(req.body,category);
+      req.session.sortedProduct = await productHelpers.sortPrice(req.body, category);
 
       res.json({
         status: "success",
@@ -771,21 +782,21 @@ module.exports = {
 
 
   // Coupon
-  couponApply:(req, res)=> {
+  couponApply: (req, res) => {
     const userId = req.session.user._id;
-    userHelpers.couponApply(req.body.couponCode, userId).then((coupon)=> {
-      if(coupon){
-        if(coupon === 'couponExists'){
+    userHelpers.couponApply(req.body.couponCode, userId).then((coupon) => {
+      if (coupon) {
+        if (coupon === 'couponExists') {
           res.json({
-            status:"coupon is already used, try another coupon"
+            status: "coupon is already used, try another coupon"
           })
-        }else{
+        } else {
           res.json({
             status: "success",
             coupon: coupon
           })
         }
-      }else{
+      } else {
         res.json({
           status: "coupon is not valid !!"
         })
@@ -795,7 +806,7 @@ module.exports = {
 
 
   // Paypal
-  paypalSuccess : (req, res)=>{
+  paypalSuccess: (req, res) => {
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
     const execute_payment_json = {
@@ -809,27 +820,27 @@ module.exports = {
         },
       ],
     };
-    paypal.payment.execute(paymentId, execute_payment_json, (error, payment)=>{
+    paypal.payment.execute(paymentId, execute_payment_json, (error, payment) => {
       const userName = req.session.userName;
-        if (error){
-          userHelpers.changeOrderPaymentStatus(req.session.orderId).then(()=>{
+      if (error) {
+        userHelpers.changeOrderPaymentStatus(req.session.orderId).then(() => {
           console.log("changed");
-          res.render('users/failure', {user:req.session.user, userName});
-        }).catch(()=>{});
-        } else {
-          res.render('users/success', {user:req.session.user, payerId, paymentId, userName});
-        }
+          res.render('users/failure', { user: req.session.user, userName });
+        }).catch(() => { });
+      } else {
+        res.render('users/success', { user: req.session.user, payerId, paymentId, userName });
       }
+    }
     );
   },
 
-  failure:(req, res) => {
-    res.render('users/failure', {user: true, userName: req.session.userName});
+  failure: (req, res) => {
+    res.render('users/failure', { user: true, userName: req.session.userName });
   },
 
-  getWallet:async (req, res)=> {
+  getWallet: async (req, res) => {
     const wallet = await userHelpers.getWallet();
-    res.render('users/wallet', {user:true, userName: req.session.userName, wallet})
+    res.render('users/wallet', { user: true, userName: req.session.userName, wallet })
   }
 
 }
