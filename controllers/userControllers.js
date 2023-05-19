@@ -426,8 +426,8 @@ module.exports = {
                 payment_method: "paypal",
               },
               redirect_urls: {
-                return_url: "http://localhost:3000/success",
-                cancel_url: "http://localhost:3000/cancel",
+                return_url: "https://marvelouswear.store/success",
+                cancel_url: "https://marvelouswear.store/cancel",
               },
               transactions: [
                 {
@@ -449,7 +449,6 @@ module.exports = {
                 try {
                   req.session.orderId = order.insertedId;
                   userHelpers.changeOrderStatus(order.insertedId).then(() => { console.log("changed") }).catch(() => { });
-                  // productHelpers.reduceStock(cartList).then(()=>{}).catch((err)=>console.log(err));
                 } catch (err) {
                   console.log(err);
                 } finally {
