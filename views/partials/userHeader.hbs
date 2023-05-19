@@ -23,10 +23,14 @@
         text-align: center;
         margin-top: 20px;
     }
-  
-    .user-access {
+
+     .user-access {
         text-align: center;
         margin-top: 20px;
+    }
+  
+    .user-access a {
+        position: relative;
     }
 }
 
@@ -34,12 +38,13 @@
     .inner-header {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: flex-end;
     }
   
     .main-menu {
         margin-left: auto;
     }
+
 }
 
 
@@ -95,9 +100,11 @@
                 </ul>
             </nav>
             {{else}}
-            <div class="user-access ">
-                <a href="/signUp">Register &nbsp; /</a>
-                <a href="/login">&nbsp; Login</a>
+            <div class="main-menu mobile-menu header-right">
+                <ul>
+                    <li><a href="/signUp">Register</a></li> 
+                    <li><a href="/login">Login</a></li> 
+                </ul>
             </div>
             {{/if}}
         </div>
