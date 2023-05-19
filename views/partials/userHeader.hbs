@@ -2,9 +2,47 @@
 
 <style>
     .header-section {
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2)
   }
+
+  
+
+  /* Add the following media queries */
+@media (max-width: 767px) {
+    .inner-header {
+        display: flex;
+        justify-content: start;
+    }
+  
+    .logo {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+  
+    .main-menu {
+        text-align: center;
+        margin-top: 20px;
+    }
+  
+    .user-access {
+        text-align: center;
+        margin-top: 20px;
+    }
+}
+
+@media (min-width: 766px) {
+    .inner-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+  
+    .main-menu {
+        margin-left: auto;
+    }
+}
+
+
 
 </style>
 
@@ -30,7 +68,8 @@
         <div class="inner-header">
             <div class="logo">
                 <a href="/" style="color: black;">
-                    <h5 class="font-weight-bold">MARVELOUS <br> WARE</h5>
+                    <h5 class="font-weight-bold">MARVELOUS</h5>
+                    <h5 class="font-weight-bold" style="margin-right: 60px;">WARE</h5>
                 </a>
             </div>
 
@@ -61,7 +100,6 @@
                 <a href="/login">&nbsp; Login</a>
             </div>
             {{/if}}
-
         </div>
     </div>
 </header>
