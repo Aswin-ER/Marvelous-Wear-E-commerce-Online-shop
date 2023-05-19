@@ -4,50 +4,6 @@
     .header-section {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2)
   }
-
-  
-
-  /* Add the following media queries */
-@media (max-width: 767px) {
-    .inner-header {
-        display: flex;
-        justify-content: start;
-    }
-  
-    .logo {
-        text-align: center;
-    }
-  
-    .main-menu {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-     .user-access {
-        text-align: center;
-        margin-top: 20px;
-    }
-  
-    .user-access a {
-        position: relative;
-    }
-}
-
-@media (min-width: 766px) {
-    .inner-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-    }
-  
-    .main-menu {
-        margin-left: auto;
-    }
-
-}
-
-
-
 </style>
 
 
@@ -80,19 +36,14 @@
             {{#if userName}}
             <nav class="main-menu mobile-menu header-right">
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/shop">Shop</a>
-                        <ul class="sub-menu">
-                            <li><a href="/wishlist">Wishlist</a></li>
-                            <li><a href="/cart">Cart</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="/wishlist">Wishlist</a></li>
-                    <li><a href="/cart">Cart</a></li>
-                    <li><a href="/orders">Orders</a></li>
-                    <li><a href="/userProfile">My profile</a></li>
+                    <li><a href="/" class="mr-2">Home</a></li>
+                    <li><a href="/shop" class="mr-2">Shop</a></li>
+                    <li><a href="/wishlist" class="mr-2">Wishlist</a></li>
+                    <li><a href="/cart" class="mr-2">Cart</a></li>
+                    <li><a href="/orders" class="mr-2">Orders</a></li>
                     <li>{{userName}}  &nbsp;<i class="fa-solid fa-caret-down"></i>
                         <ul class="sub-menu">
+                            <li><a href="/userProfile">my Profile</a></li>
                             <li><a href="/logout">Logout</a></li>
                         </ul>
                     </li>
