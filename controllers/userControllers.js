@@ -1,5 +1,4 @@
 
-const { forEach } = require("jszip");
 const cartHelpers = require("../helpers/cartHelpers");
 const categoryHelpers = require("../helpers/categoryHelpers");
 const productHelpers = require("../helpers/productHelpers");
@@ -17,6 +16,7 @@ const client = require("twilio")(accountSid, authToken);
 //Paypal-configuration
 const paypal_client_id = process.env.PAYPAL_CLIENT_ID;
 const paypal_client_secret = process.env.PAYPAL_CLIENT_SECRET;
+
 
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
@@ -266,13 +266,6 @@ module.exports = {
   },
 
 
-  //About Page
-  aboutPage: (req, res) => {
-    const userName = req.session.userName;
-    res.render("users/about", { user: true, userName });
-  },
-
-
   //User Cart Page
   cart: async (req, res) => {
     const userName = req.session.user.name;
@@ -319,8 +312,8 @@ module.exports = {
   productPage: async (req, res) => {
     const productData = req.params.id;
     const userName = req.session.userName;
-    productHelpers
-      .getSingleProduct(productData)
+    try{
+      productHelpers.getSingleProduct(productData)
       .then(async (product) => {
         console.log(product + "category");
         const getRelatedProduct = await productHelpers.getRelatedProducts(
@@ -336,6 +329,10 @@ module.exports = {
       .catch((err) => {
         console.log(err);
       });
+    }catch{
+      res.redirect('/shop')
+    }
+   
   },
 
 

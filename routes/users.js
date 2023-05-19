@@ -92,10 +92,6 @@ router.get('/deleteWishlist/:id', verifySession.verifyUserLoggedIn, userControll
 router.get('/contact',verifySession.verifyUserLoggedIn, userControllers.contactPage);
 
 
-//About Page
-router.get('/about',verifySession.verifyUserLoggedIn, userControllers.aboutPage);
-
-
 //UserProfile
 router.get('/userProfile', verifySession.verifyUserLoggedIn, userControllers.userProfile);
 
