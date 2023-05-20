@@ -34,7 +34,7 @@ router.post('/otpverification', userControllers.otpVerification);
 // User Panel shop page
 router.get('/shop',verifySession.verifyUserLoggedIn, userControllers.shopPage);
 
-router.get('/product/:id', verifySession.verifyUserLoggedIn, userControllers.productPage);
+router.get('/product/:id', userControllers.productPage);
 
 // router.post('/serachProduct', userControllers.searchProduct);
 
