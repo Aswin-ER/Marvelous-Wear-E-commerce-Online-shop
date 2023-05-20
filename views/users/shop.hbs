@@ -29,6 +29,8 @@
             <div class="col-lg-8">
                 <a href="/shop"><img src="/img/printed-tshirts-mydesignation-banner-desktop.jpg" alt=""></a>
             </div>
+            </div>
+          </div>
         </div>
     </div>
 
@@ -43,6 +45,13 @@
         <div class="categories-controls mb-5">
             <div class="row">
                 <div class="col-lg-3">
+
+                    {{!-- serach bar --}}
+                {{!-- <div class="search-bar mb-5">
+                  <input type="text" placeholder="Search..." id="search" name="search" onkeydown="if (event.keyCode === 13) serachProduct()"/>
+                  <a onclick="serachProduct()" class="btn btn-lg btn-dark"></a>
+                </div> --}}
+
                     <div class="categories-filter">
                         <!--  price slider -->
                         <div class="col-md-12">
@@ -76,7 +85,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -172,7 +181,7 @@
                  </div>
                 </div>
             </div>
-            {{/if}}
+        {{/if}}
 
         </div>
         {{!-- Pagination --}}
@@ -184,6 +193,20 @@
 </section>
 <!-- Categories Page Section End -->
 
+{{!-- <script>
+    const searchInput = document.querySelector('#search');
+
+    function serachProduct(){
+        axios.post('/serachProduct', {serach: searchInput.value})
+        .then((response)=> {
+            console.log(JSON.stringify(response))
+            location.href = '/shop'
+        }).catch((err)=> {
+            location.href = '/shop'
+        });
+    }
+
+</script> --}}
 
 
 <!-- Your JavaScript code for initializing and updating the range slider Sort price -->

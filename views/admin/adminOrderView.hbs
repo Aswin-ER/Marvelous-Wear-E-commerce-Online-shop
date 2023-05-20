@@ -21,9 +21,7 @@
                                 {{else if order.return}}
                                 <th scope="col" class="text-center">Reason for Return</th>
                                 {{/if}}
-                                {{#if order.refunded}}
                                 <td class="text-center">Refund</td>
-                                {{/if}}
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +38,9 @@
                                 <td class="text-center">{{order.return}}</td>
                                 {{/if}}
                                 {{#if order.refunded}}
-                                <td class="text-center"><a class="btn btn-dark text-white ml-3"  data-toggle="modal" data-target="#refund{{_id}} disabled">Refund</a></td>
+                                <td class="text-center"><a class="btn btn-dark text-white ml-3"  data-toggle="modal" data-target="#refund{{_id}} disabled">Refunded</a></td>
+                                {{else}}
+                                 <td class="text-center"><a class="btn btn-dark text-white ml-3"  data-toggle="modal" data-target="#refund{{_id}}">Refund</a></td>
                                 {{/if}}
                             </tr>
                         </tbody>

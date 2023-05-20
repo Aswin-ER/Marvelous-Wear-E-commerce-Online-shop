@@ -491,6 +491,7 @@ module.exports = {
   shopPage: async (req, res) => {
     const userName = req.session.userName;
     const filteredProducts = req.session.filteredProduct;
+    console.log(filteredProducts,"asasasasasas");
     const minPrice = req.session.minPrice;
     const maxPrice = req.session.maxPrice;
     const sortedProducts = req.session.sortedProduct;
@@ -525,8 +526,18 @@ module.exports = {
     }
   },
 
+  // searchProduct: (req, res)=> {
+  //   productHelpers.searchProduct(req.body.search).then((product)=> {
+  //     req.session.filteredProduct = product;
+  //     res.json({
+  //       status: "success"
+  //     })
+  //   })
+  // },
+
 
   //User Conatct Page
+  
   contactPage: (req, res) => {
     const userName = req.session.userName;
     res.render("users/contact", { user: true, userName });

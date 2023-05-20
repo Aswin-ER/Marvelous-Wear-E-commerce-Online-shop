@@ -73,7 +73,7 @@
                                         <form action="/cancelOrder/{{_id}}" method="post">
                                             <div class="form-group">
                                                 <label for="reason">Reason for Canccelling:</label>
-                                                <textarea id="reason" name="reason" rows="4" class="form-control" placeholder="Enter reason"></textarea>
+                                                <textarea id="reason" name="reason" rows="4" class="form-control" placeholder="Enter reason" required></textarea>
                                             </div>
                                             <button type="submit" class="btn btn-danger">yes</button>
                                             <button type="button" class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
@@ -98,7 +98,7 @@
                                         <form action="/returnOrder/{{_id}}" method="post">
                                             <div class="form-group">
                                                 <label for="reason">Reason for returning:</label>
-                                                <textarea id="reason" name="reason" rows="4" class="form-control" placeholder="Enter reason"></textarea>
+                                                <textarea id="reason" name="reason" rows="4" class="form-control" placeholder="Enter reason" required></textarea>
                                             </div>
                                             <button type="submit" class="btn btn-danger">yes</button>
                                             <button type="button" class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>

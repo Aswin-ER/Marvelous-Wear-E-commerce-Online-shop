@@ -145,9 +145,21 @@ module.exports = {
             })
         })
     },
+
+    // searchProduct:(search)=> {
+    //     return new Promise(async (resolve, reject)=> {
+    //         const productData = await db.get().collection(collection.PRODUCT_COLLECTION).find(
+    //             {
+    //                 name: { $regex : new RegExp(search), $options: "i"}
+    //             }
+    //         ).toArray();
+    //         resolve(productData);
+    //     });
+    // },
     
     
 //Product Image
+    
     addProductImage:(id, imgUrls)=>{
         return new Promise((resolve, reject)=>{
             console.log("helpers")
