@@ -12,10 +12,12 @@
                     <table class="table table-hover table-striped tm-table-striped-even mt-3 mb-4" id="productsTable">
                         <thead>
                             <tr class="tm-bg-gray">
-                                <th scope="col" class="text-center">User Name</th>
+                                <th scope="col" class="text-center">Address Name</th>
                                 <th scope="col" class="text-center">Mobile</th>
+                                <th scope="col" class="text-center">Address</th>
+                                <th scope="col" class="text-center">Product</th>
+                                <th scope="col" class="text-center">quantity</th>
                                 <th scope="col" class="text-center">Price</th>
-                                <th scope="col" class="text-center">Status</th>
                                 {{#if order.cancel}}
                                 <th scope="col" class="text-center">Reason for cancellation</th>
                                 {{else if order.return}}
@@ -28,10 +30,14 @@
                             
                             
                             <tr>
-                                <td class="text-center">{{order.userName}}</td>
+                                <td class="text-center">{{order.shippingAddress.name}}</td>
                                 <td class="text-center">{{order.shippingAddress.phone}}</td>
+                                <td class="text-center">{{order.shippingAddress.address}}</td>
+                                {{#each order.item}}
+                                <td class="text-center">{{product.name}}</td>
+                                <td class="text-center">{{quantity}}</td>
+                                {{/each}}
                                 <td class="text-center">{{order.total}}</td>
-                                <td class="text-center">{{order.status}}</td>
                                 
                                 {{#if order.cancel}}
                                 <td class="text-center">{{order.cancel}}</td>
