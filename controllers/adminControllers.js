@@ -69,9 +69,9 @@ module.exports = {
     adminProduct: async (req, res) => {
         const adminName = req.session.adminName;
         const productData = await productHelpers.getAdminProducts();
-        const cate = await categoryHelpers.getCategory();
-        // console.log(JSON.stringify(cate)+"cate Vannnuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
-        res.render('admin/adminProduct', {admin: true, adminName, productData, cate});
+        categoryHelpers.getCategory().then((cate)=> {
+            res.render('admin/adminProduct', {admin: true, adminName, productData, cate});
+        })
     },
 
     adminAddProduct: (req, res) => {

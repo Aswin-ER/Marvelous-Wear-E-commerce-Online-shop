@@ -5,7 +5,7 @@
             <div class="bg-white tm-block h-100">
                 <div class="row">
                     <div class="col-md-8 col-sm-12">
-                        <h2 class="tm-block-title d-inline-block">Order</h2>
+                        <h2 class="tm-block-title d-inline-block">Order Detailed View</h2>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -22,8 +22,9 @@
                                 <th scope="col" class="text-center">Reason for cancellation</th>
                                 {{else if order.return}}
                                 <th scope="col" class="text-center">Reason for Return</th>
-                                {{/if}}
                                 <td class="text-center">Refund</td>
+                                {{/if}}
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -43,12 +44,13 @@
                                 <td class="text-center">{{order.cancel}}</td>
                                 {{else if order.return}}
                                 <td class="text-center">{{order.return}}</td>
-                                {{/if}}
                                 {{#if order.refunded}}
                                 <td class="text-center"><a class="btn btn-dark text-white ml-3"  data-toggle="modal" data-target="#refund{{_id}} disabled">Refunded</a></td>
                                 {{else}}
                                  <td class="text-center"><a class="btn btn-dark text-white ml-3"  data-toggle="modal" data-target="#refund{{_id}}">Refund</a></td>
                                 {{/if}}
+                                {{/if}}
+                               
                             </tr>
                         </tbody>
                     </table>
