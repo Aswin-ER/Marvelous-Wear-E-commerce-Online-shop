@@ -165,10 +165,20 @@ module.exports = {
         })
     },
 
-    getWallet:()=> {
+    getWallet:(userId)=> {
+        console.log(userId), "Vannu taa";
+
         return new Promise(async (resolve, reject)=> {
-            const wallet = await db.get().collection(collection.WALLET_COLLECTION).find().toArray();
-            resolve(wallet);
+            
+            const wallet = await db.get().collection(collection.WALLET_COLLECTION).findOne({
+                userId: new objectId(userId)
+            });
+
+            if(wallet){
+                resolve(wallet);
+            }else{
+                resolve(null);
+            }
         })
     },
 

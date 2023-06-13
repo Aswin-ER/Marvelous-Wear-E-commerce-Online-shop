@@ -420,6 +420,7 @@ module.exports = {
 
             const exchangeRate = 0.013;
             const totalCost = (Number(req.body.total) * exchangeRate).toFixed(0);
+            // req.session.totalcost = totalCost;
             const create_payment_json = {
               intent: "sale",
               payer: {
@@ -699,7 +700,6 @@ module.exports = {
   retunOrder: (req, res) => {
     const orderId = req.params.id;
     const reason = req.body.reason;
-    console.log(reason + "vannnnnnnnnnnnnnnnuuuuuuuuuuuuuuuuuuuuuuuuuu");
     userHelpers.returnProduct(orderId, reason).then(() => {
       res.redirect('back');
     })
@@ -816,6 +816,7 @@ module.exports = {
   paypalSuccess: (req, res) => {
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
+    // const total = req.session.totalcost;
     const execute_payment_json = {
       payer_id: payerId,
       transactions: [
@@ -846,7 +847,8 @@ module.exports = {
   },
 
   getWallet: async (req, res) => {
-    const wallet = await userHelpers.getWallet();
+    const user = req.session.user._id;
+    const wallet = await userHelpers.getWallet(user);
     res.render('users/wallet', { user: true, userName: req.session.userName, wallet })
   }
 

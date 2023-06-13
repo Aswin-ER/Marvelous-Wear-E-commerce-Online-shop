@@ -162,26 +162,28 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
           try {
             const order = await db.get().collection(collection.ORDER_COLLECTION).findOne({ _id: new objectId(orderId) });
+
+            const user = order.userId;
+            console.log(user,"user has arrived !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       
             if (order) {
               const balance = order.total;
               const date = order.date;
       
-              const walletCollection = db.get().collection(collection.WALLET_COLLECTION);
-      
-              const existingWallet = await walletCollection.findOne({});
+              const existingWallet = await db.get().collection(collection.WALLET_COLLECTION).findOne({userId: new objectId(user)});
       
               if (existingWallet) {
                 const existingBalance = existingWallet.balance;
                 const updatedBalance = existingBalance + balance;
       
-                await walletCollection.updateOne(
+                await db.get().collection(collection.WALLET_COLLECTION).updateOne(
                   {},
-                  { $set: { orderId: new objectId(orderId), date: date, balance: updatedBalance } }
+                  { $set: {orderId: new objectId(orderId), userId: new objectId(user), date: date, balance: updatedBalance } }
                 );
               } else {
-                await walletCollection.insertOne({
+                await db.get().collection(collection.WALLET_COLLECTION).insertOne({
                   orderId: new objectId(orderId),
+                  userId: new objectId(user),
                   date: date,
                   balance: balance,
                 });
