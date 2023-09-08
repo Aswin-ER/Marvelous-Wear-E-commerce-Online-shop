@@ -57,6 +57,5 @@ ADMIN SIDE :
 
 HOSTING 
 * Hosted the e-commerce website on an AWS instance using Nginx with PM2 to ensure optimal performance and reliability.
-
-A live video of the MARVELOUSWEAR web Application working  <small>-visit my LinkedIn </small> : https://www.linkedin.com/in/aswin-er-bb54a1240/
+* 
 <h1> The live version of the project can be accessed at https://marvelouswear.store . </h1>
